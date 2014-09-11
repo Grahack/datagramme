@@ -1,4 +1,6 @@
 
+# Toutes les commandes pour mettre en ligne une nv version des fichiers
+
 www :
 	git checkout master
 	git pull
