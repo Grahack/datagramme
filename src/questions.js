@@ -1,5 +1,12 @@
-var questionTest = new Question("Quel est le muscle ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.BUG, categorieEnum.SOCIETE,
-				   new Reponse(typeReponseEnum.CM, ["Pigeon", "Brigitte Bardot", "L'alphabet"], 1), "Kamoulox !");
+var questionTest = new Question("???", null, typeQuestionEnum.DIRECTE, difficulteEnum.BUG, categorieEnum.SOCIETE,
+				   new Reponse(typeReponseEnum.CM, ["!", "!!", "!!!"], 3), "?!");
+/*
+Modèle :
+
+new Question("Intitulé de la question", Question.SANSIMAGE, Question.type.TYPEDELAQUESTION, Question.difficulte.DIFFICULTEQUESTION, Question.categorie.CATEGORIEQUESTION,)
+
+*/
+
 
 var questions = 
 [[
@@ -67,7 +74,7 @@ var questions =
     new Reponse(typeReponseEnum.CM, ["C'est une observation des neurosciences : les cerveaux des garçons et des filles ne sont pas les mêmes","Il y a une vraie différence, mais purement sociale","Les maths et l'informatique n'ont pas été inventés par et pour des filles"], 2), "Bien sûr que non ! Et en commençant par le lycée, où les résultats en maths des filles sont égaux aux garçons. Ces dernières ont de plus de meilleurs taux de réussite au bac et au brevet. Mais dans les faits, la majorité des développeurs ou mathématiciens sont des hommes, pour des raisons d’exclusion, de culture, de choix sociaux...", "http://media.education.gouv.fr/file/2012/66/0/DEPP-filles-garcons-2012_209660.pdf\nhttp://www.monde-diplomatique.fr/2007/06/COLLET/14834"),
 
   new Question("Pourquoi les Grecs n’utilisaient-ils pas le chiffre 0 ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.BUG, categorieEnum.HISTOIRE, 
-    new Reponse(typeReponseEnum.CM, ["Parce qu’ils refusaient le vide, le rien\nParce qu’ils refusaient l'idée du vide","Parce qu’ils ne comptaient qu’à partir de deux","Parce que le 0 était un chiffre maudit"], 1), "En effet, le zéro signifie l’absence et le vide, ce qui était parfois difficilement acceptable dans certaines civilisations qui rejetaient aussi bien le néant que l’infini.", "http://www.maths-et-tiques.fr/index.php/histoire-des-maths/nombres/zero"),
+    new Reponse(typeReponseEnum.CM, ["Parce qu’ils refusaient l'idée du vide","Parce qu’ils ne comptaient qu’à partir de deux","Parce que le 0 était un chiffre maudit"], 1), "En effet, le zéro signifie l’absence et le vide, ce qui était parfois difficilement acceptable dans certaines civilisations qui rejetaient aussi bien le néant que l’infini.", "http://www.maths-et-tiques.fr/index.php/histoire-des-maths/nombres/zero"),
 
   new Question("Si trois chiffres peuvent valoir soit 0, soit 1, combien y a-t-il de combinaisons possibles ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.BUG, categorieEnum.FONDAMENTAUX, 
     new Reponse(typeReponseEnum.CM, [8, 9, 3], 1), "", null),
@@ -118,7 +125,7 @@ new Question("Si tu lances deux fois de suite une pièce de monnaie en l'air, po
     new Reponse(typeReponseEnum.CM, [4, 2, 3], 1), "Les combinaisons sont : pile face, face pile, pile pile, face face. Une succession de deux \"pile ou face\" est comme l’association de deux chiffres binaires (qui valent 1 ou 0). Ansi, avec une paire de chiffres binaires on peut écrire 4 combinaisons : 00, 01, 10 et 11. Avec une telle paire, on peut coder un nombre de 0 à 3 (00 vaut 0, 01 vaut 1, 10 vaut deux et 11 vaut 3). On utilise un tel codage en informatique avec des successions de 8 chiffres binaires. (texte coupé)", null),
 
 new Question("Laquelle de ces images correspond à une modélisation ?", null, typeQuestionEnum.IMAGE, difficulteEnum.BUG, categorieEnum.SANTE, 
-    new Reponse(typeReponseEnum.CM, [1, 1, 1], 3), "C'est la modélisation d'un foie. Cela permet de mieux comprendre comment celui-ci évolue et d'aider les chirurgiens à préparer et effectuer une opération.", "http://phototheque.inria.fr/phototheque/media/17313\nhttp://phototheque.inria.fr/phototheque/media/19969\nhttp://phototheque.inria.fr/phototheque/media/10197"),
+    new Reponse(typeReponseEnum.CM, [1, 2, 3], 3), "C'est la modélisation d'un foie. Cela permet de mieux comprendre comment celui-ci évolue et d'aider les chirurgiens à préparer et effectuer une opération.", "http://phototheque.inria.fr/phototheque/media/17313\nhttp://phototheque.inria.fr/phototheque/media/19969\nhttp://phototheque.inria.fr/phototheque/media/10197"),
 
 new Question("Que simule-t-on sur cette image ?", null, typeQuestionEnum.IMAGE, difficulteEnum.BUG, categorieEnum.ENVIRONNEMENT, 
     new Reponse(typeReponseEnum.CM, ["Le Soleil en éruption","La détonation d'un explosif militaire","L'infection d'une cellule vivante par un virus"], 2), "Un container en acier, rempli d'explosif PBX-9501, est soumis à la chaleur intense d'un incendie. La simulation montre les étapes de la vaporisation de celui-ci. La simulation a été effectuée sur un serveur Redstorm & Atlas, avec 512->3072 processeurs. Le temps de calcul a été d'environ 180,000 heures CPU.\nUn container en acier, rempli d'explosif PBX-9501, est soumis à la chaleur intense d'un incendie. La simulation montre les étapes de la vaporisation de celui-ci.", "http://www.csafe.utah.edu/gallery.php?year=2008&title=Parametric%20Study"),
@@ -174,531 +181,149 @@ new Question("Qu’est-ce que c’est ?", null, typeQuestionEnum.IMAGE, difficul
 new Question("Mime un de ces mots", null, typeQuestionEnum.MIME, difficulteEnum.BUG, categorieEnum.TECHNOLOGIE, 
     new Reponse(typeReponseEnum.OKKO, ["Un pacemaker","Un robot aspirateur","Twitter"], null), "", null),
 
-// new Question("", null, typeQuestionEnum., difficulteEnum.BUG, categorieEnum., 
-  //   new Reponse(typeReponseEnum., [], 2000), "", null),
-
 ],
 [
+	new Question("Vous êtes dans un labyrinthe où chaque couloir se divise en deux puis à nouveau en deux, puis à nouveau en deux, à la façon d’un arbre. Combien existe-t-il de chemins différents ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+    	new Reponse(typeReponseEnum.CM, ["8 chemins, soit 2 à la puissance 3 ou encore 2^3", "4 chemins, soit 2 fois 2", "beaucoup plus en fait, les calculs précédents sont faux"], 1), "Comptez les branches manuellement, si vous ne voulez pas utiliser de formule mathématique.\nCe qui impressionnant c'est que au bout de 10 branches il y aura 1,2,4,8,16,32,…,1024 chemins, de 20 branches plus d'un million et de 30 branches plus d'un millards !", null),
 
+	new Question("En informatique, un bit est une information qui vaut 0 ou 1 c'est-à-dire qui peut prendre deux valeurs. Laquelle de ces informations n'est PAS binaire ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+    	new Reponse(typeReponseEnum.CM, ["Le sexe d'une personne","Le département de naissance d'une personne","Le fait qu'une personne soit décédée"], 2), "", null),
+
+	new Question("Comment sont codés les images, les sons et toutes les données qui sont dans un système informatique ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+   		 new Reponse(typeReponseEnum.CM, ["Ils sont stockés tels quels","Ils sont codés en binaire avec des 0 et des 1","C'est l’ordinateur qui s’en occupe donc personne ne sait comment c’est codé"], 2), "Tous les objets : textes, sons, images, et toutes nos données sont codées en binaire, ce sont de grandes suites de 0 et de 1. À cause de cette homogénéité, beaucoup de mécanismes (mémorisation, compression, transmission…) sont universels et s'appliquent à toutes ces informations différentes.", null),
+
+	new Question("L'unité de mesure des longueurs est le mètre, mais quelle est l'unité de mesure de l'information ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+	    new Reponse(typeReponseEnum.CM, ["Le bit","L’infogramme","Le sievert"], 1), "C'est le \"bit\", c’est-à-dire 0/1 ou oui/non ou vrai/faux. Savoir si c'est un homme ou une femme ou qu'une pièce est tombée sur pile ou face correspond à un bit d'information. Que 10 pièces sont tombées sur pile ou face donne 10 bits d'information.", null),
+
+	new Question("Vous devez déterminer un nombre, de 0 à 100, auquel pense un ami. Quelle est la logique la plus efficace pour le trouver ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+    	new Reponse(typeReponseEnum.CM, ["Linéaire : Lui proposer, dans l’ordre, le 1,2,3,4, etc.","Au hasard : Lui proposer des nombres complètement au hasard, sans jamais reprendre le même","Dichotomie : lui proposer le nombre 50 et lui demander si c’est plus ou moins. Garder seulement la série de nombres correspondants et couper de nouveau en 2"], 3), "L’algorithme 1 semble le plus simple mais si le nombre est à la fin (100), on perd du temps pour rien. L’algorithme 2 est du même ordre de longueur que le 1. Le bon nombre peut sortir tout de suite, ou en dernier.\nL’algorithme 3 est le plus performant, c’est celui qui demande le moins d’opérations en moyenne. Pour deviner un nombre de 0 à 100, il faut au maximum 7 essais !", null),
+
+	new Question("Que signifie qu'une valeur est \"binaire\" ou \"booléenne\" ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+	    new Reponse(typeReponseEnum.CM, ["C’est une valeur qui vaut soit 1 soit 0","C’est une valeur très grande","C’est une valeur qui vaut tout le temps zéro"], 1), "", null),
+
+	new Question("En pantoufles, je siffle, ronfle, souffle.\nComment réduire la longueur de cette phrase sans perdre d'information ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+	    new Reponse(typeReponseEnum.CM, ["En supprimant la ponctuation et le pronom personnel","En décidant que <fle> s'écrit z","En décidant de supprimer le mot pantoufle"], 2), "En informatique, on utilise de telles astuces pour réduire la taille des fichiers. On appelle ça un algorithme de compression. Le JPEG, que l'on utilise beaucoup pour nos photos, est un de ces algorithmes de compression.", null),
+
+	new Question("Qu'est-ce qu’un datagramme ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+	    new Reponse(typeReponseEnum.CM, ["Un paquet de données qui voyage dans un réseau","Le poids d'une quantité de mémoire","Un schéma représentant l'organisation d'une base de données"], 1), "", null),
+
+	new Question("Qu’est-ce qu’un transistor ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+	    new Reponse(typeReponseEnum.CM, ["Une vieille radio de nos parents","Un composant électronique qui permet de contrôler un courant","Les deux !"], 3), "", null),
+
+	new Question("Que signifie “IA” en informatique et qui a été l’objet d’un film ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+	    new Reponse(typeReponseEnum.CM, ["Image Accélérée","Intelligence Artificielle","Informatique Adaptative"], 2), "", null),
+
+	new Question("À partir de quelles couleurs de base sont créées toutes leurs couleurs dans les images numériques ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+	    new Reponse(typeReponseEnum.ENTREE, ["Rouge, Vert et Bleu (RVB)"], 2000), "Ces trois couleurs sont les couleurs primaires, en synthèse additive. Elles correspondent en fait à peu près aux trois longueurs d’ondes auxquelles répondent les trois types de cônes de l’œil humain (voir trichromie). L’addition des trois primaires donne du blanc.\nCes trois couleurs sont les couleurs primaires de la lumière, dans ce que l'oeil humain peut voir.", "https://fr.wikipedia.org/wiki/Rouge_vert_bleu"),
+
+	new Question("Les outils numériques ne permettent PAS de prédire", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.ENVIRONNEMENT, 
+		new Reponse(typeReponseEnum.CM, ["L’écoulement de l’air autour du casque d’un skieur","L’évolution d’un feu de forêt","Le résultat d'une roulette de casino"], 3), "Les résultats d'une roulette sont le pur fruit du hasard. Les outils numériques seuls ne peuvent pas permettre de prédire le résultat d'un tirage. À chaque nouveau tirage les différents nombres auront toujours tous autant de chance de sortir. En théorie, si on plaçait un ensemble de capteurs de vitesse, de frottement, de position et qu'on mesurait tous les paramètres liés à la roulette on pourrait prédire alors où la bille va tomber. Et encore, cela sera sujet à la théorie du chaos, qui dit qu'une erreur minime sur la mesure des paramètres faussera complètement le calcul.", null),
+
+	new Question("À quoi sert la simulation du mouvement des mers et océans ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.ENVIRONNEMENT, 
+		new Reponse(typeReponseEnum.CM, ["Cela permet de savoir où il est préférable d’aller en congés","Cela permet de prévoir le réchauffement climatique","Cela permet de mettre les bateaux en pilote automatique"], 2), "L’étude par simulation numérique des transferts de masses d'eaux de l'océan Indien vers l'océan Atlantique permet d'anticiper le changement climatique global.", null),
+
+	new Question("Qu'est-ce qu'un algorithme ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Une suite d’opérations ou d’instructions à effectuer, comme dans une recette de cuisine","La vitesse à laquelle un ordinateur calcule","Un composant électronique présent dans les ordinateurs"], 1), "", null),
+
+	new Question("Pourquoi les marins répètent-ils trois fois les mots dans leurs communications radio ?\nPANNE, PANNE, PANNE \nA TOUS, A TOUS, A TOUS \nICI \nNEPTUNE, NEPTUNE, NEPTUNE", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["C'est le principe de la correction d'erreur : pour être sûr que l'information soit comprise, même en cas de mauvaise réception","Pour attirer l'attention d'interlocuteurs distraits en cas d'urgence","C'est un usage traditionnel qui date du premier code de la marine"], 1), "C'est le principe de la correction d'erreur qu'utilisent les mémoires d'ordinateurs ou les réseaux. Si un des mots répété est brouillé, le destinataire peut tout de même comprendre le message.", "http://www.anfr.fr/fileadmin/mediatheque/documents/radiomaritime/manuel_crr.pdf"),
+
+	new Question("Que se passe-t-il quand l'adresse d'un site Web commence par https et non http ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SOCIETE, 
+		new Reponse(typeReponseEnum.CM, ["Cela permet d’y accéder sur un Smartphone (s comme Smartphone)","Rien de spécial, c'est juste comme souvent deux mots pour dire la même chose","Avec le « s » le contenu est crypté donc illisible pour quelqu'un qui observerait le réseau"], 3), "", null),
+
+	new Question("Dans l'adresse https://lamediatheque.be/downloads/himehajime.mp3 : Quelle partie me donne le nom du serveur d'où provient le contenu ? Quelle partie m'indique que c'est probablement un morceau de musique ? Dans quel pays est probablement situé le serveur ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SOCIETE, 
+		new Reponse(typeReponseEnum.ENTREE, ["Serveur : lamediatheque.be; \nMusique : .mp3 ;\nPays : Belgique (.be) ;\nWeb : http://"], null), "", null),
+
+	new Question("Un outil mathématique d’optimisation ne permet PAS de", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.ENVIRONNEMENT, 
+		new Reponse(typeReponseEnum.CM, ["Aider à organiser la consommation d’énergie dans des villages du désert","Prévoir la production d’énergie de bactéries","Continuer à consommer autant d'énergie que par le passé"], 3), "", null),
+
+	new Question("Que fait notre télévision s'il y a des pertes de données pendant une émission ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Elle attend que le signal revienne ","Elle ajoute des données aléatoires, pour aller vite","Elle extrapole les données, pour inventer ce qui manque"], 3), "", null),
+
+	new Question("Voici un code A=1, B=2, C=3, etc., Z=26. Écrire le mot SCIENCE à l’aide de ce code", null, typeQuestionEnum.CASSE_TETE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.ENTREE, ["19 - 3 - 9 - 5 - 14 – 3 – 5"], null), "Ceci est une méthode de cryptographie, pour transmettre des messages codés. Des méthodes plus efficaces existent comme transmettre le décalage à opérer sur les chiffres (A = 3 par exemple) dans un autre message. On appelle cela le cryptage asymétrique, et c'est sur celui-ci que repose la cryptographie moderne.", "http://fr.wikipedia.org/wiki/Cryptographie_asym%C3%A9trique"),
+
+	new Question("En anglais les notes se codent avec des lettres par exemple DO se code C, RE se code D, MI se code E. Chanter la petite chanson : CCCDEDCEDDC", null, typeQuestionEnum.CASSE_TETE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.ENTREE, ["Au clair de la lune"], null), "Le fait de remplacer un élément toujours par le même élément est une méthode de cryptographie, pour transmettre des messages codés.", null),
+
+	new Question("Si une page Web me demande mon mot de passe Facebook ou Twitter comment être sûr que ce n'est pas une \"fausse\" page pour me pirater ?", null, typeQuestionEnum.SOCIETE, difficulteEnum.DEFAILLANCE, categorieEnum.DIRECTE, 
+		new Reponse(typeReponseEnum.CM, ["Elle doit commencer par https://","Il ne faut jamais rentrer son mot de passe sur une page Web","Il faut regarder l'adresse Internet. Elle doit finir par facebook.com  ou twitter.com"], 3), "", null),
+
+	new Question("Qui est un serveur et qui est un routeur ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+		new Reponse(typeReponseEnum.CM, ["Je suis une machine informatique puissante qui stocke de nombreuses données ","Je suis une machine informatique puissante qui sert de relais entre les réseaux qui forment Internet"], 1), "", null),
+
+	new Question("Qu’est-ce qu’un cloud ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+		new Reponse(typeReponseEnum.CM, ["Un ordinateur tellement gros qu'on peut comparer sa taille à celle d'un nuage (d'où son nom)","Un réseau d'ordinateurs offrant un service centralisé,  auquel je peux me connecter avec n'importe lequel de mes appareils","Le parc d'ordinateurs que l'on trouve dans de grosses compagnies et dont le refroidissement à l'eau produit beaucoup de vapeur qui s'élève dans le ciel, tel un nuage"], 2), "", "https://fr.wikipedia.org/wiki/Cloud_computing"),
+
+	new Question("Comment s’appelle le composant qui permet à nos téléphones et tablettes de détecter leur orientation ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+		new Reponse(typeReponseEnum.CM, ["Un accéléromètre ou un gyroscope","Un orientomètre","Un occulomètre"], 1), "", null),
+
+	new Question("Grâce à quoi nos GPS fonctionnent-ils ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+		new Reponse(typeReponseEnum.CM, ["Grâce à des satellites en orbite","Grâce à Internet","Grâce au réseau de téléphonie mobile"], 1), "", null),
+
+	new Question("Comment s’appelle le logiciel destiné à gérer l’ensemble des fonctionnalités d’un ordinateur?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Le système d’exploitation","Le navigateur Web","L'éditeur de texte"], 1), "", null),
+
+	new Question("Classez dans l’ordre croissant : giga, kilo, méga, tera, exa, peta", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["kilo, méga, giga, tera, peta, exa."], null), "kilo = 10^3 (ou encore mille, un 1 avec 3 zéros derrière), méga = 10^6 (un 1 avec 6 zéros derrière), giga = 10^9, tera = 10^12, peta = 10^15, exa = 10^18.", null),
+
+	new Question("Peut-on tout prédire grâce aux simulations ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Oui, il suffit d'entrer les bons paramètres dans l'ordinateur et de le laisser calculer un résultat approché","Non, la nature se comporte de façon aléatoire et reste imprédictible totalement","Non, certains phénomènes dits chaotiques sont si complexes qu'une toute petite erreur change complètement les résultats"], 3), "Phénomènes chaotiques : un tout petit changement de condition initiale peut créer un changement explosif et imprévisible à cause des erreurs de calcul. C'est l'effet papillon, qui dit qu'un battement d'aile de papillon en Asie peut provoquer un ouragan à New York, par accumulation de causes et d'effets.", null),
+
+	new Question("Pourquoi les médecins coopèrent-ils avec les mathématiciens et informaticiens ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+		new Reponse(typeReponseEnum.CM, ["Pour créer des algorithmes d'analyse d'images médicales ou modéliser des organes","Pour expérimenter sur leur cerveau : le relief cérébral se modifie au fil du temps, lorsque l'on calcule toute la journée","Pour assurer la maintenance des supercalculateurs des hôpitaux"], 1), "", "https://interstices.info/jcms/i_53813/les-mathematiques-cachees-de-la-medecine?hlText=m%C3%A9decins"),
+
+	new Question("Dans quel cas les sciences du numérique peuvent-elles aider les neurochirurgiens ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+		new Reponse(typeReponseEnum.CM, ["Pour simuler et anticiper les mouvements du cerveau lors d'une neurochirurgie","Pour améliorer le dosage des anesthésiants","Pour calculer les probabilités de décès du patient"], 1), "La neurochirurgie est affaire de précision. On ne taille pas au hasard dans le cerveau humain, c'est pourquoi le chirurgien prépare son intervention avec des images acquises avant l'opération, par imagerie par résonance magnétique (IRM) notamment. Toutefois, la topologie du cerveau évolue, avec l'anesthésie, la pression artérielle, etc. Plusieurs études internationales ont montré que l'ouverture de la boîte crânienne, sans intervention directe sur le cerveau, pouvait entraîner des modifications de topologie de plus d'un centimètre.", "https://interstices.info/jcms/c_12343/christian-barillot-ce-que-pourraient-voir-les-chirurgiens-pendant-une-intervention"),
+
+new Question("Parmi ces propositions, que ne peuvent PAS faire aujourd’hui les chirurgiens grâce aux sciences du numérique ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+	new Reponse(typeReponseEnum.CM, ["Voir l’intérieur du patient en train d’être opéré, sans inciser","S’entraîner au geste chirurgical et élaborer des théories\nS’entraîner au geste chirurgical","Créer un avatar numérique du patient pour s'adapter spécifiquement à son anatomie"], 1), "De l’acquisition au simulateur de chirurgie, l’image médicale subit de nombreux traitements informatiques. L’intérêt : disposer d’une « copie virtuelle » du patient, qui pourra être utilisée du diagnostic jusqu’à la chirurgie assistée par ordinateur.\nLa visualisation en temps réel de l'intérieur du patient est à l'étude, mais pas encore opérationnelle.", "https://interstices.info/jcms/i_58396/le-patient-virtuel-au-service-de-la-chirurgie?hlText=chirurgie\nhttps://interstices.info/jcms/c_12343/christian-barillot-ce-que-pourraient-voir-les-chirurgiens-pendant-une-intervention?hlText=chirurgie"),
+
+	new Question("Comment marchera le défibrillateur cardiaque du futur ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+		new Reponse(typeReponseEnum.CM, ["Il  n'y aura plus de défibrillateur cardiaque dans un proche futur, car on  vient de montrer que l'objet peut être dangereux, donc à proscrire par  principe de précaution","Il n'y aura plus de défibrillateur cardiaque dans un proche futur, car les  maladies cardiaques sont amenées à disparaître, avec les progrès médicaux","De nouveaux modèles informatiques de la physiologie du muscle cardiaque vont permettre d'optimiser son fonctionnement"], 3), "", null),
+
+	new Question("Va-t-on mettre une connexion réseau dans des interrupteurs électriques ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.TECHNOLOGIE, 
+		new Reponse(typeReponseEnum.CM, ["Non : le rayonnement lié à la multiplication des calculs au niveau des processeurs serait dangereux pour la santé","Oui : cela permettra à l'interrupteur d'être piloté à distance pour automatiser la commande électrique de la maison","Non : ce n'est envisageable que dans les films de science-fiction"], 2), "La domotique est l’ensemble des techniques de l'électronique, de physique du bâtiment, d'automatisme, de l'informatique et des télécommunications permettant de centraliser le contrôle des différents systèmes de la maison. Les systèmes permettant de contrôler sa maison à distance existent déjà aujourd'hui, et devraient se développer largement dans un avenir proche.", null),
+
+	new Question("Peut-on piloter un ordinateur avec la pensée ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+		new Reponse(typeReponseEnum.CM, ["C'est infaisable dans l'état actuel de nos connaissances. Le cerveau et les ordinateurs sont incompatibles","On peut mesurer l'activité cérébrale générale d'une personne et la comparer à des activités types pour en déduire des commandes","On peut mesurer l'activité de chaque neurone et établir une séquence de bits de données, afin de déterminer exactement ce à quoi pense le sujet"], 2), "", null),
+
+	new Question("Je (l’animateur) peux deviner en 7 questions maximum n’importe quel nombre entier, entre 0 et 100, auquel tu penses. Vrai ou faux ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Vrai", "Faux"], 1), "Il faut utiliser le principe de dichotomie, qui consiste à proposer à chaque fois le chiffre médian et de demander si le chiffre à trouver est supérieur ou inférieur. On commence par 50. Si c'est plus, on annonce 75, etc.", null),
+
+	new Question("À quoi fut due l’explosion d’Ariane 5 en 1996 avec à son bord 500 millions de dollars de satellites ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.HISTOIRE, 
+		new Reponse(typeReponseEnum.CM, ["À une erreur de calcul de la trajectoire","À un bug informatique","À un défaut de conception du réacteur principal"], 2), "En effet, un morceau de programme utilisé pour Ariane 5 avait été repris tel quel, à partir de celui d'Ariane 4 et sans adaptation à la nouvelle fusée. Plus puissante, elle provoqua un dépassement dans un calcul. Celui qui trouva le problème fut Gilles Kahn, premier informaticien de l'académie des sciences.", null),
+
+	new Question("L’inventeur du mot « algorithme » était…", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.HISTOIRE, 
+		new Reponse(typeReponseEnum.CM, ["Perse","Français","Américain"], 1), "C’était Al Khwarismi mathématicien, géographe, astrologue et astronome perse.", "https://wiki.inria.fr/sciencinfolycee/Portrait:Al_Khwarismi_%28notion_d%27algorithme%29"),
+
+	new Question("Pour quelles raisons (au pluriel) les scientifiques doivent-ils rendre publics leurs données et les logiciels de leurs travaux ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SOCIETE, 
+		new Reponse(typeReponseEnum.CM, ["Car c'est un bien public créé avec l'argent des impôts","Car c'est indispensable pour pouvoir vérifier et valider leurs travaux et permettre que d'autres scientifiques fassent avancer la science à partir de leurs résultats","Pour prouver l'antériorité de leurs travaux","C'est la loi qui veut ça"], 2), "", null),
+
+	new Question("D’où vient le mot mathématiques ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.HISTOIRE, 
+		new Reponse(typeReponseEnum.CM, ["Du grec mathêma qui signifie \"science, connaissance, apprentissage\"","Du latin mathematicum qui signifie \"qui aime apprendre\"","Du vieux français \"ma thématique\" qui signifiait \"ma passion\""], 2000), "", "https://fr.wikipedia.org/wiki/Math%C3%A9matiques#.C3.89tymologie"),
+
+	new Question("Si je crée un logiciel libre et ouvert protégé par une licence Open Source en partage, en quoi cela peut-il m'aider ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SOCIETE, 
+		new Reponse(typeReponseEnum.CM, ["À ce que les utilisateurs testent le produit et m'aident à l'améliorer","À me faire connaitre à travers ce produit pour vendre d'autres services","À récolter des subventions de l'État"], 1), "", "https://fr.wikipedia.org/wiki/Open_source"),
+
+	new Question("Qu'est-ce que la neutralité du net ?", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum.SOCIETE, 
+		new Reponse(typeReponseEnum.CM, ["L'obligation pour chacune et chacun de rester neutre quand il s'exprime devant 4 milliards d'internautes","Elle garantit l'égalité de traitement de tous les flux de données sur Internet","Le fait de ne jamais interférer entre les individus qui échangent sur internet"], 2), "La neutralité du net est un principe qui garantit l'égalité de traitement de tous les flux de données sur internet, sans discrimination à l'égard de la source, de la destination ou du contenu. Ce principe est nécessaire pour garantir plusieurs autres droits : liberté d'expression, accès à l'information…", "https://fr.wikipedia.org/wiki/Neutralit%C3%A9_du_r%C3%A9seau"),
+
+	new Question(["Combien ai-je de chances d’obtenir un 6 sur un dé à 6 faces ?"], ["Combien ai-je de chances d’obtenir un double 6 en lançant deux dés à 6 faces ?"], null, typeQuestionEnum.DUO, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["1/6", "1/36"], 1), "Pour calculer les probabilités de plusieurs événéments simultanés, comme des lancers de dés, on multiplie les probabilités de chaque événement. Ici 6x6 = 36.", null),
+
+	new Question(["Comment appelle-t-on un groupe de 8 bits dans la mémoire d’un ordinateur, le bit étant un chiffre valant 0 ou 1 ?", "Combien de combinaisons possibles existent dans un octet (sachant que chacun des huit bits peut valoir indépendamment 0 ou 1) ?"], null, typeQuestionEnum.DUO, difficulteEnum.DEFAILLANCE, categorieEnum.FONDAMENTAUX, 
+		new Reponse(typeReponseEnum.CM, ["Un octet","Un octopus","Un quartet", "2x2x2x2x2x2x2x2 ou 2^8 = 256 combinaisons", "2x8 = 16 combinaisons", "8 combinaisons, tout simplement"], [1, 4]), "", null),
+
+	new Question(["Où est stockée dans notre corps l’information qui détermine la couleur de nos yeux ou la forme de notre visage ?", "On utilise des ordinateurs et des algorithmes complexes pour décoder l’ADN d’une personne. Combien ce décodage prend-il de temps ?"], null, typeQuestionEnum.DUO, difficulteEnum.DEFAILLANCE, categorieEnum.SANTE, 
+		new Reponse(typeReponseEnum.CM, ["Dans l’ADN, contenu dans chacune de nos cellules","Dans notre cerveau","Dans notre sang", "Quelques secondes", "Quelques heures","Quelques jours"], [1,5]), "Le séquençage d’un ADN (la lecture de celui-ci) est une opération très complexe qui correspond essentiellement à reconstruire un texte (la séquence ADN) en mettant bout à bout des petits morceaux à recoller entre eux, et c'est un algorithme qui résout cette tâche.", "https://interstices.info/jcms/n_50779/decoder-le-vivant?hlText=s%C3%A9quencage"),
+
+
+// new Question("", null, typeQuestionEnum.DIRECTE, difficulteEnum.DEFAILLANCE, categorieEnum., 
+// 	new Reponse(typeReponseEnum., [], 2000), "", null),
 
 ]];
 /*
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Vous êtes dans un labyrinthe où chaque couloir se divise en deux puis à nouveau en deux, puis à nouveau en deux, à la façon d’un arbre. Combien existe-t-il de chemins différents ?",
-      reponses:[ "8 chemins, soit 2 à la puissance 3 ou encore 2^3",
-       "4 chemins, soit 2 fois 2",
-       "beaucoup plus en fait, les calculs précédents sont faux",
-      ],reponse: 1,
-      commentaire: "Comptez les branches manuellement, si vous ne voulez pas utiliser de formule mathématique.\nCe qui impressionnant c'est que au bout de 10 branches il y aura 1,2,4,8,16,32,…,1024 chemins, de 20 branches plus d'un million et de 30 branches plus d'un millards !",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "En informatique, un bit est une information qui vaut 0 ou 1 c'est-à-dire qui peut prendre deux valeurs. Laquelle de ces informations n'est PAS binaire ?",
-      reponses:[ "Le sexe d'une personne",
-       "Le département de naissance d'une personne",
-       "Le fait qu'une personne soit décédée",
-      ],reponse: 2,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Comment sont codés les images, les sons et toutes les données qui sont dans un système informatique ?",
-      reponses:[ "Ils sont stockés tels quels",
-       "Ils sont codés en binaire avec des 0 et des 1",
-       "C'est l’ordinateur qui s’en occupe donc personne ne sait comment c’est codé",
-      ],reponse: 2,
-      commentaire: "Tous les objets : textes, sons, images, et toutes nos données sont codées en binaire, ce sont de grandes suites de 0 et de 1. À cause de cette homogénéité, beaucoup de mécanismes (mémorisation, compression, transmission…) sont universels et s'appliquent à toutes ces informations différentes.",
-      
-    },  
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "L'unité de mesure des longueurs est le mètre, mais quelle est l'unité de mesure de l'information ?",
-      reponses:[ "Le bit",
-       "L’infogramme",
-       "Le sievert",
-      ],reponse: 1,
-      commentaire: "C'est le \"bit\", c’est-à-dire 0/1 ou oui/non ou vrai/faux. Savoir si c'est un homme ou une femme ou qu'une pièce est tombée sur pile ou face correspond à un bit d'information. Que 10 pièces sont tombées sur pile ou face donne 10 bits d'information.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Vous devez déterminer un nombre, de 0 à 100, auquel pense un ami. Quelle est la logique la plus efficace pour le trouver ?",
-      reponses:[ "Linéaire : Lui proposer, dans l’ordre, le 1,2,3,4, etc.",
-       "Au hasard : Lui proposer des nombres complètement au hasard, sans jamais reprendre le même",
-       "Dichotomie : lui proposer le nombre 50 et lui demander si c’est plus ou moins. Garder seulement la série de nombres correspondants et couper de nouveau en 2",
-      ],reponse: 3,
-      commentaire: "L’algorithme 1 semble le plus simple mais si le nombre est à la fin (100), on perd du temps pour rien. L’algorithme 2 est du même ordre de longueur que le 1. Le bon nombre peut sortir tout de suite, ou en dernier.\nL’algorithme 3 est le plus performant, c’est celui qui demande le moins d’opérations en moyenne. Pour deviner un nombre de 0 à 100, il faut au maximum 7 essais !",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Que signifie qu'une valeur est \"binaire\" ou \"booléenne\" ?",
-      reponses:[ "C’est une valeur qui vaut soit 1 soit 0",
-       "C’est une valeur très grande",
-       "C’est une valeur qui vaut tout le temps zéro",
-      ],reponse: 1,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "En pantoufles, je siffle, ronfle, souffle.\nComment réduire la longueur de cette phrase sans perdre d'information ?",
-      reponses:[ "En supprimant la ponctuation et le pronom personnel",
-       "En décidant que <fle> s'écrit z",
-       "En décidant de supprimer le mot pantoufle",
-      ],reponse: 2,
-      commentaire: "En informatique, on utilise de telles astuces pour réduire la taille des fichiers. On appelle ça un algorithme de compression. Le JPEG, que l'on utilise beaucoup pour nos photos, est un de ces algorithmes de compression.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Qu'est-ce qu’un datagramme ?",
-      reponses:[ "Un paquet de données qui voyage dans un réseau",
-       "Le poids d'une quantité de mémoire",
-       "Un schéma représentant l'organisation d'une base de données",
-      ],reponse: 1,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Qu’est-ce qu’un transistor ?",
-      reponses:[ "Une vieille radio de nos parents",
-       "Un composant électronique qui permet de contrôler un courant",
-       "Les deux !",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Que signifie “IA” en informatique et qui a été l’objet d’un film ?",
-      reponses:[ "Image Accélérée",
-       "Intelligence Artificielle",
-       "Informatique Adaptative",
-      ],reponse: 2,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: " À partir de quelles couleurs de base sont créées toutes leurs couleurs dans les images numériques ?",
-      ],reponse: " Rouge, Vert et Bleu (RVB)",
-      commentaire: "Ces trois couleurs sont les couleurs primaires, en synthèse additive. Elles correspondent en fait à peu près aux trois longueurs d’ondes auxquelles répondent les trois types de cônes de l’œil humain (voir trichromie). L’addition des trois primaires donne du blanc.\nCes trois couleurs sont les couleurs primaires de la lumière, dans ce que l'oeil humain peut voir.",
-      ,
-      source: "https://fr.wikipedia.org/wiki/Rouge_vert_bleu"
-    },
-    {
-      niveau: 2,
-      categorie: "ENVIRONNEMENT",
-      type: "DIRECTE",
-      intitule: "Les outils numériques ne permettent PAS de prédire",
-      reponses:[ "L’écoulement de l’air autour du casque d’un skieur",
-       "L’évolution d’un feu de forêt",
-       "Le résultat d'une roulette de casino",
-      ],reponse: 3,
-      commentaire: "Les résultats d'une roulette sont le pur fruit du hasard. Les outils numériques seuls ne peuvent pas permettre de prédire le résultat d'un tirage. À chaque nouveau tirage les différents nombres auront toujours tous autant de chance de sortir. En théorie, si on plaçait un ensemble de capteurs de vitesse, de frottement, de position et qu'on mesurait tous les paramètres liés à la roulette on pourrait prédire alors où la bille va tomber. Et encore, cela sera sujet à la théorie du chaos, qui dit qu'une erreur minime sur la mesure des paramètres faussera complètement le calcul.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "ENVIRONNEMENT",
-      type: "DIRECTE",
-      intitule: "Quelle est l'application de la simulation du mouvement des mers et océans  ?\nÀ quoi sert la simulation du mouvement des mers et océans ?",
-      reponses:[ "Cela permet de savoir où il est préférable d’aller en congés\nÀ savoir où il est préférable d’aller en congés",
-       "Cela permet de prévoir le réchauffement climatique\nÀ prévoir le réchauffement climatique",
-       "Cela permet de mettre les bateaux en pilote automatique\nÀ mettre les bateaux en pilote automatique",
-      ],reponse: 2,
-      commentaire: "L’étude par simulation numérique des transferts de masses d'eaux de l'océan Indien vers l'océan Atlantique permet d'anticiper le changement climatique global.",
-      
-      source: "https://interstices.info/jcms/int_70245/comprendre-la-circulation-oceanique"
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Qu'est-ce qu'un algorithme ?",
-      reponses:[ "Une suite d’opérations ou d’instructions à effectuer, comme dans une recette de cuisine",
-       "La vitesse à laquelle un ordinateur calcule",
-       "Un composant électronique présent dans les ordinateurs"
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Pourquoi les marins répètent-ils trois fois les mots dans leurs communications radio ?\nPANNE, PANNE, PANNE \nA TOUS, A TOUS, A TOUS \nICI \nNEPTUNE, NEPTUNE, NEPTUNE",
-      reponses:[ "C'est le principe de la correction d'erreur : pour être sûr que l'information soit comprise, même en cas de mauvaise réception",
-       "Pour attirer l'attention d'interlocuteurs distraits en cas d'urgence",
-       "C'est un usage traditionnel qui date du premier code de la marine",
-      ],reponse: 1,
-      commentaire: "C'est le principe de la correction d'erreur qu'utilisent les mémoires d'ordinateurs ou les réseaux. Si un des mots répété est brouillé, le destinataire peut tout de même comprendre le message.",
-      
-      source: "http://www.anfr.fr/fileadmin/mediatheque/documents/radiomaritime/manuel_crr.pdf"
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Que se passe-t-il quand l'adresse d'un site Web commence par https et non http ?",
-      reponses:[ "Cela permet d’y accéder sur un Smartphone (s comme Smartphone)",
-       "Rien de spécial, c'est juste comme souvent deux mots pour dire la même chose",
-       "Avec le « s » le contenu est crypté donc illisible pour quelqu'un qui observerait le réseau",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Dans l'adresse https://lamediatheque.be/downloads/himehajime.mp3 : Quelle partie me donne le nom du serveur d'où provient le contenu ? Quelle partie m'indique que c'est probablement un morceau de musique ? Dans quel pays est probablement situé le serveur ?",
-      ],reponse: "Serveur : lamediatheque.be; \nMusique : .mp3 ;\nPays : Belgique (.be) ;\nWeb : http://",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "ENVIRONNEMENT",
-      type: "DIRECTE",
-      intitule: "Un outil mathématique d’optimisation ne permet PAS de",
-      reponses:[ "Aider à organiser la consommation d’énergie dans des villages du désert\nOrganiser la consommation d’énergie dans des villages du désert",
-       "Prévoir la production d’énergie de bactéries",
-       "Continuer à consommer autant d'énergie que par le passé\nContinuer à consommer autant que par le passé",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Que fait notre télévision s'il y a des pertes de données pendant une émission ?",
-      reponses:[ "Elle attend que le signal revienne ",
-       "Elle ajoute des données aléatoires, pour aller vite",
-       "Elle extrapole les données, pour inventer ce qui manque",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "CASSE_TETE",
-      intitule: "Voici un code A=1, B=2, C=3, etc., Z=26. Écrire le mot SCIENCE à l’aide de ce code",
-      ],reponse: " 19 - 3 - 9 - 5 - 14 – 3 – 5",
-      commentaire: "Ceci est une méthode de cryptographie, pour transmettre des messages codés. Des méthodes plus efficaces existent comme transmettre le décalage à opérer sur les chiffres (A = 3 par exemple) dans un autre message. On appelle cela le cryptage asymétrique, et c'est sur celui-ci que repose la cryptographie moderne.",
-      
-      source: "http://fr.wikipedia.org/wiki/Cryptographie_asym%C3%A9trique"
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "CASSE_TETE",
-      intitule: "En anglais les notes se codent avec des lettres par exemple DO se code C, RE se code D, MI se code E. Chanter la petite chanson : CCCDEDCEDDC",
-      ],reponse: "Au clair de la lune",
-      commentaire: "Le fait de remplacer un élément toujours par le même élément est une méthode de cryptographie, pour transmettre des messages codés.",
-      "Modif": "Explications.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Si une page Web me demande mon mot de passe Facebook ou Twitter comment être sûr que ce n'est pas une \"fausse\" page pour me pirater ?",
-      reponses:[ "Elle doit commencer par https://",
-       "Il ne faut jamais rentrer son mot de passe sur une page Web",
-       "Il faut regarder l'adresse Internet. Elle doit finir par facebook.com  ou twitter.com",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Qui est un serveur et qui est un routeur ?",
-      reponses:[ "Je suis une machine informatique puissante qui stocke de nombreuses données ",
-       "Je suis une machine informatique puissante qui sert de relais entre les réseaux qui forment Internet",
-      ],reponse: "1/ Serveur\n2/ Routeur",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Qu’est-ce qu’un cloud ?",
-      reponses:[ "Un ordinateur tellement gros qu'on peut comparer sa taille à celle d'un nuage (d'où son nom)",
-       "Un réseau d'ordinateurs offrant un service centralisé,  auquel je peux me connecter avec n'importe lequel de mes appareils",
-       "Le parc d'ordinateurs que l'on trouve dans de grosses compagnies et dont le refroidissement à l'eau produit beaucoup de vapeur qui s'élève dans le ciel, tel un nuage\nLe parc d'ordinateurs de grosses compagnies dont le refroidissement à l'eau produit beaucoup de vapeur",
-      ],reponse: 2,
-      
-      source: "https://fr.wikipedia.org/wiki/Cloud_computing"
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Comment s’appelle le composant qui permet à nos téléphones et tablettes de détecter leur orientation ?",
-      reponses:[ "Un accéléromètre ou un gyroscope",
-       "Un orientomètre",
-       "Un occulomètre",
-      ],reponse: 1,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Grâce à quoi nos GPS fonctionnent-ils ?",
-      reponses:[ "Grâce à des satellites en orbite",
-       "Grâce à Internet",
-       "Grâce au réseau de téléphonie mobile",
-      ],reponse: 1,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Comment s’appelle le logiciel destiné à gérer l’ensemble des fonctionnalités d’un ordinateur?",
-      reponses:[ "Le système d’exploitation",
-       "Le navigateur Web",
-       "L'éditeur de texte",
-      ],reponse: 1,
-      commentaire: "Vous en connaissez : Windows, MacOS, Linux...",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Classez dans l’ordre croissant : giga, kilo, méga, tera, exa, peta",
-      ],reponse: "kilo, méga, giga, tera, peta, exa.",
-      commentaire: "kilo = 10^3 (ou encore mille, un 1 avec 3 zéros derrière), méga = 10^6 (un 1 avec 6 zéros derrière), giga = 10^9, tera = 10^12, peta = 10^15, exa = 10^18.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Peut-on tout prédire grâce aux simulations ?",
-      reponses:[ "Oui, il suffit d'entrer les bons paramètres dans l'ordinateur et de le laisser calculer un résultat approché\nOui, si on entre les bons paramètres dans l'ordinateur et qu'on le laisse calculer",
-       "Non, la nature se comporte de façon aléatoire et reste imprédictible totalement\nNon, la nature se comporte de façon trop aléatoire",
-       "Non, certains phénomènes dits chaotiques sont si complexes qu'une toute petite erreur change complètement les résultats",
-      ],reponse: 3,
-      commentaire: "Phénomènes chaotiques : un tout petit changement de condition initiale peut créer un changement explosif et imprévisible à cause des erreurs de calcul. C'est l'effet papillon, qui dit qu'un battement d'aile de papillon en Asie peut provoquer un ouragan à New York, par accumulation de causes et d'effets."
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DIRECTE",
-      intitule: "Pourquoi les médecins coopèrent-ils avec les mathématiciens et informaticiens ?",
-      reponses:[ "Pour créer des algorithmes d'analyse d'images médicales ou modéliser des organes",
-       "Pour expérimenter sur leur cerveau : le relief cérébral se modifie au fil du temps, lorsque l'on calcule toute la journée",
-       "Pour assurer la maintenance des supercalculateurs des hôpitaux",
-      ],reponse: 1,
-      
-      source: "https://interstices.info/jcms/i_53813/les-mathematiques-cachees-de-la-medecine?hlText=m%C3%A9decins"
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DIRECTE",
-      intitule: "Dans quel cas les sciences du numérique peuvent-elles aider les neurochirurgiens ?",
-      reponses:[ "Pour simuler et anticiper les mouvements du cerveau lors d'une neurochirurgie",
-       "Pour améliorer le dosage des anesthésiants",
-       "Pour calculer les probabilités de décès du patient",
-      ],reponse: 1,
-      commentaire: "La neurochirurgie est affaire de précision. On ne taille pas au hasard dans le cerveau humain, c'est pourquoi le chirurgien prépare son intervention avec des images acquises avant l'opération, par imagerie par résonance magnétique (IRM) notamment. Toutefois, la topologie du cerveau évolue, avec l'anesthésie, la pression artérielle, etc. Plusieurs études internationales ont montré que l'ouverture de la boîte crânienne, sans intervention directe sur le cerveau, pouvait entraîner des modifications de topologie de plus d'un centimètre.",
-      
-      source: "https://interstices.info/jcms/c_12343/christian-barillot-ce-que-pourraient-voir-les-chirurgiens-pendant-une-intervention"
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DIRECTE",
-      intitule: "Parmi ces propositions, que ne peuvent PAS faire aujourd’hui les chirurgiens grâce aux sciences du numérique ?",
-      reponses:[ "Voir l’intérieur du patient en train d’être opéré, sans inciser",
-       "S’entraîner au geste chirurgical et élaborer des théories\nS’entraîner au geste chirurgical",
-       "Créer un avatar numérique du patient pour s'adapter spécifiquement à son anatomie",
-      ],reponse: 1,
-      commentaire: "De l’acquisition au simulateur de chirurgie, l’image médicale subit de nombreux traitements informatiques. L’intérêt : disposer d’une « copie virtuelle » du patient, qui pourra être utilisée du diagnostic jusqu’à la chirurgie assistée par ordinateur.\nLa visualisation en temps réel de l'intérieur du patient est à l'étude, mais pas encore opérationnelle.",
-      
-      source: "https://interstices.info/jcms/i_58396/le-patient-virtuel-au-service-de-la-chirurgie?hlText=chirurgie\nhttps://interstices.info/jcms/c_12343/christian-barillot-ce-que-pourraient-voir-les-chirurgiens-pendant-une-intervention?hlText=chirurgie"
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DIRECTE",
-      intitule: "Comment marchera le défibrillateur cardiaque du futur ?",
-      reponses:[ "Il  n'y aura plus de défibrillateur cardiaque dans un proche futur, car on  vient de montrer que l'objet peut être dangereux, donc à proscrire par  principe de précaution\nIl n'y en aura plus, car l'objet s'avère peut être dangereux, donc va être proscrit par principe de précaution",
-       "Il  n'y aura plus de défibrillateur cardiaque dans un proche futur, car les  maladies cardiaques sont amenées à disparaître, avec les progrès médicaux\nIl n'y en aura plus, car les  maladies cardiaques vont disparaître avec les progrès médicaux",
-       "De nouveaux modèles informatiques de la physiologie du muscle cardiaque vont permettre d'optimiser son fonctionnement",
-      ],reponse: 3,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "TECHNOLOGIE",
-      type: "DIRECTE",
-      intitule: "Va-t-on mettre une connexion réseau dans des interrupteurs électriques ?",
-      reponses:[ "Non : le rayonnement lié à la multiplication des calculs au niveau des processeurs serait dangereux pour la santé\nNon : le rayonnement des processeurs serait dangereux pour la santé",
-       "Oui : cela permettra à l'interrupteur d'être piloté à distance pour automatiser la commande électrique de la maison\nOui : cela permettra de piloter l'interrupteur à distance pour automatiser la commande électrique de la maison",
-       "Non : ce n'est envisageable que dans les films de science-fiction",
-      ],reponse: 2,
-      commentaire: "La domotique est l’ensemble des techniques de l'électronique, de physique du bâtiment, d'automatisme, de l'informatique et des télécommunications permettant de centraliser le contrôle des différents systèmes de la maison. Les systèmes permettant de contrôler sa maison à distance existent déjà aujourd'hui, et devraient se développer largement dans un avenir proche.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DIRECTE",
-      intitule: "Peut-on piloter un ordinateur avec la pensée ?",
-      reponses:[ "C'est infaisable dans l'état actuel de nos connaissances. Le cerveau et les ordinateurs sont incompatibles",
-       "On peut mesurer l'activité cérébrale générale d'une personne et la comparer à des activités types pour en déduire des commandes",
-       "On peut mesurer l'activité de chaque neurone et établir une séquence de bits de données, afin de déterminer exactement ce à quoi pense le sujet",
-      ],reponse: 2,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DIRECTE",
-      intitule: "Je (l’animateur) peux deviner en 7 questions maximum n’importe quel nombre entier, entre 0 et 100, auquel tu penses. Vrai ou faux ?",
-      ],reponse: "TRUE",
-      commentaire: "Il faut utiliser le principe de dichotomie, qui consiste à proposer à chaque fois le chiffre médian et de demander si le chiffre à trouver est supérieur ou inférieur. On commence par 50. Si c'est plus, on annonce 75, etc.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "HISTOIRE",
-      type: "DIRECTE",
-      intitule: "À quoi fut due l’explosion d’Ariane 5 en 1996 avec à son bord 500 millions de dollars de satellites ?",
-      reponses:[ "À une erreur de calcul de la trajectoire",
-       "À un bug informatique",
-       "À un défaut de conception du réacteur principal",
-      ],reponse: 2,
-      commentaire: "En effet, un morceau de programme utilisé pour Ariane 5 avait été repris tel quel, à partir de celui d'Ariane 4 et sans adaptation à la nouvelle fusée. Plus puissante, elle provoqua un dépassement dans un calcul. Celui qui trouva le problème fut Gilles Kahn, premier informaticien de l'académie des sciences.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "HISTOIRE",
-      type: "DIRECTE",
-      intitule: "L’inventeur du mot « algorithme » était…",
-      reponses:[ "Perse",
-       "Français",
-       "Américain",
-      ],reponse: 1,
-      commentaire: "C’était Al Khwarismi mathématicien, géographe, astrologue et astronome perse.",
-      
-      source: "https://wiki.inria.fr/sciencinfolycee/Portrait:Al_Khwarismi_%28notion_d%27algorithme%29"
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Pour quelles raisons (au pluriel) les scientifiques doivent-ils rendre publics leurs données et les logiciels de leurs travaux ?",
-      reponses:[ "Car c'est un bien public créé avec l'argent des impôts",
-       "Car c'est indispensable pour pouvoir vérifier et valider leurs travaux et permettre que d'autres scientifiques fassent avancer la science à partir de leurs résultats",
-       "Pour prouver l'antériorité de leurs travaux",
-      intitule2: "C'est la loi qui veut ça",
-      ],reponse: 2,
-      
-    },
-    {
-      niveau: 2,
-      categorie: "HISTOIRE",
-      type: "DIRECTE",
-      intitule: "D’où vient le mot mathématiques ?",
-      reponses:[ "Du grec mathêma qui signifie \"science, connaissance, apprentissage\"",
-       "Du latin mathematicum qui signifie \"qui aime apprendre\"",
-       "Du vieux français \"ma thématique\" qui signifiait \"ma passion\"",
-      
-      source: "https://fr.wikipedia.org/wiki/Math%C3%A9matiques#.C3.89tymologie"
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Si je crée un logiciel libre et ouvert protégé par une licence Open Source en partage, en quoi cela peut-il m'aider ?",
-      reponses:[ "À ce que les utilisateurs testent le produit et m'aident à l'améliorer",
-       "À me faire connaitre à travers ce produit pour vendre d'autres services",
-       "À récolter des subventions de l'État",
-      ],reponse: 1,
-      
-      source: "https://fr.wikipedia.org/wiki/Open_source"
-    },
-    {
-      niveau: 2,
-      categorie: "SOCIETE",
-      type: "DIRECTE",
-      intitule: "Qu'est-ce que la neutralité du net ?",
-      reponses:[ "L'obligation pour chacune et chacun de rester neutre quand il s'exprime devant 4 milliards d'internautes\nL'obligation de rester neutre quand on s'exprime devant 4 milliards d'internautes",
-       "Elle garantit l'égalité de traitement de tous les flux de données sur Internet\nLa garantie d'égalité de traitement de tous les flux de données sur internet",
-       "Ne jamais interférer entre les individus qui échangent sur Internet\nLe fait de ne jamais interférer entre les individus qui échangent sur internet",
-      ],reponse: 2,
-      commentaire: "La neutralité du net est un principe qui garantit l'égalité de traitement de tous les flux de données sur internet, sans discrimination à l'égard de la source, de la destination ou du contenu. Ce principe est nécessaire pour garantir plusieurs autres droits : liberté d'expression, accès à l'information…",
-      
-      source: "https://fr.wikipedia.org/wiki/Neutralit%C3%A9_du_r%C3%A9seau"
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DUO",
-      intitule: "Combien ai-je de chances d’obtenir un 6 sur un dé à 6 faces ?",
-      intitule2: "Combien ai-je de chances d’obtenir un double 6 en lançant deux dés à 6 faces ?",
-      ],reponse: " 1 sur 6 et 1 sur 36",
-      commentaire: "Pour calculer les probabilités de plusieurs événéments simultanés, comme des lancers de dés, on multiplie les probabilités de chaque événement. Ici 6x6 = 36.",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "FONDAMENTAUX",
-      type: "DUO",
-      intitule: "Comment appelle-t-on un groupe de 8 bits dans la mémoire d’un ordinateur, le bit étant un chiffre valant 0 ou 1 ?",
-      reponses:[ "Un octet",
-       "Un octopus",
-       "Un quartet",
-      intitule2: "Combien de combinaisons possibles existent dans un octet (sachant que chacun des huit bits peut valoir indépendamment 0 ou 1) ?",
-      "Réponse 4": "2x2x2x2x2x2x2x2 ou 2^8 = 256 combinaisons",
-      "Réponse 5": "2x8 = 16 combinaisons",
-      "Réponse 6": "8 combinaisons, tout simplement",
-      ],reponse: "1 et 4",
-      
-    },
-    {
-      niveau: 2,
-      categorie: "SANTE",
-      type: "DUO",
-      intitule: "Où est stockée dans notre corps l’information qui détermine la couleur de nos yeux ou la forme de notre visage ?",
-      reponses:[ "Dans l’ADN, contenu dans chacune de nos cellules",
-       "Dans notre cerveau",
-       "Dans notre sang",
-      intitule2: "On utilise des ordinateurs et des algorithmes complexes pour décoder l’ADN d’une personne. Combien ce décodage prend-il de temps ? ",
-      "Réponse 4": "Quelques secondes",
-      "Réponse 5": "Quelques heures",
-      "Réponse 6": "Quelques jours",
-      ],reponse: "1 et 5",
-      commentaire: "Le séquençage d’un ADN (la lecture de celui-ci) est une opération très complexe qui correspond essentiellement à reconstruire un texte (la séquence ADN) en mettant bout à bout des petits morceaux à recoller entre eux, et c'est un algorithme qui résout cette tâche.",
-      
-      source: "https://interstices.info/jcms/n_50779/decoder-le-vivant?hlText=s%C3%A9quencage"
-    },
     {
       niveau: 2,
       categorie: "SOCIETE",

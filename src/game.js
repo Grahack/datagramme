@@ -1,18 +1,33 @@
 $(function()
 {
-	$(canvasDes).click(function()
+
+	$(overlay).mousemove(function(evt)
 	{
-		if(disposition.doitLancerDes)
+		contextOver.clearRect(0, 0, 1080, 1080);
+		var xOffset=Math.max(document.documentElement.scrollLeft,document.body.scrollLeft);
+		var yOffset=Math.max(document.documentElement.scrollTop,document.body.scrollTop);
+		var mouseX = evt.clientX + xOffset;
+		var mouseY = evt.clientY + yOffset;
+		for(var i = 0, c = plateau.memories.length ; i < c ; i++)
 		{
-			disposition.nbCases = Math.floor((Math.random()*9));
-			disposition.doitLancerDes = false;
-			alert("Dés lancés : "+disposition.nbCases);
-			plateau.cases[disposition.joueurs[disposition.tourJoueur].position].light(disposition.nbCases);
-			plateau.setFlicker();
+			for(var j = 0, cc = plateau.memories[i].length ; j < cc ; j++)
+			{
+				var tailleCase = 210;
+				if(plateau.cases[plateau.memories[i][j]].x/coefReduc < mouseX && plateau.cases[plateau.memories[i][j]].x/coefReduc + (tailleCase/coefReduc) > mouseX)
+				{
+					if(plateau.cases[plateau.memories[i][j]].y/coefReduc < mouseY && plateau.cases[plateau.memories[i][j]].y/coefReduc + (tailleCase/coefReduc) > mouseY)
+					{
+						if(plateau.cases[plateau.memories[i][j]].revealed)
+							contextOver.drawImage(imgMemory, 5+(310*(plateau.cases[plateau.memories[i][j]].memory%2)), 5+(310*(Math.floor(plateau.cases[plateau.memories[i][j]].memory/2))), 277, 277, mouseX, mouseY, 80, 80);
+						else
+							contextOver.drawImage(imgMemoryOff, mouseX, mouseY, 80, 80);
+					}
+				}
+			}
 		}
 	});
 
-	$(canvas).click(function(evt)
+	$(overlay).click(function(evt)
 	{
 		if(disposition.memory)
 		{
@@ -36,23 +51,52 @@ $(function()
 							if(plateau.cases[plateau.memories[i][j]].y/coefReduc < mouseY && plateau.cases[plateau.memories[i][j]].y/coefReduc + (tailleCase/coefReduc) > mouseY)
 							{
 								found = true;
+								var txtMemory;
 								var caseJoueur = plateau.cases[disposition.joueurs[disposition.tourJoueur].position];
 								if(plateau.cases[plateau.memories[i][j]].memory == caseJoueur.memory && plateau.cases[plateau.memories[i][j]].index != caseJoueur.index)
 								{
+									txtMemory = "Correct ! Les routeurs sont maintenant reliés.";
 									plateau.cases[plateau.memories[i][j]].revealed = true;
 									plateau.cases[plateau.memories[i][j]].addVoisin(plateau.cases[disposition.joueurs[disposition.tourJoueur].position]);
 									plateau.cases[disposition.joueurs[disposition.tourJoueur].position].addVoisin(plateau.cases[plateau.memories[i][j]]);
-									alert("C'est ça !");
 								} else {
+									txtMemory = "Incorrect ! Ces routeurs ne sont pas connectés.";
 									plateau.cases[plateau.memories[i][j]].revealed = true;
 									plateau.repaint();
-									alert("C'est pas ça !");
 									plateau.cases[plateau.memories[i][j]].revealed = false;
 									caseJoueur.revealed = false;
 								}
 									
 								disposition.memory = false;
-								nextTurn();
+
+								$("#dialog").dialog(
+								{
+									modal: true,
+									title: "Bienvenue sur Datagramme !",
+									buttons: 
+									{
+										"Ok": function()
+										{
+											$(this).dialog("close");
+											nextTurn();
+										}
+									}
+								}).html("<p>"+txtMemory+"</p>");	
+
+								var canvasMem1 = document.createElement('canvas');
+								var contextMem1 = canvasMem1.getContext('2d');	
+								var canvasMem2 = document.createElement('canvas');
+								var contextMem2 = canvasMem2.getContext('2d');	
+
+								canvasMem1 = $(canvasMem1).attr("width", "150").attr("height", "150").css("margin", "3px");	
+								contextMem1.drawImage(imgMemory, 5+(310*(plateau.cases[disposition.joueurs[disposition.tourJoueur].position].memory%2)), 5+(310*(Math.floor(plateau.cases[disposition.joueurs[disposition.tourJoueur].position].memory/2))), 277, 277, 0, 0, 150, 150);		
+								canvasMem2 = $(canvasMem2).attr("width", "150").attr("height", "150").css("margin", "3px");	
+								contextMem2.drawImage(imgMemory, 5+(310*(plateau.cases[plateau.memories[i][j]].memory%2)), 5+(310*(Math.floor(plateau.cases[plateau.memories[i][j]].memory/2))), 277, 277, 0, 0, 150, 150);						
+								
+								$(canvasMem1).appendTo($("#dialog"));
+								$(canvasMem2).appendTo($("#dialog"));
+
+								//$("#dialog").open();
 							}
 						}
 					}
@@ -85,6 +129,7 @@ $(function()
 						if(plateau.cases[i].y/coefReduc < mouseY && plateau.cases[i].y/coefReduc + (tailleCase/coefReduc) > mouseY)
 						{
 							found = true;
+							plateau.movePlayer(disposition.joueurs[disposition.tourJoueur], plateau.cases[i].index);
 							disposition.joueurs[disposition.tourJoueur].position = plateau.cases[i].index;
 							plateau.repaint();
 						}
@@ -121,6 +166,8 @@ $(function()
 function pickQuestion(difficulte)
 {
 	var qt = questions[difficulte][Math.floor(Math.random()*questions[difficulte].length)];
+	qt = new Question("Quelle quantité de carburant (en grammes) faut-il pour fabriquer une puce électronique, qui pèse elle 2 grammes ?", null, typeQuestionEnum.JUSTE_PRIX, difficulteEnum.BUG, categorieEnum.ENVIRONNEMENT, 
+    new Reponse(typeReponseEnum.ENTREE, null, 1700), "Une puce électronique a beau être minuscule, pour produire deux grammes d'électronique, on consomme 1,7 kg d'énergie fossile, 1 m3 d'azote, 72 g de produits chimiques et 32 litres d'eau.", "http://www.eurekalert.org/pub_releases/2002-11/acs-ttp110502.php");
 	return qt;
 	if(disposition.nbJoueurs == 1)
 	{
@@ -134,6 +181,33 @@ function pickQuestion(difficulte)
 function question()
 {
 	var question = pickQuestion(disposition.joueurs[disposition.tourJoueur].difficulte);
+
+	/*switch(question.type)
+	{
+		case typeQuestionEnum.CM:
+
+		break;
+		case typeQuestionEnum.JUSTE_PRIX:
+			var tabReponses = [];
+			for(var i = 0, c = disposition.nbJoueurs ; i < c ; i++)
+			{
+				$("#question").dialog(
+				{
+					title: question.intitule,
+					modal: true,
+					autoOpen: true,
+					buttons:
+					{
+						"Valider" : function()
+						{
+							tabReponses.push(inputJustePrix.value);
+							$(this).dialog("close");
+						}
+					}
+				});
+			}
+		break;
+	}
 
 	switch(question.reponses.typeReponse)
 	{
@@ -249,13 +323,23 @@ function question()
 				}
 			}).html("<p>"+question.intitule+"</p>");
 			break;
-	}
+	}*/
 	
+	disposition.joueurs[disposition.tourJoueur].points++;
+	alert("bonne réponse !");
+	plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+	nextTurn();
 }
 
 
 function nextTurn()
 {
+	if(disposition.joueurs[disposition.tourJoueur].position == plateau.CASE_SORTIE && disposition.nbTours == -1)
+	{
+		alert(disposition.joueurs[disposition.tourJoueur].pseudo+" a remporté la victoire en atteignant la sortie !");
+		return;
+	}
+
 	disposition.tourJoueur++;
 	disposition.nbCases = -1;
 	if(disposition.tourJoueur == disposition.nbJoueurs)
@@ -265,6 +349,8 @@ function nextTurn()
 	}
 
 	plateau.repaint();
+
+
 	game();
 }
 
@@ -338,6 +424,8 @@ function game()
 		return;
 	}
 
+	disposition.doitLancerDes = true;
+
 	plateau.drawCases();
 	$("#indication").dialog(
 	{
@@ -345,18 +433,35 @@ function game()
 		modal: true,
 		title: disposition.joueurs[disposition.tourJoueur].pseudo+", à votre tour !",
 		close: null,
+		minHeight: 400,
 		buttons:
 		{
 			"Ok" : function()
 			{
-				$(this).dialog("close");
-				lancerDes();
+				if(!disposition.doitLancerDes)
+					$(this).dialog("close");
 			}
 		}
-	}).html("Cliquez sur les dés pour effectuer un lancer.");
-}
 
-function lancerDes()
-{
-	disposition.doitLancerDes = true;
+	}).html("<p>Cliquez sur les dés pour effectuer un lancer.</p><br/>");
+
+	var canvasDes = document.createElement('canvas'); // Carré contenant la difficulté k
+	var contextDes = canvasDes.getContext('2d');
+
+	canvasDes = $(canvasDes).attr("width", "190").attr("height", "153").attr("id", "des"); // Mise en forme et indexation	
+	contextDes.drawImage(imgDes, 0, 0, 190, 153);
+
+	canvasDes.click(function()
+	{
+		if(disposition.doitLancerDes)
+		{
+			disposition.nbCases = Math.floor((Math.random()*8)) + 1;
+			disposition.doitLancerDes = false;
+			plateau.cases[disposition.joueurs[disposition.tourJoueur].position].light(disposition.nbCases);
+			plateau.setFlicker();
+			var texte = "<p>Vous avez fait un "+disposition.nbCases+"</p>"
+			$(texte).appendTo($("#indication"));
+		}
+	});
+	canvasDes.appendTo($("#indication")); // On positionne l'image dans la fenêtre de dialogue
 }

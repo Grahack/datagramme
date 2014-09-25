@@ -5,6 +5,7 @@ var pathImagesQuestions = "../ressources/images/activites";
 
 var coefReduc = 3.255;
 var timer;
+var move;
 
 var typeQuestionEnum = Object.freeze( // Les différents types de question sous forme d'énumération
 {
@@ -61,33 +62,21 @@ var typeCaseEnum = Object.freeze( // Les différents types de cases du plateau d
 var couleursJoueurs = // Les couleurs disponibles pour les joueurs
 [
 	{
+		col:"#00d00f",
+		disp: true
+	},
+	{
 		col:"#000000", // Couleur en hexadécimal
 		disp: true // Disponible : Propriété définissant si la couleur a été prise ou non par un joueur précédent
 	},
 	{
-		col:"#FFFFFF",
-		disp: true
-	},
-	{
-		col:"#eebe00",
-		disp: true
-	},
-	{
-		col:"#ee6500",
+		col:"#666666",
 		disp: true
 	},
 	{
 		col:"#ee0b00",
 		disp: true
-	},
-	{
-		col:"#00d00f",
-		disp: true
-	},
-	{
-		col:"#1700a4",
-		disp: true
-	},
+	},	
 	{
 		col:"#0060ff",
 		disp: true
@@ -99,12 +88,12 @@ var disposition = // Règles de la partie
 {
 	nbJoueurs : 0, // Le nombre de joueurs
 	joueurs : [], // Le tableau des joueurs
-	nbTours : 0, // -1 si en mode sortie, nombre de tours choisis sinon
+	nbTours : 5, // -1 si en mode sortie, nombre de tours choisis sinon
 	tourCourant : 0, // Le numéro du tour
 	tourJoueur : 0, // L'index du joueur dont c'est le tour
 	doitLancerDes : false, // Doit-on attendre que le joueur lance les dés ?
 	nbCases : 0, // Le nombre que le joueur a effectué aux dés
-	animateur : false,
+	animateur : true,
 	equipes : false,
 	memory : false
 };
@@ -210,7 +199,10 @@ function Case(index, type, voisin, x, y) // Objet case, définissant les propri�
 		index--; // On décrémente l'index de 1 pour les destinations voisines
 		for(var i = 0, c = this.voisins.length ; i < c ; i++)
 		{
-			this.voisins[i].light(index); // On visite chaque case voisine de celle-ci, avec l'index décrémenté
+			if(this.type == typeCaseEnum.MEMORY && this.voisins[i].type == typeCaseEnum.MEMORY)
+				this.voisins[i].light(index+1);
+			else
+				this.voisins[i].light(index); // On visite chaque case voisine de celle-ci, avec l'index décrémenté
 		}
 
 		/*if(this.accessed) // Si l'on a déjà visité la case, les calculs sont déjà faits, on sort
@@ -241,12 +233,13 @@ function Case(index, type, voisin, x, y) // Objet case, définissant les propri�
 
 function PlateauJeu() // Objet plateau, définissant les propriétés du plateau, support de jeu
 {
-	this.NB_CASES_TOTAL = 92; // Nombre total de cases
+	this.NB_CASES_TOTAL = 94; // Nombre total de cases
 	this.NB_CASES_MEMORY = 20; // Nombre total de cases MEMORY
 	this.NB_CASES_QUESTION = 35; // Nombre total de cases Question
-	this.NB_CASES_BM = 32; // Nombre total de cases Bonus/Malus
+	this.NB_CASES_BM = 33; // Nombre total de cases Bonus/Malus
 	this.NB_CASES_DEPART = 5; // Nombre total de cases de départ
 	this.NB_ILOTS = 8; // Nombre total de parties de terrain de jeu séparées par des cases MEMORY
+	this.CASE_SORTIE = 93; // Index de la case de sortie
 
 	this.cases = []; // Tableau des cases du plateau
 	this.departs = [0, 21, 31, 49, 71]; // Indices des cases de départ
@@ -313,8 +306,6 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 			indexMemo = Math.floor(Math.random()*memos.length);
 			memo = memos[indexMemo];
 
-			alert(this.departsJoueurs[i]);
-
 			this.cases[copie[choixZone][choixMemo]].memory = memo;
 			this.cases[copie[this.departsIlots[this.departsJoueurs[i]]][avance]].memory = memo;
 
@@ -354,11 +345,11 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		{
 			if(this.cases[i].type == typeCaseEnum.MEMORY)
 			{
-				if(this.cases[i].revealed)
-					context.drawImage(imgMemory, 5+(317*(this.cases[i].memory%2)), 5+(317*(Math.floor(this.cases[i].memory/2))), 277, 277, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
+				/*if(this.cases[i].revealed)
+					context.drawImage(imgMemory, 5+(310*(this.cases[i].memory%2)), 5+(310*(Math.floor(this.cases[i].memory/2))), 277, 277, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
 				else
 					context.drawImage(imgMemoryOff, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
-				if(this.cases[i].lit && this.isLighting)
+				*/if(this.cases[i].lit && this.isLighting)
 					context.drawImage(imgSurbrillanceMemory, this.cases[i].x, this.cases[i].y, 210, 210, this.cases[i].x/coefReduc, this.cases[i].y/coefReduc, 210/coefReduc, 210/coefReduc)
 
 			} else
@@ -371,22 +362,15 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 				{
 					context.drawImage((this.cases[i].type == typeCaseEnum.QUESTION ? imgSurbrillanceRouge : imgSurbrillanceNoir), this.cases[i].x, this.cases[i].y, 150, 150, this.cases[i].x/coefReduc, this.cases[i].y/coefReduc, 150/coefReduc, 150/coefReduc);
 				}
-			}
-			
+			}			
+		}
 
-			
-
-			for(var j = 0, c = disposition.nbJoueurs ; j < c ; j++)
-			{
-				if(disposition.joueurs[j].position == i)
-				{
-					context.fillStyle = couleursJoueurs[disposition.joueurs[j].couleur].col;
-					context.fillRect(this.cases[i].x/coefReduc, this.cases[i].y/coefReduc, 150/coefReduc, 150/coefReduc);
-				}
-
-			}
-
-			
+		for(var j = 0, c = disposition.nbJoueurs ; j < c ; j++)
+		{
+			context.fillStyle = couleursJoueurs[disposition.joueurs[j].couleur].col;
+			context.beginPath(); // Le cercle extérieur
+			context.arc(20+this.cases[disposition.joueurs[j].position].x/coefReduc, 20+this.cases[disposition.joueurs[j].position].y/coefReduc, 50/coefReduc, 0, Math.PI * 2); // Ici le calcul est simplifié
+			context.fill();
 		}
 	}
 
@@ -405,8 +389,6 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		}, 500);
 	}
 
-	
-
 	this.cancelCases = function()
 	{
 		for(var i = 0 ; i < this.NB_CASES_TOTAL ; i++)
@@ -419,13 +401,52 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 
 	this.spawnJoueurs = function()
 	{
-		var index = [0, 1, 2, 3, 4];
-		index = shuffle(index);
-		for(var i = 0, c = disposition.nbJoueurs ; i < c ; i++)
+		for(var i = 0 ; i < disposition.joueurs.length ; i++)
 		{
-			this.departsJoueurs.push(index[i]);
-			disposition.joueurs[i].position = this.departs[index[i]];
+			disposition.joueurs[i].position = plateau.departs[disposition.joueurs[i].couleur];
+			plateau.departsJoueurs.push(disposition.joueurs[i].couleur);
 		}
+	}
+
+	this.getPath = function(caseDepart, caseArrivee)
+	{
+		//var tableau = [caseDepart];
+		//return this.getPathRec(caseArrivee, tableau);
+	}
+
+	this.getPathRec = function(caseArrivee, tab)
+	{
+		if(tab.length == 0)
+			return tab;
+		caseDepart = tab[tab.length-1];
+
+		console.log("case courante : "+caseDepart);
+		console.log("case arrivee : "+caseArrivee);
+
+		if(caseDepart == caseArrivee)
+			return tab;
+
+		console.log(tab);
+
+		for(var i = 0, c = this.cases[caseDepart].voisins.length ; i<c ; i++)
+		{
+			if(tab.indexOf(this.cases[caseDepart].voisins[i].index) == -1 && this.cases[caseDepart].voisins[i].lit)
+			{
+				tab.push(this.cases[caseDepart].voisins[i].index);
+				this.getPathRec(caseArrivee, tab);
+				if(tab[tab.length-1] == caseArrivee)
+					return tab;
+				else
+					tab.pop();
+			}
+		}
+		return tab;
+	}
+
+	this.movePlayer = function(joueur, caseCible) // Déplace un pion vers une case cible
+	{
+		
+		console.log(this.getPath(joueur.position, caseCible));
 	}
 
 	this.initialiser = function() // Créer le plateau de jeu, en partant du coin haut/gauche
@@ -566,7 +587,8 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		this.cases.push(new Case(90, typeCaseEnum.QUESTION, this.cases[89], 520, 2585));
 		this.cases.push(new Case(91, typeCaseEnum.MEMORY, this.cases[90], 305, 2115));
 
-		this.cases.push(new Case(92, typeCaseEnum.SORTIE, this.cases[89], 65, 885));
+		this.cases.push(new Case(92, typeCaseEnum.BONUS_MALUS, this.cases[90], 385, 2640));
+		this.cases.push(new Case(93, typeCaseEnum.SORTIE, this.cases[92], 150, 2800));
 
 		
 

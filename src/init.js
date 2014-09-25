@@ -4,11 +4,9 @@ var difficulteActuelle = 0; // Variable utile pour la sélection des difficulté
 
 var canvas  = document.querySelector('#plateau'); // Plateau de jeu
 var context = canvas.getContext('2d');
-var canvasDes = document.querySelector('#des'); // Lancer de dés
-var contextDes = canvasDes.getContext('2d');
 
-contextDes.fillStyle = "black";
-contextDes.fillRect(0,0,300,300);
+var overlay  = document.querySelector('#overlay'); // Plateau de jeu
+var contextOver = overlay.getContext('2d');
 
 var imgSurbrillanceRouge = new Image();
 imgSurbrillanceRouge.src = pathImages+"/plateau_surbrillance_rouge.png";
@@ -30,6 +28,9 @@ imgMemory.src = pathImages+"/symboles.jpg";
 
 var imgMemoryOff = new Image();
 imgMemoryOff.src = pathImages+"/recto.jpg";
+
+var imgDes = new Image();
+imgDes.src = pathImages+"/des.png";
 
 var imgDifficulte = [new Image(), new Image(), new Image()];
 imgDifficulte[0].src = pathImages+"/carte-bug.png";
@@ -59,6 +60,7 @@ function choixNombreJoueurs(dialog)
 		modal: true,
 		title: "Combien de participants ?",
 		width: 300,
+		height : 200,
 		//position: { my: "center", at: "center", of: window },
 		buttons: 
 		{
@@ -109,46 +111,152 @@ function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la 
 					$(this).dialog(
 					{
 						modal: true,
-						title: "Jeu en équipes",
+						title: "Détails de la partie",
+						height: 500,
 						buttons:
 						{
-							"Joueur": function()
+							"OK": function()
 							{
-								disposition.equipes = false;
 								$(this).dialog("close");
-							},
-							"Equipes": function()
-							{
-								disposition.equipes = true;
-								$(this).dialog("close");
+								plateau.spawnJoueurs();
+    							plateau.disposeMemories();
+    							game();
+    							console.log(disposition.nbTours);
 							}
-						},
-						close: function()
-						{
-							$(this).dialog(
-							{
-								modal: true,
-								title: "Animateur",
-								buttons:
-								{
-									"Oui": function()
-									{
-										disposition.animateur = true;
-										$(this).dialog("close");
-									},
-									"Non": function()
-									{
-										disposition.animateur = false;
-										$(this).dialog("close");
-									}
-								},
-								close: function()
-								{
-									$(indication).dialog("open");
-								}
-							}).html("<p>Avez-vous une personne qui fera office d'animateur pour la partie ?</p>");
 						}
 					}).html("<p>Choisissez si chaque équipe est composée d'un seul joueur, ou de plusieurs (dans le cas où un joueur se retrouve seul, choisissez joueur)</p>");
+
+					var btnsEquipe = document.createElement('div');
+					var btnEquipe = document.createElement('input');
+					var btnSolo = document.createElement('input');
+
+					var labelEquipe = document.createElement('label');
+					var labelSolo = document.createElement('label');
+
+					btnEquipe.type = "radio";
+					btnEquipe.id = "radioEquipe";
+					btnEquipe.name = "equipe";
+					
+					btnSolo.type = "radio";
+					btnSolo.id = "radioSolo";
+					btnSolo.name = "equipe";
+					btnSolo.checked = true;
+
+					$(btnEquipe).click(function(evt){disposition.equipes = true;});
+					$(btnSolo).click(function(evt){disposition.equipes = false;});
+
+					labelEquipe.htmlFor = "radioEquipe";
+					labelSolo.htmlFor = "radioSolo";
+
+					$(labelEquipe).html("Equipes");
+					$(labelSolo).html("Solo");
+
+					$(btnSolo).appendTo($(btnsEquipe));
+					$(btnEquipe).appendTo($(btnsEquipe));
+					
+					$(labelSolo).appendTo($(btnsEquipe));
+					$(labelEquipe).appendTo($(btnsEquipe));
+					
+					$(btnsEquipe).buttonset();
+
+					$(btnsEquipe).appendTo($(this));
+
+					$("<p>Avez-vous une personne qui fera office d'animateur pour la partie ?</p>").appendTo($(this));
+
+					var btnsAnim = document.createElement('div');
+					var btnAnim = document.createElement('input');
+					var btnNA = document.createElement('input');
+
+					var labelAnim = document.createElement('label');
+					var labelNA = document.createElement('label');
+
+					btnAnim.type = "radio";
+					btnAnim.id = "radioAnim";
+					btnAnim.name = "anim";
+					btnAnim.checked = true;
+
+					btnNA.type = "radio";
+					btnNA.id = "radioNA";
+					btnNA.name = "anim";
+
+					$(btnAnim).click(function(evt){disposition.animateur = true;});
+					$(btnNA).click(function(evt){disposition.animateur = false;});
+
+
+					labelAnim.htmlFor = "radioAnim";
+					labelNA.htmlFor = "radioNA";
+
+					$(labelAnim).html("Avec");
+					$(labelNA).html("Sans");
+
+					$(btnAnim).appendTo($(btnsAnim));
+					$(btnNA).appendTo($(btnsAnim));
+					
+					$(labelAnim).appendTo($(btnsAnim));
+					$(labelNA).appendTo($(btnsAnim));
+					
+					$(btnsAnim).buttonset();
+
+					$(btnsAnim).appendTo($(this));
+
+					$("<p>Choisissez les conditions de victoire </p>").appendTo($(this));
+
+					var btnsVictoire = document.createElement('div');
+					var btn5Tours = document.createElement('input');
+					var btn10Tours = document.createElement('input');
+					var btn15Tours = document.createElement('input');
+					var btnSortie = document.createElement('input');
+
+					var label5Tours = document.createElement('label');
+					var label10Tours = document.createElement('label');
+					var label15Tours = document.createElement('label');
+					var labelSortie = document.createElement('label');
+
+					btn5Tours.type = "radio";
+					btn5Tours.id = "radio5Tours";
+					btn5Tours.name = "victoire";
+					btn5Tours.checked = true;
+
+					btn10Tours.type = "radio";
+					btn10Tours.id = "radio10Tours";
+					btn10Tours.name = "victoire";
+
+					btn15Tours.type = "radio";
+					btn15Tours.id = "radio15Tours";
+					btn15Tours.name = "victoire";
+
+					btnSortie.type = "radio";
+					btnSortie.id = "radioSortie";
+					btnSortie.name = "victoire";
+
+					$(btn5Tours).click(function(evt){disposition.nbTours = 5;});
+					$(btn10Tours).click(function(evt){disposition.nbTours = 10;});
+					$(btn15Tours).click(function(evt){disposition.nbTours = 15;});
+					$(btnSortie).click(function(evt){disposition.nbTours = -1;});
+
+					label5Tours.htmlFor = "radio5Tours";
+					label10Tours.htmlFor = "radio10Tours";
+					label15Tours.htmlFor = "radio15Tours";
+					labelSortie.htmlFor = "radioSortie";
+
+					$(label5Tours).html("5 Tours");
+					$(label10Tours).html("10 Tours");
+					$(label15Tours).html("15 Tours");
+					$(labelSortie).html("Sortie");
+
+					$(btn5Tours).appendTo($(btnsVictoire));
+					$(btn10Tours).appendTo($(btnsVictoire));
+					$(btn15Tours).appendTo($(btnsVictoire));
+					$(btnSortie).appendTo($(btnsVictoire));
+					
+					$(label5Tours).appendTo($(btnsVictoire));
+					$(label10Tours).appendTo($(btnsVictoire));
+					$(label15Tours).appendTo($(btnsVictoire));
+					$(labelSortie).appendTo($(btnsVictoire));
+					
+					$(btnsVictoire).buttonset();
+					$(btnsVictoire).appendTo($(this));
+
 				}
 			},
 		}
@@ -162,7 +270,7 @@ function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la 
 
 	$("<p>Choisissez une couleur parmi celles disponibles.</p>").appendTo($(dialog));
 
-	for(var j = 0, c = 9-i ; j<c ; j++) // Affichage des couleurs
+	for(var j = 0, c = 6-i ; j<c ; j++) // Affichage des couleurs
 	{
 		if(!couleursJoueurs[j].disp) // Si la couleur n'est pas disponible
 		{
@@ -234,6 +342,7 @@ $(function() {
 	{
 		modal: true,
 		title: "Bienvenue sur Datagramme !",
+		height: 200,
 		buttons: 
 		{
 			"Oui": function()
@@ -252,7 +361,8 @@ $(function() {
 						}
 					},
 					width: 1600,
-					//position: { my: "center", at: "center", of: window }
+					height: 800,
+					position: { my: "center", at: "center", of: window }
 				}).html("<h2>Bienvenue dans la section d'aide du jeu !</h2><p><i>Datagramme</i> est un jeu de plateau dans lequel vous devez répondre à des questions pour vous frayer un chemin et réparer un réseau endommagé.</p><h3>Les deux modes de jeu</h3><p>Il existe deux modes de jeu, dans le premier, le joueur ou l'équipe ayant collecté le plus de <i>Datagrammes</i> - acquis en répondant correctement aux questions - au bout d'un certain nombre de tours remporte la partie.<br/>Dans le deuxième mode de jeu, c'est le premier joueur ou la première équipe arrivé(e) à la sortie, en bas à gauche du plateau qui l'emporte.</p><h3>Les trois types de cases</h3><p>Il existe trois types de cases dans <i>Datagramme</i>.<br/>Tout d'abord, les cases rouges représentent les cases question. Si vous répondez correctement à une question, la case devient verte, et vous gagnez un <i>Datagramme</i>. Lorsque la case est verte, la section est réparée et ne donne plus de question.<br/>Ensuite, les cases noires sont des cases vous faisant tirer des cartes Bonus/Malus. Leur effet est imprévisible.<br/>Enfin, les dernières cases sont les routeurs étoilés, aussi appelés cases <i>MEMORY</i>. Lorsque vous tombez sur une telle case, son symbole caché se retourne, vous devez ensuite le retrouver parmi les autres routeurs. Une fois que vous avez trouvé deux routeurs avec le même symbole, ces derniers se connectent, et vous pouvez les traverser pour vous retrouver dans une autre zone du réseau.</p><h3>Déroulement d'un tour</h3><p>Chaque joueur ou équipe va jouer à tour de rôle. Tout d'abord, il faut lancer les dés binaires. Le chiffre résultant indique le nombre de cases maximum que vous pourrez parcourir. Suite à cela, les cases accessibles seront alors en surbrillance, il vous suffira de cliquer sur l'une d'elles pour vous y rendre. Ensuite, une pop-up vous indiquera la marche à suivre. Si vous tombez sur une case rouge, une question vous sera posée, il vous suffira d'y répondre pour finir votre tour. Si vous tombez sur une case noire, il vous faudra alors cliquer sur le tas de cartes Bonus/Malus pour en piocher une. Enfin, si vous tombez sur une case MEMORY, il vous faudra cliquer sur un autre routeur pour retourner son symbole. Si les deux symboles concordent, vous venez de créer une nouvelle route. Sinon, les deux symboles sont de nouveau cachés. Votre tour prend fin quoiqu'il advienne.</p>");
 			},
 			"Non": function()
@@ -262,46 +372,6 @@ $(function() {
 			}
 		}
 	}).html("Est-ce votre première partie, avez-vous besoin d'explications concernant les règles ?");
-
-    $("#indication").dialog(
-    {
-    	autoOpen: false,
-    	modal: true,
-    	title: "Choisissez la limite de jeu.",
-    	width: 470,
-
-    	buttons:
-    	{
-    		"5 tours" : function()
-    		{
-    			disposition.nbTours = 5;
-    			$( this ).dialog( "close" ); 
-    		},
-    		"10 tours" : function()
-    		{
-    			disposition.nbTours = 10;
-    			$( this ).dialog( "close" ); 
-    		},
-    		"15 tours" : function()
-    		{
-    			disposition.nbTours = 15;
-    			$( this ).dialog( "close" ); 
-    		},
-    		"Sortie" : function()
-    		{
-    			disposition.nbTours = -1;
-    			$( this ).dialog( "close" ); 
-    		},
-
-    	},
-    	close: function(event, ui)
-    	{
-    		plateau.spawnJoueurs();
-    		plateau.disposeMemories();
-    		game();
-    	}
-    }).html("<p>Choisissez si le jeu doit se jouer en 5, 10 ou 15 tours, auquel cas le vainqueur sera celui avec le plus de points à la fin du nombre de tours."
-    		+"<br/>Ou si le je doit se jouer jusqu'à la sortie, auquel cas le vainqueur sera le premier à avoir rejoint la sortie</p>");
 
 });
 
