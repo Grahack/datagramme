@@ -1,26 +1,28 @@
 $(function()
 {
-
 	$(overlay).mousemove(function(evt)
 	{
 		contextOver.clearRect(0, 0, 1080, 1080);
-		var xOffset=Math.max(document.documentElement.scrollLeft,document.body.scrollLeft);
-		var yOffset=Math.max(document.documentElement.scrollTop,document.body.scrollTop);
-		var mouseX = evt.clientX + xOffset;
-		var mouseY = evt.clientY + yOffset;
-		for(var i = 0, c = plateau.memories.length ; i < c ; i++)
+		if(!lockHover)
 		{
-			for(var j = 0, cc = plateau.memories[i].length ; j < cc ; j++)
+			var xOffset=Math.max(document.documentElement.scrollLeft,document.body.scrollLeft);
+			var yOffset=Math.max(document.documentElement.scrollTop,document.body.scrollTop);
+			var mouseX = evt.clientX + xOffset;
+			var mouseY = evt.clientY + yOffset;
+			for(var i = 0, c = plateau.memories.length ; i < c ; i++)
 			{
-				var tailleCase = 210;
-				if(plateau.cases[plateau.memories[i][j]].x/coefReduc < mouseX && plateau.cases[plateau.memories[i][j]].x/coefReduc + (tailleCase/coefReduc) > mouseX)
+				for(var j = 0, cc = plateau.memories[i].length ; j < cc ; j++)
 				{
-					if(plateau.cases[plateau.memories[i][j]].y/coefReduc < mouseY && plateau.cases[plateau.memories[i][j]].y/coefReduc + (tailleCase/coefReduc) > mouseY)
+					var tailleCase = 210;
+					if(plateau.cases[plateau.memories[i][j]].x/coefReduc < mouseX && plateau.cases[plateau.memories[i][j]].x/coefReduc + (tailleCase/coefReduc) > mouseX)
 					{
-						if(plateau.cases[plateau.memories[i][j]].revealed)
-							contextOver.drawImage(imgMemory, 5+(310*(plateau.cases[plateau.memories[i][j]].memory%2)), 5+(310*(Math.floor(plateau.cases[plateau.memories[i][j]].memory/2))), 277, 277, mouseX, mouseY, 80, 80);
-						else
-							contextOver.drawImage(imgMemoryOff, mouseX, mouseY, 80, 80);
+						if(plateau.cases[plateau.memories[i][j]].y/coefReduc < mouseY && plateau.cases[plateau.memories[i][j]].y/coefReduc + (tailleCase/coefReduc) > mouseY)
+						{
+							if(plateau.cases[plateau.memories[i][j]].revealed)
+								contextOver.drawImage(imgMemory, 5+(310*(plateau.cases[plateau.memories[i][j]].memory%2)), 5+(310*(Math.floor(plateau.cases[plateau.memories[i][j]].memory/2))), 277, 277, mouseX, mouseY, 80, 80);
+							else
+								contextOver.drawImage(imgMemoryOff, mouseX, mouseY, 80, 80);
+						}
 					}
 				}
 			}
@@ -31,6 +33,7 @@ $(function()
 	{
 		if(disposition.memory)
 		{
+			contextOver.clearRect(0, 0, 1080, 1080);
 			var found = false;
 			for(var i = 0 ; i < plateau.memories.length ; i++)
 			{
@@ -57,6 +60,7 @@ $(function()
 								{
 									txtMemory = "Correct ! Les routeurs sont maintenant reliés.";
 									plateau.cases[plateau.memories[i][j]].revealed = true;
+									plateau.repaint();
 									plateau.cases[plateau.memories[i][j]].addVoisin(plateau.cases[disposition.joueurs[disposition.tourJoueur].position]);
 									plateau.cases[disposition.joueurs[disposition.tourJoueur].position].addVoisin(plateau.cases[plateau.memories[i][j]]);
 								} else {
@@ -66,37 +70,30 @@ $(function()
 									plateau.cases[plateau.memories[i][j]].revealed = false;
 									caseJoueur.revealed = false;
 								}
+								lockHover = true;
+								
 									
 								disposition.memory = false;
 
-								$("#dialog").dialog(
+								timer = setTimeout(function()
 								{
-									modal: true,
-									title: "Bienvenue sur Datagramme !",
-									buttons: 
+									plateau.repaint();
+									$("#dialog").dialog(
 									{
-										"Ok": function()
+										modal: true,
+										height: 300,
+										title: "Memory !",
+										buttons: 
 										{
-											$(this).dialog("close");
-											nextTurn();
+											"Ok": function()
+											{
+												$(this).dialog("close");
+												nextTurn();
+												lockHover = false;
+											}
 										}
-									}
-								}).html("<p>"+txtMemory+"</p>");	
-
-								var canvasMem1 = document.createElement('canvas');
-								var contextMem1 = canvasMem1.getContext('2d');	
-								var canvasMem2 = document.createElement('canvas');
-								var contextMem2 = canvasMem2.getContext('2d');	
-
-								canvasMem1 = $(canvasMem1).attr("width", "150").attr("height", "150").css("margin", "3px");	
-								contextMem1.drawImage(imgMemory, 5+(310*(plateau.cases[disposition.joueurs[disposition.tourJoueur].position].memory%2)), 5+(310*(Math.floor(plateau.cases[disposition.joueurs[disposition.tourJoueur].position].memory/2))), 277, 277, 0, 0, 150, 150);		
-								canvasMem2 = $(canvasMem2).attr("width", "150").attr("height", "150").css("margin", "3px");	
-								contextMem2.drawImage(imgMemory, 5+(310*(plateau.cases[plateau.memories[i][j]].memory%2)), 5+(310*(Math.floor(plateau.cases[plateau.memories[i][j]].memory/2))), 277, 277, 0, 0, 150, 150);						
-								
-								$(canvasMem1).appendTo($("#dialog"));
-								$(canvasMem2).appendTo($("#dialog"));
-
-								//$("#dialog").open();
+									}).html("<p>"+txtMemory+"</p>");
+								}, 1000);
 							}
 						}
 					}
@@ -144,7 +141,7 @@ $(function()
 				{
 					case typeCaseEnum.QUESTION:
 						if(!plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert)
-							question();
+							askQuestion();
 						else
 							nextTurn();
 						break;
@@ -162,175 +159,6 @@ $(function()
 		}
 	})
 });
-
-function pickQuestion(difficulte)
-{
-	var qt = questions[difficulte][Math.floor(Math.random()*questions[difficulte].length)];
-	qt = new Question("Quelle quantité de carburant (en grammes) faut-il pour fabriquer une puce électronique, qui pèse elle 2 grammes ?", null, typeQuestionEnum.JUSTE_PRIX, difficulteEnum.BUG, categorieEnum.ENVIRONNEMENT, 
-    new Reponse(typeReponseEnum.ENTREE, null, 1700), "Une puce électronique a beau être minuscule, pour produire deux grammes d'électronique, on consomme 1,7 kg d'énergie fossile, 1 m3 d'azote, 72 g de produits chimiques et 32 litres d'eau.", "http://www.eurekalert.org/pub_releases/2002-11/acs-ttp110502.php");
-	return qt;
-	if(disposition.nbJoueurs == 1)
-	{
-		while (qt.typeQuestion == typeQuestionEnum.JUSTE_PRIX || qt.typeQuestion == typeQuestionEnum.DEBAT)
-		{
-			return;
-		}
-	}
-}
-
-function question()
-{
-	var question = pickQuestion(disposition.joueurs[disposition.tourJoueur].difficulte);
-
-	/*switch(question.type)
-	{
-		case typeQuestionEnum.CM:
-
-		break;
-		case typeQuestionEnum.JUSTE_PRIX:
-			var tabReponses = [];
-			for(var i = 0, c = disposition.nbJoueurs ; i < c ; i++)
-			{
-				$("#question").dialog(
-				{
-					title: question.intitule,
-					modal: true,
-					autoOpen: true,
-					buttons:
-					{
-						"Valider" : function()
-						{
-							tabReponses.push(inputJustePrix.value);
-							$(this).dialog("close");
-						}
-					}
-				});
-			}
-		break;
-	}
-
-	switch(question.reponses.typeReponse)
-	{
-		case typeReponseEnum.OKKO:
-			$("#question").dialog(
-			{
-				title: "Convaincus ou pas ? Question Ok-Ko",
-				modal: true,
-				buttons: 
-				{
-					"Ok" : function()
-					{
-						$(this).dialog("close");
-						alert("Bien joué !");
-						disposition.joueurs[disposition.tourJoueur].points++;
-						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-					},
-					"Ko" : function()
-					{
-						$(this).dialog("close");
-					}
-				},
-				close: function()
-				{
-					nextTurn();
-				}
-			}).html("<p>"+questionTest.intitule+"</p>");
-			break;
-		case typeReponseEnum.ENTREE:
-			$("#question").dialog(
-			{
-				title: disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !",
-				modal: true,
-				buttons: 
-				{
-					"Valider" : function()
-					{
-						if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
-							question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1)
-						{
-							disposition.joueurs[disposition.tourJoueur].points++;
-							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-						}
-						$(this).dialog("close");
-					},
-				},
-				close: function()
-				{
-					nextTurn();
-				}
-			}).html("<p>"+question.intitule+"</p>");
-			var input = document.createElement('input');
-			input.type = "text";
-			input.name = "reponse";
-
-			$(input).appendTo($("#question"));
-			break;
-		case typeReponseEnum.CM:
-			var btns = [];
-			for(var i = 0, c = question.getReponses().length ; i < c ; i++)
-			{
-				var btn = null;
-			}
-			$("#question").dialog(
-			{
-				title: disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !",
-				modal: true,
-				buttons: [
-				{
-					text: question.getReponses()[0],
-					click: function()
-					{
-						if(question.reponses.bonneReponse == 1)
-						{
-							disposition.joueurs[disposition.tourJoueur].points++;
-							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-						}
-						$(this).dialog("close");
-					}
-				},
-				{
-					text: question.getReponses()[1],
-					click: function()
-					{
-						if(question.reponses.bonneReponse == 2)
-						{
-							disposition.joueurs[disposition.tourJoueur].points++;
-							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-						}
-						$(this).dialog("close");
-					}
-				},
-				{
-					text: question.getReponses()[2],
-					click: function()
-					{
-						if(question.reponses.bonneReponse == 3)
-						{
-							disposition.joueurs[disposition.tourJoueur].points++;
-							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-						}
-						$(this).dialog("close");
-					}
-				}],
-
-				close: function()
-				{
-					nextTurn();
-				}
-			}).html("<p>"+question.intitule+"</p>");
-			break;
-	}*/
-	
-	disposition.joueurs[disposition.tourJoueur].points++;
-	alert("bonne réponse !");
-	plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
-	nextTurn();
-}
-
 
 function nextTurn()
 {
@@ -375,8 +203,6 @@ function memory()
 	plateau.repaint();
 
 	disposition.memory = true;
-	alert("Memory");
-
 	/*var found = false;
 
 	for(var i = 0, c = plateau.memories.length ; i < c ; i++)
@@ -401,6 +227,12 @@ function memory()
 
 function game()
 {
+	$("#indication").dialog({autoOpen:false});
+	$("#question").dialog({autoOpen:false});
+
+	$(".ui-widget-header, .ui-dialog-titlebar").css("background-color", couleursJoueurs[disposition.joueurs[disposition.tourJoueur].couleur].col2);
+	$(".ui-widget-header, .ui-dialog-titlebar").css("border-color", couleursJoueurs[disposition.joueurs[disposition.tourJoueur].couleur].col);
+
 	if(disposition.nbTours == disposition.tourCourant)
 	{
 		var gagnant = 0;
@@ -425,6 +257,8 @@ function game()
 	}
 
 	disposition.doitLancerDes = true;
+
+	
 
 	plateau.drawCases();
 	$("#indication").dialog(

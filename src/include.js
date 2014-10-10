@@ -5,7 +5,54 @@ var pathImagesQuestions = "../ressources/images/activites";
 
 var coefReduc = 3.255;
 var timer;
+var lockHover = false;
 var move;
+
+var reponse = Object.freeze(
+{
+	type:
+	{
+		CM : 0,
+		ENTREE : 1,
+		OKKO : 2
+	}
+})
+
+var question = Object.freeze(
+{
+	type:
+	{
+		DIRECTE : 0,
+		DUO : 1,
+		IMAGE : 2,
+		REBUS : 3,
+		CASSE_TETE : 4,
+		JUSTE_PRIX : 5,
+		MIME : 6,
+		BACCALAUREAT : 7,
+		DEBAT : 8,
+		ENUMERATION : 9,
+		EXERCICE : 10
+	},
+	categorie:
+	{
+		SANTE : 0,
+		ENVIRONNEMENT : 1,
+		SOCIETE : 2,
+		FONDAMENTAUX : 3,
+		HISTOIRE : 4,
+		TECHNOLOGIE : 5
+	},
+	difficulte:
+	{
+		BUG : 1,
+		DEFAILLANCE : 2,
+		PANNE_SYSTEME : 3,
+	},
+	SANS_IMAGE: null,
+	SANS_COMMENTAIRE: "",
+	SANS_SOURCE: ""
+});
 
 var typeQuestionEnum = Object.freeze( // Les différents types de question sous forme d'énumération
 {
@@ -63,22 +110,27 @@ var couleursJoueurs = // Les couleurs disponibles pour les joueurs
 [
 	{
 		col:"#00d00f",
+		col2:"#10e01f",
 		disp: true
 	},
 	{
 		col:"#000000", // Couleur en hexadécimal
+		col2:"#101010",
 		disp: true // Disponible : Propriété définissant si la couleur a été prise ou non par un joueur précédent
 	},
 	{
 		col:"#666666",
+		col2:"#767676",
 		disp: true
 	},
 	{
 		col:"#ee0b00",
+		col2:"#fe1b10",
 		disp: true
 	},	
 	{
 		col:"#0060ff",
+		col2:"#1070ff",
 		disp: true
 	}
 
@@ -124,7 +176,7 @@ function Reponse(typeReponse, choixReponses, bonneReponse) // Objet réponse, d�
 	this.bonneReponse = bonneReponse; // Seulement si non OKKO
 }
 
-function Question(intitule, urlImage, typeQuestion, difficulte, categorie, reponses, explications, source) // Objet question, définissant les propriétés des questions
+function Question(intitule, urlImage, typeQuestion, difficulte, categorie, explications, source, reponses) // Objet question, définissant les propriétés des questions
 {
 	this.intitule = intitule; // Intitulé de la question
 	this.urlImage = urlImage; // S'il y a une image, son url, sinon null
@@ -345,9 +397,9 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		{
 			if(this.cases[i].type == typeCaseEnum.MEMORY)
 			{
-				/*if(this.cases[i].revealed)
+				if(this.cases[i].revealed)
 					context.drawImage(imgMemory, 5+(310*(this.cases[i].memory%2)), 5+(310*(Math.floor(this.cases[i].memory/2))), 277, 277, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
-				else
+				/*else
 					context.drawImage(imgMemoryOff, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
 				*/if(this.cases[i].lit && this.isLighting)
 					context.drawImage(imgSurbrillanceMemory, this.cases[i].x, this.cases[i].y, 210, 210, this.cases[i].x/coefReduc, this.cases[i].y/coefReduc, 210/coefReduc, 210/coefReduc)

@@ -88,6 +88,157 @@ function choixNombreJoueurs(dialog)
 	}).html("Indiquez le nombre de joueurs/équipes prenant part au jeu");
 }
 
+function choixReglesJeu(dialog)
+{
+	$(dialog).dialog(
+	{
+		modal: true,
+		title: "Détails de la partie",
+		height: 500,
+		width: 600,
+		buttons:
+		{
+			"OK": function()
+			{
+				$(dialog).dialog("close");
+				choixNombreJoueurs(this);
+			}
+		}
+	}).html("<p>Choisissez si chaque équipe est composée d'un seul joueur, ou de plusieurs (dans le cas où un joueur se retrouve seul, choisissez joueur)</p>");
+
+	var btnsEquipe = document.createElement('div');
+	var btnEquipe = document.createElement('input');
+	var btnSolo = document.createElement('input');
+
+	var labelEquipe = document.createElement('label');
+	var labelSolo = document.createElement('label');
+
+	btnEquipe.type = "radio";
+	btnEquipe.id = "radioEquipe";
+	btnEquipe.name = "equipe";
+	
+	btnSolo.type = "radio";
+	btnSolo.id = "radioSolo";
+	btnSolo.name = "equipe";
+	btnSolo.checked = true;
+
+	$(btnEquipe).click(function(evt){disposition.equipes = true;});
+	$(btnSolo).click(function(evt){disposition.equipes = false;});
+
+	labelEquipe.htmlFor = "radioEquipe";
+	labelSolo.htmlFor = "radioSolo";
+
+	$(labelEquipe).html("Equipes");
+	$(labelSolo).html("Solo");
+
+	$(btnSolo).appendTo($(btnsEquipe));
+	$(btnEquipe).appendTo($(btnsEquipe));
+	
+	$(labelSolo).appendTo($(btnsEquipe));
+	$(labelEquipe).appendTo($(btnsEquipe));
+	
+	$(btnsEquipe).buttonset();
+
+	$(btnsEquipe).appendTo($(dialog));
+
+	$("<p>Avez-vous une personne qui fera office d'animateur pour la partie ?</p>").appendTo($(dialog));
+
+	var btnsAnim = document.createElement('div');
+	var btnAnim = document.createElement('input');
+	var btnNA = document.createElement('input');
+
+	var labelAnim = document.createElement('label');
+	var labelNA = document.createElement('label');
+
+	btnAnim.type = "radio";
+	btnAnim.id = "radioAnim";
+	btnAnim.name = "anim";
+	btnAnim.checked = true;
+
+	btnNA.type = "radio";
+	btnNA.id = "radioNA";
+	btnNA.name = "anim";
+
+	$(btnAnim).click(function(evt){disposition.animateur = true;});
+	$(btnNA).click(function(evt){disposition.animateur = false;});
+
+
+	labelAnim.htmlFor = "radioAnim";
+	labelNA.htmlFor = "radioNA";
+
+	$(labelAnim).html("Avec");
+	$(labelNA).html("Sans");
+
+	$(btnAnim).appendTo($(btnsAnim));
+	$(btnNA).appendTo($(btnsAnim));
+	
+	$(labelAnim).appendTo($(btnsAnim));
+	$(labelNA).appendTo($(btnsAnim));
+	
+	$(btnsAnim).buttonset();
+
+	$(btnsAnim).appendTo($(dialog));
+
+	$("<p>Choisissez les conditions de victoire </p>").appendTo($(dialog));
+
+	var btnsVictoire = document.createElement('div');
+	var btn5Tours = document.createElement('input');
+	var btn10Tours = document.createElement('input');
+	var btn15Tours = document.createElement('input');
+	var btnSortie = document.createElement('input');
+
+	var label5Tours = document.createElement('label');
+	var label10Tours = document.createElement('label');
+	var label15Tours = document.createElement('label');
+	var labelSortie = document.createElement('label');
+
+	btn5Tours.type = "radio";
+	btn5Tours.id = "radio5Tours";
+	btn5Tours.name = "victoire";
+	btn5Tours.checked = true;
+
+	btn10Tours.type = "radio";
+	btn10Tours.id = "radio10Tours";
+	btn10Tours.name = "victoire";
+
+	btn15Tours.type = "radio";
+	btn15Tours.id = "radio15Tours";
+	btn15Tours.name = "victoire";
+
+	btnSortie.type = "radio";
+	btnSortie.id = "radioSortie";
+	btnSortie.name = "victoire";
+
+	$(btn5Tours).click(function(evt){disposition.nbTours = 5;});
+	$(btn10Tours).click(function(evt){disposition.nbTours = 10;});
+	$(btn15Tours).click(function(evt){disposition.nbTours = 15;});
+	$(btnSortie).click(function(evt){disposition.nbTours = -1;});
+
+	label5Tours.htmlFor = "radio5Tours";
+	label10Tours.htmlFor = "radio10Tours";
+	label15Tours.htmlFor = "radio15Tours";
+	labelSortie.htmlFor = "radioSortie";
+
+	$(label5Tours).html("5 Tours");
+	$(label10Tours).html("10 Tours");
+	$(label15Tours).html("15 Tours");
+	$(labelSortie).html("Sortie");
+
+	$(btn5Tours).appendTo($(btnsVictoire));
+	$(btn10Tours).appendTo($(btnsVictoire));
+	$(btn15Tours).appendTo($(btnsVictoire));
+	$(btnSortie).appendTo($(btnsVictoire));
+	
+	$(label5Tours).appendTo($(btnsVictoire));
+	$(label10Tours).appendTo($(btnsVictoire));
+	$(label15Tours).appendTo($(btnsVictoire));
+	$(labelSortie).appendTo($(btnsVictoire));
+	
+	$(btnsVictoire).buttonset();
+	$(btnsVictoire).appendTo($(dialog));
+
+}
+
 function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la méthode s'occupe de la sélection des couleurs et difficultés des joueurs
 {
 	
@@ -108,155 +259,9 @@ function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la 
 				{
 					choixPseudoCouleurDifficulte(dialog, i+1); // On relance la méthode pour le joueur suivant
 				} else {
-					$(this).dialog(
-					{
-						modal: true,
-						title: "Détails de la partie",
-						height: 500,
-						buttons:
-						{
-							"OK": function()
-							{
-								$(this).dialog("close");
-								plateau.spawnJoueurs();
-    							plateau.disposeMemories();
-    							game();
-    							console.log(disposition.nbTours);
-							}
-						}
-					}).html("<p>Choisissez si chaque équipe est composée d'un seul joueur, ou de plusieurs (dans le cas où un joueur se retrouve seul, choisissez joueur)</p>");
-
-					var btnsEquipe = document.createElement('div');
-					var btnEquipe = document.createElement('input');
-					var btnSolo = document.createElement('input');
-
-					var labelEquipe = document.createElement('label');
-					var labelSolo = document.createElement('label');
-
-					btnEquipe.type = "radio";
-					btnEquipe.id = "radioEquipe";
-					btnEquipe.name = "equipe";
-					
-					btnSolo.type = "radio";
-					btnSolo.id = "radioSolo";
-					btnSolo.name = "equipe";
-					btnSolo.checked = true;
-
-					$(btnEquipe).click(function(evt){disposition.equipes = true;});
-					$(btnSolo).click(function(evt){disposition.equipes = false;});
-
-					labelEquipe.htmlFor = "radioEquipe";
-					labelSolo.htmlFor = "radioSolo";
-
-					$(labelEquipe).html("Equipes");
-					$(labelSolo).html("Solo");
-
-					$(btnSolo).appendTo($(btnsEquipe));
-					$(btnEquipe).appendTo($(btnsEquipe));
-					
-					$(labelSolo).appendTo($(btnsEquipe));
-					$(labelEquipe).appendTo($(btnsEquipe));
-					
-					$(btnsEquipe).buttonset();
-
-					$(btnsEquipe).appendTo($(this));
-
-					$("<p>Avez-vous une personne qui fera office d'animateur pour la partie ?</p>").appendTo($(this));
-
-					var btnsAnim = document.createElement('div');
-					var btnAnim = document.createElement('input');
-					var btnNA = document.createElement('input');
-
-					var labelAnim = document.createElement('label');
-					var labelNA = document.createElement('label');
-
-					btnAnim.type = "radio";
-					btnAnim.id = "radioAnim";
-					btnAnim.name = "anim";
-					btnAnim.checked = true;
-
-					btnNA.type = "radio";
-					btnNA.id = "radioNA";
-					btnNA.name = "anim";
-
-					$(btnAnim).click(function(evt){disposition.animateur = true;});
-					$(btnNA).click(function(evt){disposition.animateur = false;});
-
-
-					labelAnim.htmlFor = "radioAnim";
-					labelNA.htmlFor = "radioNA";
-
-					$(labelAnim).html("Avec");
-					$(labelNA).html("Sans");
-
-					$(btnAnim).appendTo($(btnsAnim));
-					$(btnNA).appendTo($(btnsAnim));
-					
-					$(labelAnim).appendTo($(btnsAnim));
-					$(labelNA).appendTo($(btnsAnim));
-					
-					$(btnsAnim).buttonset();
-
-					$(btnsAnim).appendTo($(this));
-
-					$("<p>Choisissez les conditions de victoire </p>").appendTo($(this));
-
-					var btnsVictoire = document.createElement('div');
-					var btn5Tours = document.createElement('input');
-					var btn10Tours = document.createElement('input');
-					var btn15Tours = document.createElement('input');
-					var btnSortie = document.createElement('input');
-
-					var label5Tours = document.createElement('label');
-					var label10Tours = document.createElement('label');
-					var label15Tours = document.createElement('label');
-					var labelSortie = document.createElement('label');
-
-					btn5Tours.type = "radio";
-					btn5Tours.id = "radio5Tours";
-					btn5Tours.name = "victoire";
-					btn5Tours.checked = true;
-
-					btn10Tours.type = "radio";
-					btn10Tours.id = "radio10Tours";
-					btn10Tours.name = "victoire";
-
-					btn15Tours.type = "radio";
-					btn15Tours.id = "radio15Tours";
-					btn15Tours.name = "victoire";
-
-					btnSortie.type = "radio";
-					btnSortie.id = "radioSortie";
-					btnSortie.name = "victoire";
-
-					$(btn5Tours).click(function(evt){disposition.nbTours = 5;});
-					$(btn10Tours).click(function(evt){disposition.nbTours = 10;});
-					$(btn15Tours).click(function(evt){disposition.nbTours = 15;});
-					$(btnSortie).click(function(evt){disposition.nbTours = -1;});
-
-					label5Tours.htmlFor = "radio5Tours";
-					label10Tours.htmlFor = "radio10Tours";
-					label15Tours.htmlFor = "radio15Tours";
-					labelSortie.htmlFor = "radioSortie";
-
-					$(label5Tours).html("5 Tours");
-					$(label10Tours).html("10 Tours");
-					$(label15Tours).html("15 Tours");
-					$(labelSortie).html("Sortie");
-
-					$(btn5Tours).appendTo($(btnsVictoire));
-					$(btn10Tours).appendTo($(btnsVictoire));
-					$(btn15Tours).appendTo($(btnsVictoire));
-					$(btnSortie).appendTo($(btnsVictoire));
-					
-					$(label5Tours).appendTo($(btnsVictoire));
-					$(label10Tours).appendTo($(btnsVictoire));
-					$(label15Tours).appendTo($(btnsVictoire));
-					$(labelSortie).appendTo($(btnsVictoire));
-					
-					$(btnsVictoire).buttonset();
-					$(btnsVictoire).appendTo($(this));
-
+					plateau.spawnJoueurs();
+					plateau.disposeMemories();
+					game();
 				}
 			},
 		}
@@ -265,6 +270,7 @@ function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la 
 	var input = document.createElement('input');
 	input.type = "text";
 	input.name = "pseudo";
+	input.value = "Joueur "+i;
 
 	$(input).appendTo($(dialog));
 
@@ -348,27 +354,13 @@ $(function() {
 			"Oui": function()
 			{
 				$(this).dialog("close");
-				$(this).dialog(
-				{
-					modal: true,
-					title: "Règles du jeu",
-					buttons: 
-					{
-						"Ok": function()
-						{
-							$(this).dialog("close");
-							choixNombreJoueurs(this);
-						}
-					},
-					width: 1600,
-					height: 800,
-					position: { my: "center", at: "center", of: window }
-				}).html("<h2>Bienvenue dans la section d'aide du jeu !</h2><p><i>Datagramme</i> est un jeu de plateau dans lequel vous devez répondre à des questions pour vous frayer un chemin et réparer un réseau endommagé.</p><h3>Les deux modes de jeu</h3><p>Il existe deux modes de jeu, dans le premier, le joueur ou l'équipe ayant collecté le plus de <i>Datagrammes</i> - acquis en répondant correctement aux questions - au bout d'un certain nombre de tours remporte la partie.<br/>Dans le deuxième mode de jeu, c'est le premier joueur ou la première équipe arrivé(e) à la sortie, en bas à gauche du plateau qui l'emporte.</p><h3>Les trois types de cases</h3><p>Il existe trois types de cases dans <i>Datagramme</i>.<br/>Tout d'abord, les cases rouges représentent les cases question. Si vous répondez correctement à une question, la case devient verte, et vous gagnez un <i>Datagramme</i>. Lorsque la case est verte, la section est réparée et ne donne plus de question.<br/>Ensuite, les cases noires sont des cases vous faisant tirer des cartes Bonus/Malus. Leur effet est imprévisible.<br/>Enfin, les dernières cases sont les routeurs étoilés, aussi appelés cases <i>MEMORY</i>. Lorsque vous tombez sur une telle case, son symbole caché se retourne, vous devez ensuite le retrouver parmi les autres routeurs. Une fois que vous avez trouvé deux routeurs avec le même symbole, ces derniers se connectent, et vous pouvez les traverser pour vous retrouver dans une autre zone du réseau.</p><h3>Déroulement d'un tour</h3><p>Chaque joueur ou équipe va jouer à tour de rôle. Tout d'abord, il faut lancer les dés binaires. Le chiffre résultant indique le nombre de cases maximum que vous pourrez parcourir. Suite à cela, les cases accessibles seront alors en surbrillance, il vous suffira de cliquer sur l'une d'elles pour vous y rendre. Ensuite, une pop-up vous indiquera la marche à suivre. Si vous tombez sur une case rouge, une question vous sera posée, il vous suffira d'y répondre pour finir votre tour. Si vous tombez sur une case noire, il vous faudra alors cliquer sur le tas de cartes Bonus/Malus pour en piocher une. Enfin, si vous tombez sur une case MEMORY, il vous faudra cliquer sur un autre routeur pour retourner son symbole. Si les deux symboles concordent, vous venez de créer une nouvelle route. Sinon, les deux symboles sont de nouveau cachés. Votre tour prend fin quoiqu'il advienne.</p>");
+				choixReglesJeu(this);
+				window.open("explanations.html");
 			},
 			"Non": function()
 			{
 				$(this).dialog("close");
-				choixNombreJoueurs(this);
+				choixReglesJeu(this);
 			}
 		}
 	}).html("Est-ce votre première partie, avez-vous besoin d'explications concernant les règles ?");
