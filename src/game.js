@@ -93,7 +93,7 @@ $(function()
 											}
 										}
 									}).html("<p>"+txtMemory+"</p>");
-								}, 1000);
+								}, 4000);
 							}
 						}
 					}
@@ -146,7 +146,8 @@ $(function()
 							nextTurn();
 						break;
 					case typeCaseEnum.BONUS_MALUS:
-						bonusMalus();
+						//bonusMalus();
+						askQuestion();
 						break;
 					case typeCaseEnum.MEMORY:
 						memory();
@@ -169,11 +170,12 @@ function nextTurn()
 	}
 
 	disposition.tourJoueur++;
+	disposition.tourCourant++;
 	disposition.nbCases = -1;
 	if(disposition.tourJoueur == disposition.nbJoueurs)
 	{
 		disposition.tourJoueur = 0;
-		disposition.tourCourant++;
+		
 	}
 
 	plateau.repaint();
@@ -233,7 +235,7 @@ function game()
 	$(".ui-widget-header, .ui-dialog-titlebar").css("background-color", couleursJoueurs[disposition.joueurs[disposition.tourJoueur].couleur].col2);
 	$(".ui-widget-header, .ui-dialog-titlebar").css("border-color", couleursJoueurs[disposition.joueurs[disposition.tourJoueur].couleur].col);
 
-	if(disposition.nbTours == disposition.tourCourant)
+	if((disposition.nbTours*disposition.nbJoueurs) == disposition.tourCourant)
 	{
 		var gagnant = 0;
 		var egalite = false;
@@ -279,22 +281,36 @@ function game()
 
 	}).html("<p>Cliquez sur les dés pour effectuer un lancer.</p><br/>");
 
-	var canvasDes = document.createElement('canvas'); // Carré contenant la difficulté k
+	disposition.nbCases = Math.floor((Math.random()*7)) + 1;
+
+	var imgDesResult = new Image();
+	imgDesResult.src = pathImages+"/dices-views/dices-result-"+disposition.nbCases+".png";
+
+	var canvasDesResult = document.createElement('canvas');
+	var contextDesResult = canvasDesResult.getContext('2d');
+
+	
+
+	var canvasDes = document.createElement('canvas');
 	var contextDes = canvasDes.getContext('2d');
 
-	canvasDes = $(canvasDes).attr("width", "190").attr("height", "153").attr("id", "des"); // Mise en forme et indexation	
-	contextDes.drawImage(imgDes, 0, 0, 190, 153);
+	canvasDes = $(canvasDes).attr("width", "110").attr("height", "105").attr("id", "des"); // Mise en forme et indexation	
+	contextDes.drawImage(imgDes, 0, 0, 110, 105);
 
+	
 	canvasDes.click(function()
 	{
 		if(disposition.doitLancerDes)
 		{
-			disposition.nbCases = Math.floor((Math.random()*8)) + 1;
+			canvasDesResult = $(canvasDesResult).attr("width", "150").attr("height", "50").attr("id", "desResult"); // Mise en forme et indexation	
+			contextDesResult.drawImage(imgDesResult, 0, 0, 150, 50);
+
 			disposition.doitLancerDes = false;
 			plateau.cases[disposition.joueurs[disposition.tourJoueur].position].light(disposition.nbCases);
 			plateau.setFlicker();
-			var texte = "<p>Vous avez fait un "+disposition.nbCases+"</p>"
+			var texte = "<p>Vous avez fait : </p>"
 			$(texte).appendTo($("#indication"));
+			canvasDesResult.appendTo($("#indication"));
 		}
 	});
 	canvasDes.appendTo($("#indication")); // On positionne l'image dans la fenêtre de dialogue

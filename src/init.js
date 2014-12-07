@@ -30,7 +30,7 @@ var imgMemoryOff = new Image();
 imgMemoryOff.src = pathImages+"/recto.jpg";
 
 var imgDes = new Image();
-imgDes.src = pathImages+"/des.png";
+imgDes.src = pathImages+"/dices-views/dice-view.png";
 
 var imgDifficulte = [new Image(), new Image(), new Image()];
 imgDifficulte[0].src = pathImages+"/carte-bug.png";
@@ -53,7 +53,7 @@ function getCanvasId(canvas) // Permet de ne sélectionner que le chiffre de l'i
 	return parseInt((canvas.id).substring(canvas.id.length-1, canvas.id.length));
 }
 
-function choixNombreJoueurs(dialog)
+/*function choixNombreJoueurs(dialog)
 {
 	$(dialog).dialog(
 	{
@@ -86,25 +86,101 @@ function choixNombreJoueurs(dialog)
 	        }
 	    }
 	}).html("Indiquez le nombre de joueurs/équipes prenant part au jeu");
-}
+}*/
 
 function choixReglesJeu(dialog)
 {
 	$(dialog).dialog(
 	{
 		modal: true,
-		title: "Détails de la partie",
-		height: 500,
-		width: 600,
+		title: "Bienvenue sur Datagramme !",
+		height: 650,
+		width: 700,
 		buttons:
 		{
 			"OK": function()
 			{
 				$(dialog).dialog("close");
-				choixNombreJoueurs(this);
+				if(disposition.nbJoueurs == 0)
+					disposition.nbJoueurs = 1;
+				choixPseudoCouleurDifficulte(this, 1);
 			}
 		}
-	}).html("<p>Choisissez si chaque équipe est composée d'un seul joueur, ou de plusieurs (dans le cas où un joueur se retrouve seul, choisissez joueur)</p>");
+	}).html("<p>Voulez-vous lire les règles du jeu ?</p>");
+
+	var btnRegles = document.createElement('div');
+	$(btnRegles).click(function(evt){window.open("explanations.html");});
+	$(btnRegles).button({label:"Afficher les règles"});
+	$(btnRegles).appendTo($(dialog));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	$("<p>Indiquez le nombre de joueurs/équipes prenant part au jeu</p>").appendTo($(dialog));
+
+	var btnsJoueurs = document.createElement('div');
+	var btn1J = document.createElement('input');
+	var btn2J = document.createElement('input');
+	var btn3J = document.createElement('input');
+	var btn4J = document.createElement('input');
+
+	var label1J = document.createElement('label');
+	var label2J = document.createElement('label');
+	var label3J = document.createElement('label');
+	var label4J = document.createElement('label');
+
+	btn1J.type = "radio";
+	btn1J.id = "radio1J";
+	btn1J.name = "joueurs";
+	btn1J.checked = true;
+
+	btn2J.type = "radio";
+	btn2J.id = "radio2J";
+	btn2J.name = "joueurs";
+
+	btn3J.type = "radio";
+	btn3J.id = "radio3J";
+	btn3J.name = "joueurs";
+
+	btn4J.type = "radio";
+	btn4J.id = "radio4J";
+	btn4J.name = "joueurs";
+
+	$(btn1J).click(function(evt){disposition.nbJoueurs = 1;});
+	$(btn2J).click(function(evt){disposition.nbJoueurs = 2;});
+	$(btn3J).click(function(evt){disposition.nbJoueurs = 3;});
+	$(btn4J).click(function(evt){disposition.nbJoueurs = 4;});
+
+	label1J.htmlFor = "radio1J";
+	label2J.htmlFor = "radio2J";
+	label3J.htmlFor = "radio3J";
+	label4J.htmlFor = "radio4J";
+
+	$(label1J).html("1 Joueur");
+	$(label2J).html("2 Joueurs");
+	$(label3J).html("3 Joueurs");
+	$(label4J).html("4 Joueurs");
+
+	$(btn1J).appendTo($(btnsJoueurs));
+	$(btn2J).appendTo($(btnsJoueurs));
+	$(btn3J).appendTo($(btnsJoueurs));
+	$(btn4J).appendTo($(btnsJoueurs));
+	
+	$(label1J).appendTo($(btnsJoueurs));
+	$(label2J).appendTo($(btnsJoueurs));
+	$(label3J).appendTo($(btnsJoueurs));
+	$(label4J).appendTo($(btnsJoueurs));
+	
+	$(btnsJoueurs).buttonset();
+
+	$(btnsJoueurs).appendTo($(dialog));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	$("<p>Choisissez si chaque équipe est composée d'un seul joueur, ou de plusieurs (dans le cas où un joueur se retrouve seul, choisissez joueur)</p>").appendTo($(dialog));
 
 	var btnsEquipe = document.createElement('div');
 	var btnEquipe = document.createElement('input');
@@ -140,6 +216,10 @@ function choixReglesJeu(dialog)
 	$(btnsEquipe).buttonset();
 
 	$(btnsEquipe).appendTo($(dialog));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	$("<p>Avez-vous une personne qui fera office d'animateur pour la partie ?</p>").appendTo($(dialog));
 
@@ -178,6 +258,10 @@ function choixReglesJeu(dialog)
 	$(btnsAnim).buttonset();
 
 	$(btnsAnim).appendTo($(dialog));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	$("<p>Choisissez les conditions de victoire </p>").appendTo($(dialog));
 
@@ -344,7 +428,11 @@ function choixPseudoCouleurDifficulte(dialog, i) // On envoit une div, et 1, la 
 }
 
 $(function() {
-	$("#dialog").dialog(
+
+
+	choixReglesJeu(dialog);
+
+	/*$("#dialog").dialog(
 	{
 		modal: true,
 		title: "Bienvenue sur Datagramme !",
@@ -363,7 +451,7 @@ $(function() {
 				choixReglesJeu(this);
 			}
 		}
-	}).html("Est-ce votre première partie, avez-vous besoin d'explications concernant les règles ?");
+	}).html("Est-ce votre première partie, avez-vous besoin d'explications concernant les règles ?");*/
 
 });
 

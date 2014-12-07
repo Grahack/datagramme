@@ -45,7 +45,12 @@ function commentSourcePopUp(dialog, question, isOk)
 			}
 		},
 		close: null
-	}).html("<p>"+texte+"</p><p>"+question.explications+"</p><a href='"+question.source+"'>"+question.source+"</a>");
+	}).html("<p>"+texte+"</p><p>"+question.explications+"</p>");
+
+	if(question.source.length != 0)
+	{
+		$("<a href='"+question.source+"' target='_blank'>"+question.source+"</a>").appendTo($(dialog));
+	}
 }
 
 function generateQuestionPopUp(dialog, question)
@@ -65,32 +70,170 @@ function generateQuestionPopUp(dialog, question)
 		case typeQuestionEnum.DIRECTE:
 		case typeQuestionEnum.CASSE_TETE:
 			titreQuestion = "Question directe ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !";
+			
+			dialog.html("<p>"+question.intitule+"</p>");
+
+			if(typeReponse == typeReponseEnum.ENTREE)
+			{
+				var input = document.createElement('input');
+				input.type = "text";
+				input.name = "reponse"+i;
+				$(input).appendTo(dialog);
+
+				closeFc = function()
+				{
+					var isOk = false;
+					if(tabReponses[0] == true)
+					{
+						isOk = true;
+						disposition.joueurs[disposition.tourJoueur].points++;
+						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					}
+					commentSourcePopUp(dialog, question, isOk);
+				}	
+
+			} else {
+				closeFc = function()
+				{
+					var isOk = false;
+					if(tabReponses[0] == question.reponses.bonneReponse)
+					{
+						isOk = true;
+						disposition.joueurs[disposition.tourJoueur].points++;
+						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					}
+					commentSourcePopUp(dialog, question, isOk);
+				}	
+			}
+			
+			validateFc = function()
+			{
+				tabReponses[0] = false;
+				if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+					question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1)
+				{
+					tabReponses[0] = true;
+				}
+				$(dialog).dialog("close");
+			}
+			
+		break;
+
+		case typeQuestionEnum.ENUMERATION:
+			titreQuestion = "Question énumération ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" énumérez 3...";
+
+			dialog.html("<p>"+question.intitule+"</p>");
+
+			var inputs = [];
+
+			for(var i = 0 ; i < 3 ; i++)
+			{
+				var input = document.createElement('input');
+				input.type = "text";
+				input.name = "reponse"+i;
+				inputs.push(input);
+				$("<p>Réponse n°"+(i+1)+" : </p>").appendTo(dialog);
+				$(input).appendTo(dialog);
+			}
+
+			validateFc = function()
+			{
+				var found = false;
+				tabReponses[0] = true;
+				for(var i = 0 ; i < 3 ; i++)
+				{
+					for(var j = 0, c = question.getReponses().length ; j < c ; j++)
+					{
+						if((inputs[i].value.toUpperCase().indexOf(question.getReponses()[j].toUpperCase()) > -1 || 
+							question.getReponses()[j].toUpperCase().indexOf(inputs[i].value.toUpperCase()) > -1) && inputs[i].value != "" && inputs[i].value != null)
+						{
+							found = true;
+							question.reponses.choixReponses.splice(j, 1);
+							break;
+						}
+					}
+					if(!found)
+					{
+						tabReponses[0] = false;
+						break;
+					} else
+						found = false;
+
+				}
+
+				dialog.dialog("close");
+			}
+
 			closeFc = function()
 			{
 				var isOk = false;
-				if(tabReponses[0] == question.reponses.bonneReponse)
+				if(tabReponses[0] == true)
 				{
 					isOk = true;
 					disposition.joueurs[disposition.tourJoueur].points++;
 					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
 				}
-
 				commentSourcePopUp(dialog, question, isOk);
-				
-			}
-			validateFc = function()
-			{
 
 			}
-			dialog.html("<p>"+question.intitule+"</p>");
-
-			if(typeReponse == typeReponseEnum.ENTREE)
-			{
-				
-			}
+			
 		break;
 
+		case typeQuestionEnum.REBUS:
+			titreQuestion = "Question rébus ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" trouvez le mot !";
+			
+			var input = document.createElement('input');
+			input.type = "text";
+			input.name = "reponse"+i;
 
+			closeFc = function()
+			{
+				var isOk = false;
+				if(tabReponses[0] == true)
+				{
+					isOk = true;
+					disposition.joueurs[disposition.tourJoueur].points++;
+					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+				}
+				commentSourcePopUp(dialog, question, isOk);
+			}	
+
+			validateFc = function()
+			{
+				tabReponses[0] = false;
+				if((input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+					question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1) && input.value != "" && input.value != null)
+				{
+					tabReponses[0] = true;
+				}
+				$(dialog).dialog("close");
+			}
+
+			dialog.html("<p>"+question.intitule+"</p>");
+
+			if(question.urlImage == question.SANS_IMAGE)
+			{
+				$("<p><img src='"+pathImages+"/mascotte-plateau.png"+"' /></p>").appendTo(dialog);
+			} else {
+				if(typeof question.urlImage === "string")
+				{
+					$("<p><img src='"+pathImages+"/question/"+question.urlImage+"' /></p>").appendTo(dialog);
+				} else {
+
+					$("<p>").appendTo(dialog);
+
+					for(var i = 0, c = question.urlImage.length ; i < c ; i++)
+					{
+						$("<img src='"+pathImages+"/question/"+question.urlImage[i]+"'/>").appendTo(dialog);
+					}
+
+					$("</p>").appendTo(dialog);
+				}
+			}
+			$("<p>Votre réponse : </p>").appendTo(dialog);
+			$(input).appendTo(dialog);
+
+		break;
 
 		case typeQuestionEnum.IMAGE:
 			titreQuestion = "Question image ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !";
@@ -132,16 +275,7 @@ function generateQuestionPopUp(dialog, question)
 					$("</p>").appendTo(dialog);
 				}
 			}
-
-			
-
-			if(typeReponse == typeReponseEnum.ENTREE)
-			{
-				
-			}
 		break;
-
-
 
 		case typeQuestionEnum.DUO:
 			if(question.intitule.length == 2)
@@ -240,7 +374,42 @@ function generateQuestionPopUp(dialog, question)
 			}
 		break;
 
+		case typeQuestionEnum.BACCALAUREAT:
+			titreQuestion = "Baccalauréat ! Toutes les équipes jouent !";
 
+			$("<p>"+question.intitule+"</p>").appendTo(dialog);
+
+			$("<p>Quelle équipe a cité le plus de bonnes réponses ?</p>").appendTo(dialog);
+
+			closeFc = function()
+			{
+				var player = tabReponses[0]-1;
+				
+
+				$(dialog).dialog(
+				{
+					title: "Le joueur le plus proche est : " + disposition.joueurs[player].pseudo,
+					modal: true,
+					autoOpen: true,
+					buttons:
+					{
+						"Ok" : function()
+						{
+							disposition.joueurs[player].nbPoints++;
+							disposition.tourJoueur =(player+(disposition.nbJoueurs-1))%disposition.nbJoueurs;
+							nextTurn();
+							$(dialog).dialog("close");
+						}
+					},
+					close: function()
+					{
+
+					}
+
+				}).html("<p>L'équipe "+disposition.joueurs[player].pseudo+" a remporté le juste prix, vous gagnez un point, et c'est à vous de jouer !</p><p>Vous pouviez citer "+question.explications+"</p>");
+			}
+
+		break;
 
 		case typeQuestionEnum.MIME:
 			titreQuestion = disposition.joueurs[disposition.tourJoueur].pseudo+" : "+question.intitule;
@@ -269,6 +438,9 @@ function generateQuestionPopUp(dialog, question)
 					$("<p>Ou mime : <b class='invisible' id ='"+question.reponses.choixReponses[i]+"'>???</b></p>").appendTo(dialog);
 				}
 			}
+
+			$("<p>Passez la souris sur les \"???\" pour révéler le mot à faire deviner</p>").appendTo(dialog);
+
 			var invisible = $(".invisible");
 			
 			for(var i = 0, c = invisible.length ; i<c ; i++)
@@ -289,8 +461,6 @@ function generateQuestionPopUp(dialog, question)
 				});
 			}
 		break;
-
-
 
 		case typeQuestionEnum.DEBAT:
 			titreQuestion = disposition.joueurs[disposition.tourJoueur].pseudo+", alimentez le débat !";
@@ -343,19 +513,37 @@ function generateQuestionPopUp(dialog, question)
 				}
 		break;
 		case typeReponseEnum.OKKO:
-			boutonsReponse = 
+			if(question.typeQuestion == typeQuestionEnum.BACCALAUREAT)
+			{
+				boutonsReponse = [];
+				for(var i = 0, c = disposition.nbJoueurs ; i<c ; i++)
 				{
-					"OK" : function()
+					boutonsReponse.push(
 					{
-						tabReponses.push(true);
-						dialog.dialog("close");
-					},
-					"KO" : function()
-					{
-						tabReponses.push(false);
-						dialog.dialog("close");
-					}
+						text: disposition.joueurs[i].pseudo,
+						id: i,
+						click: function(evt)
+						{
+							tabReponses.push(parseInt(evt.target.id)+1);
+							dialog.dialog("close");
+						}
+					});
 				}
+			} else {
+				boutonsReponse = 
+					{
+						"OK" : function()
+						{
+							tabReponses.push(true);
+							dialog.dialog("close");
+						},
+						"KO" : function()
+						{
+							tabReponses.push(false);
+							dialog.dialog("close");
+						}
+					}
+			}
 		break;
 		case typeReponseEnum.VF:
 			boutonsReponse = 
@@ -471,7 +659,7 @@ function pickQuestion(difficulte)
 		satisfied = true;
 		if(disposition.nbJoueurs == 1)
 		{
-			if(qt.typeQuestion == typeQuestionEnum.JUSTE_PRIX)
+			if(qt.typeQuestion == typeQuestionEnum.JUSTE_PRIX || qt.typeQuestion == typeQuestionEnum.BACCALAUREAT)
 				satisfied = false;
 		}
 		if(!disposition.animateur)
@@ -479,21 +667,50 @@ function pickQuestion(difficulte)
 			if(qt.typeQuestion == typeQuestionEnum.BACCALAUREAT || qt.typeQuestion == typeQuestionEnum.DEBAT || qt.typeQuestion == typeQuestionEnum.MIME)
 				satisfied = false;
 		}
-		if(disposition.equipes)
-		{
-			if(qt.typeQuestion == typeQuestionEnum.MIME)
-				satisfied = false;
-		}
-		if(qt.typeQuestion == typeQuestionEnum.DIRECTE && qt.reponses.typeReponse == typeReponseEnum.ENTREE)
-			satisfied = false;
-		if(qt.typeQuestion == typeQuestionEnum.REBUS || qt.typeQuestion == typeQuestionEnum.ENUMERATION || qt.typeQuestion == typeQuestionEnum.BACCALAUREAT)
-			satisfied = false;
-		
 	}
 
-	console.log(qt.intitule);
+	/*qt = new Question("Écrivez des noms de composants constituant un smartphone",
+		question.SANS_IMAGE,
+		question.type.BACCALAUREAT,
+		question.difficulte.BUG,
+		question.categorie.SOCIETE,
+		"Mémoire vive, mémoire flash, carte mère, processeur, carte vidéo, carte son, écran, puce GPS, caméra, ports USB",
+		question.SANS_SOURCE, 
+    		new Reponse(reponse.type.OKKO,
+			reponse.SANS_REPONSE,
+			reponse.SANS_BONNE_REPONSE));
 
+	/*qt = new Question("Trouvez à quel mot renvoie le rébus",
+		question.SANS_IMAGE,
+		question.type.REBUS,
+		question.difficulte.BUG,
+		question.categorie.FONDAMENTAUX,
+		question.SANS_COMMENTAIRE,
+		question.SANS_SOURCE, 
+    		new Reponse(reponse.type.ENTREE,
+			reponse.SANS_REPONSE,
+			"Ordinateur"));
 
+	/*qt = new Question("Citez au moins 3 réseaux sociaux",
+		question.SANS_IMAGE, question.type.ENUMERATION,
+		question.difficulte.BUG,
+		question.categorie.SOCIETE,
+		"Le terme réseaux sociaux a été inventé en 1954. Il ne désigne pas forcément un outil web dédié à connecter les personnes. Le terme est aussi utilisé en sciences sociales par exemple et peut désigner un réseau constitué de personnes reliées par des liens réels, non informatiques.",
+		"http://www.topyweb.com/divertissement/top-sites-reseaux-sociaux.php", 
+    		new Reponse(reponse.type.ENTREE,
+			["Facebook", "twitter", "tumblr", "pinterest", "google+", "viadeo", "linkedin"],
+			reponse.SANS_BONNE_REPONSE));
+
+	/*qt = new Question("Comment s'appelle le système informatique qui permet de trouver sa route en voiture ?",
+		question.SANS_IMAGE,
+		question.type.DIRECTE,
+		question.difficulte.BUG,
+		question.categorie.TECHNOLOGIE,
+		question.SANS_COMMENTAIRE,
+		question.SANS_SOURCE,
+		new Reponse(reponse.type.ENTREE,
+			reponse.SANS_REPONSE,
+			"GPS (Global Positioning System)"));*/
 	/*qt = new Question("Tout devrait-il être gratuit sur Internet ?",
 		question.SANS_IMAGE,
 		question.type.DEBAT, 

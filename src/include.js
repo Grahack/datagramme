@@ -472,13 +472,8 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 			return tab;
 		caseDepart = tab[tab.length-1];
 
-		console.log("case courante : "+caseDepart);
-		console.log("case arrivee : "+caseArrivee);
-
 		if(caseDepart == caseArrivee)
 			return tab;
-
-		console.log(tab);
 
 		for(var i = 0, c = this.cases[caseDepart].voisins.length ; i<c ; i++)
 		{
@@ -498,7 +493,6 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 	this.movePlayer = function(joueur, caseCible) // Déplace un pion vers une case cible
 	{
 		
-		console.log(this.getPath(joueur.position, caseCible));
 	}
 
 	this.initialiser = function() // Créer le plateau de jeu, en partant du coin haut/gauche

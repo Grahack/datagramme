@@ -284,6 +284,18 @@ var questions =
 			["L'intérieur d'une dent cariée","La croissance d'une plante entièrement simulée sur ordinateur","Un orage simulé sur ordinateur"],
 			2)),
 
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// ALERTE : QUESTION IMAGE !
+///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
   	new Question("Trouvez à quel mot renvoie le rébus",
 		question.SANS_IMAGE,
 		question.type.REBUS,
@@ -306,7 +318,7 @@ var questions =
 			"Ordinateur",
 			reponse.SANS_BONNE_REPONSE)),
 
-  	new Question("Citez au moins 3 réseaux sociaux",
+  	new Question("Citez 3 réseaux sociaux",
 		question.SANS_IMAGE, question.type.ENUMERATION,
 		question.difficulte.BUG,
 		question.categorie.SOCIETE,
@@ -1005,7 +1017,7 @@ var questions =
 			["Elle attend que le signal revienne ","Elle ajoute des données aléatoires, pour aller vite","Elle extrapole les données, pour inventer ce qui manque"],
 			3)),
 
-	new Question("Voici un code A=1, B=2, C=3, etc., Z=26. Écrire le mot SCIENCE à l’aide de ce code",
+	/*new Question("Voici un code A=1, B=2, C=3, etc., Z=26. Écrire le mot SCIENCE à l’aide de ce code",
 		question.SANS_IMAGE,
 		question.type.CASSE_TETE,
 		question.difficulte.DEFAILLANCE,
@@ -1014,7 +1026,7 @@ var questions =
 		"http://fr.wikipedia.org/wiki/Cryptographie_asym%C3%A9trique", 
 		new Reponse(reponse.type.ENTREE,
 			["19 - 3 - 9 - 5 - 14 – 3 – 5"],
-			reponse.SANS_BONNE_REPONSE)),
+			reponse.SANS_BONNE_REPONSE)),*/
 
 	new Question("En anglais les notes se codent avec des lettres par exemple DO se code C, RE se code D, MI se code E. Chanter la petite chanson : CCCDEDCEDDC",
 		question.SANS_IMAGE, question.type.CASSE_TETE,
@@ -1742,7 +1754,21 @@ var questions =
 			["100 000 kilomètres, soit 100 fois la taille de la France, du Nord au Sud", "1000 kilomètres, soit la taille de la France", "100 kilomètres, soit un dixième de la taille de la France.", "En simulant les besoins et en optimisant le réseau de distribution électrique en conséquence", "En estimant la consommation annuelle des Français", "En calculant le risque de panne électrique"], 
 			[1, 4])),
 
-	new Question("Combien de pas me faut-il pour atteindre un mur si je franchis à chaque pas la moitié de la distance qui me sépare du mur en question",
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// La réponse est très difficile à donner, le joueur pourrait penser à l'infini, mais je le vois mal rentrer "Une infinité".
+/// Je verrai par conséquent plus cette question comme à choix multiple. Qu'en pensez-vous ?
+///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+
+	/*new Question("Combien de pas me faut-il pour atteindre un mur si je franchis à chaque pas la moitié de la distance qui me sépare du mur en question",
 		question.SANS_IMAGE,
 		question.type.CASSE_TETE, 
 		question.difficulte.PANNE_SYSTEME, 
@@ -1751,7 +1777,7 @@ var questions =
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.ENTREE, 
 			"Une infinité !", 
-			reponse.SANS_BONNE_REPONSE)),
+			reponse.SANS_BONNE_REPONSE)),*/
 
 	new Question("Les bits peuvent prendre deux valeurs, 0 ou 1. Dans une séquence de 4 bits, le bit le plus à gauche doit être multiplié par 8, le suivant par 4, le suivant par 2 et le dernier par 1. Quel nombre représente la séquence 1010 ?",
 		question.SANS_IMAGE,
@@ -1786,7 +1812,20 @@ var questions =
 			["30 000 octets", "10 000 octets", "3 000 octets"], 
 			1)),
 
-	new Question("Quand je joue à pile ou face, lequel de ces deux événements est aléatoire et lequel est prédictible  ?",
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// Je ne sais pas comment traiter cette question. Ce n'est pas un choix multiple, il faudrait reformuler la question et/ou les réponses.
+///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+
+	/*new Question("Quand je joue à pile ou face, lequel de ces deux événements est aléatoire et lequel est prédictible  ?",
 		question.SANS_IMAGE,
 		question.type.DIRECTE, 
 		question.difficulte.PANNE_SYSTEME, 
@@ -1796,7 +1835,7 @@ var questions =
 		new Reponse(reponse.type.CM, 
 			["Le côté où elle va tomber en fonction du geste de ma main et de la taille, forme et poids de la pièce.",
        "Le nombre de piles et de faces qui vont sortir sur 100 000 lancés."], 
-			"1/ Aléatoire\n2/ Prédictible")),
+			"1/ Aléatoire\n2/ Prédictible")),*/
 
 	new Question("Quel est le rapport entre l'informatique et le métier à tisser Jacquard ?",
 		question.SANS_IMAGE,
@@ -1875,7 +1914,19 @@ var questions =
 			["Oui", "Non", "Impossible de répondre avec les informations données"], 
 			3)),
 
-	new Question("Ce programme bogue, il n’arrive jamais au bout, pourquoi ? \n\n problèmes = 100\nbonheur = 0\nTANT QUE (problèmes > 0  ) ALORS  { problèmes = problèmes + 1 }\nLORSQUE FIN DE BOUCLE  bonheur = 1 ; Fin du programme.",
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// Qu'est censé répondre le joueur ? La réponse est bien trop compliquée à entrer. Peut-être la passer en CM ou en OKKO ?
+///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+	/*new Question("Ce programme bogue, il n’arrive jamais au bout, pourquoi ? \n\n problèmes = 100\nbonheur = 0\nTANT QUE (problèmes > 0  ) ALORS  { problèmes = problèmes + 1 }\nLORSQUE FIN DE BOUCLE  bonheur = 1 ; Fin du programme.",
 		question.SANS_IMAGE,
 		question.type.CASSE_TETE, 
 		question.difficulte.PANNE_SYSTEME, 
@@ -1884,9 +1935,21 @@ var questions =
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.CM, 
 			["La variable \"problèmes\" ne cesse d'augmenter. Or, pour que le programme se termine, il faut qu'elle descende à 0."], 
-			1)),
+			1)),*/
 
-	new Question("Si on suit cet algorithme, que choisit Paul comme plat ? Paul = joyeux\nÉmilie = soucieuse\nSI ( Émilie = soucieuse ET Paul = soucieux ) ALORS  { commande[Paul] = tartare ; commande[Émilie] = sushis }\nDANS LES CAS CONTRAIRES { commande[Paul] = sushis ; commande[Émilie] = tartare }",
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+/// Peut-être faire entrer Sushis au joueur au clavier, mais je préfère avoir votre confirmation.
+///
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+	/*new Question("Si on suit cet algorithme, que choisit Paul comme plat ? Paul = joyeux\nÉmilie = soucieuse\nSI ( Émilie = soucieuse ET Paul = soucieux ) ALORS  { commande[Paul] = tartare ; commande[Émilie] = sushis }\nDANS LES CAS CONTRAIRES { commande[Paul] = sushis ; commande[Émilie] = tartare }",
 		question.SANS_IMAGE,
 		question.type.CASSE_TETE, 
 		question.difficulte.PANNE_SYSTEME, 
@@ -1895,7 +1958,7 @@ var questions =
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.ENTREE, 
 			reponse.SANS_REPONSE, 
-			"Sushi")),
+			"Sushi")),*/
 
 	new Question("Un voleur fou te demande de lui dire une phrase au choix. Il te prévient que si tu dis une vérité, il te prendra ton portefeuille. Et si c’est un mensonge il prendra ton téléphone. Une des phrases ci-dessous te permet de ne rien perdre, laquelle :",
 		question.SANS_IMAGE,
