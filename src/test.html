@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Datagramme: test des questions</title>
+    <link rel="stylesheet" type="text/css" href="jquery-ui.structure.css">
+    <link rel="stylesheet" type="text/css" href="jquery-ui.theme.css">
+  </head>
+  <body>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery-ui.js"></script>
+    <script type="text/javascript" src="include.js"></script>	
+    <script type="text/javascript" src="question.js"></script>
+    <script type="text/javascript" src="questions.js"></script>
+
+    <h1>Page de test de toutes les questions</h1>
+    Cliquer sur la question pour la tester.
+    <table border="1">
+      <script langage="javascript">
+        function popupQuestion(k, i) {
+          generateQuestionPopUp($("#question"), questions[k][i]);
+          // Upps ; génère l'erreur «TypeError: disposition.joueurs[disposition.tourJoueur] is undefined»
+        }
+        for(var k = 0, n = 0; k < questions.length; k++) {
+          var qs = questions[k];
+          for(var i = 0; i < qs.length; i++, n++) {
+            var q = qs[i];
+            var html = "";
+            {
+              html += q.urlImage == question.SANS_IMAGE ? "" : 
+               "<img align='middle' height='50' src='../ressources/images/questions/"+q.urlImage+"' alt='"+q.urlImage+"' />";
+              html += ((" " + q.intitule).substr(0, 120)+" ...").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+              html += q.typeQuestion == question.type.MIME ? "(<i>" + q.reponses.choixReponses + "</i>)" : "";
+              html = "<a href='javascript:popupQuestion("+k+","+i+");'>"+html+"</a>";
+            }
+            document.write("<tr><td valign='top' width='80'>"+k+":"+i+"<span style='float:right;'>#"+n+"</span></td><td>"+html+"</td></tr>\n");
+          }
+        }
+      </script>
+    </table>
+  </body>
+</html>
