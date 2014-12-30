@@ -7,4 +7,5 @@ Un jeu créé par [Inria](http://www.inria.fr) avec le soutien de [Cap'Maths](ht
 * [Accéder aux sources](https://github.com/InriaMecsci/datagramme)
 * [Copyright et licence](http://inriamecsci.github.io/datagramme/licence.html)
 
+* [La ToDo-liste](https://github.com/InriaMecsci/datagramme/blob/master/tobedone.md)
 * [Tester la version alpha](http://inriamecsci.github.io/datagramme/src/index.html)
