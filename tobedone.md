@@ -28,8 +28,8 @@ Starring : LG & ED (datagramme canal historique), VP (JE telecomnancy.net), SB (
 #### Aspects techniques
 
 * _VP, yet_ donne son identifiant github pour travailler sur la version Inria des sources
+  * On note que la `makefile` fait la mise à jour complète des branches master et du site web github
 * _VP+TV, yet_ ça y est les images sont toutes entrées sour la forme "./nomdelimage.png" et il faut probablement concaténer `../ressources/images/questions/` pour que ça marche dans le jeu
-* _VP avec TV, yet_ : Comme un con les dernière modifs de TV génèrent l'erreur NS_ERROR_NOT_AVAILABLE: dans game.js ligne 298 : au secours (sachant que je n ai que modifié questions.js en ajoutant les images)
 * _VP, début janvier_ regarde http://inriamecsci.github.io/datagramme/src/test.html et aide TV à le finaliser
   * L'appel à generateQuestionPopUp($("#question"), questions[k][i]); génère l'erreur «TypeError: disposition.joueurs[disposition.tourJoueur] is undefined», comment crr le bon contexte
 * _VP, yet_, documente les fichiers source à minima : une ligne de doc pour chaque fichier et pour chaque fichier .js du jeu (pas jquery !) la liste des fonctions avec une ligne pour dire à qui elle serve et pour chaque fichier .css à quelle partie du jeu ça correspond, qq chose comme
@@ -66,6 +66,10 @@ Globalement on fait en sorte que la version numérique du jeu empreinte les éléme
 * On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
 * Pour les questions non prises en compte dans la v1 on regarde comment les (i) éliminer (ii) transformer en questions gérables (iii) inventer une astuce
 
+#### Ajout du mécanismes de bonus-malus
+
+* À voir ensemble 
+
 #### Amélioration de l'interactivité
 
 * Le truc du jeu des cartes mémory est pas clair encore : qui a une bonne idée asticieuse pour ?
@@ -74,6 +78,8 @@ Globalement on fait en sorte que la version numérique du jeu empreinte les éléme
 
 * Sous la forme d'un lien vers le site [https://pixees.fr](https://pixees.fr) les joueurs disposent d'un menu pour poser une question supplémentaires à propos d'un question abordée ou suggérer une autre réponse ou proposer une autre question ou prendre rendez vous sur un forum/réseau social existant ou faire tout commentaire sur le jeu
   * Le lien sera de la forme https://pixees.fr/?page_id=3405?fscf_field4_4=3&fscf_field4_2=Blabla%20et%20tralala donc le seul développement sera de créer le lien web avec l'intitulé de sa question, son id, et tout le reste sera géré sur pixees.fr
+
+* À partir du fichier test.html de la liste des questions on peut ouvrir une fichier animateur qui comme dans le [livret](http://inriamecsci.github.io/datagramme/docs/livret-datagramme.pdf) montre la question et sa réponse
 
 ### Réalisation de la v2
 
