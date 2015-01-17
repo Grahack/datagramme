@@ -7,9 +7,16 @@
     <link rel="stylesheet" type="text/css" href="jquery-ui.theme.css">
   </head>
   <body>
+
+    <div id="question"></div>
+    <div id="indication"></div>
+    <div id="dialog"></div>
+    <div id="gagne"></div>
+    <div id="perdu"></div>
+
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="jquery-ui.js"></script>
-    <script type="text/javascript" src="include.js"></script>	
+    <script type="text/javascript" src="include.js"></script>
     <script type="text/javascript" src="question.js"></script>
     <script type="text/javascript" src="questions.js"></script>
 
@@ -17,6 +24,14 @@
     Cliquer sur la question pour la tester.
     <table border="1">
       <script langage="javascript">
+        function nextTurn(){}
+
+        var plateau = new PlateauJeu();
+        plateau.cases.push(new Case(0, typeCaseEnum.DEPART, null, 520, 320));
+
+        var joueur = new Joueur("JoueurTest", 1, 1);
+        disposition.joueurs.push(joueur);
+        disposition.nbJoueurs = 1;
         function popupQuestion(k, i) {
           generateQuestionPopUp($("#question"), questions[k][i]);
           // Upps ; génère l'erreur «TypeError: disposition.joueurs[disposition.tourJoueur] is undefined»
@@ -27,7 +42,7 @@
             var q = qs[i];
             var html = "";
             {
-              html += q.urlImage == question.SANS_IMAGE ? "" : 
+              html += q.urlImage == question.SANS_IMAGE ? "" :
                "<img align='middle' height='50' src='../ressources/images/questions/"+q.urlImage+"' alt='"+q.urlImage+"' />";
               html += ((" " + q.intitule).substr(0, 120)+" ...").replace(/&/g, "&amp;").replace(/</g, "&lt;");
               html += q.typeQuestion == question.type.MIME ? "(<i>" + q.reponses.choixReponses + "</i>)" : "";
