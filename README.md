@@ -9,3 +9,4 @@ Un jeu créé par [Inria](http://www.inria.fr) avec le soutien de [Cap'Maths](ht
 
 * [La ToDo-liste](https://github.com/InriaMecsci/datagramme/blob/master/tobedone.md)
 * [Tester la version alpha](http://inriamecsci.github.io/datagramme/src/index.html)
+* [Tester les questions directement](http://inriamecsci.github.io/datagramme/src/test.html)

@@ -58,7 +58,6 @@ Modèle :
 
 */
 
-
 var questions = 
 [[
 	new Question("Quel est le nom en français du symbole '@'",

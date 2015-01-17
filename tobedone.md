@@ -27,11 +27,7 @@ Starring : LG & ED (datagramme canal historique), VP (JE telecomnancy.net), SB (
 
 #### Aspects techniques
 
-* _VP, yet_ donne son identifiant github pour travailler sur la version Inria des sources
-  * On note que la `makefile` fait la mise à jour complète des branches master et du site web github
 * _VP+TV, yet_ ça y est les images sont toutes entrées sour la forme "./nomdelimage.png" et il faut probablement concaténer `../ressources/images/questions/` pour que ça marche dans le jeu
-* _VP, début janvier_ regarde http://inriamecsci.github.io/datagramme/src/test.html et aide TV à le finaliser
-  * L'appel à generateQuestionPopUp($("#question"), questions[k][i]); génère l'erreur «TypeError: disposition.joueurs[disposition.tourJoueur] is undefined», comment crr le bon contexte
 * _VP, yet_, documente les fichiers source à minima : une ligne de doc pour chaque fichier et pour chaque fichier .js du jeu (pas jquery !) la liste des fonctions avec une ligne pour dire à qui elle serve et pour chaque fichier .css à quelle partie du jeu ça correspond, qq chose comme
   * index.html : fichier principal pour lancer le jeu
   * test.html : fichier pour tester les questions hors du jeu
@@ -87,6 +83,8 @@ Globalement on fait en sorte que la version numérique du jeu empreinte les éléme
 * _TV+VP, fin janvier_ : On demande un avenant à la JE 
 * _VP, février_ : fait le dev de v2
 * _TV et al, février_ : met en place les éléments qui leur incombent
+ * SB fait une maquette de page Web que TV implémente: 
+ * Les rubriques: vous voulez jouer en ligne, acheter le jeu, construire le jeu, en savoir plus
 * _TV et al, mars_ : fait la recette et sabre le champagne
 
 ## Références
