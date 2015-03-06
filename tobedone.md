@@ -51,6 +51,12 @@ Globalement on fait en sorte que la version numérique du jeu empreinte les éléme
 
 * Le fichier datagramme/src/explanations.html est (côté Inria) mis au propre avec des lines et illustrations
 * Le site http://datagramme.fr est (côté Inria) finalisé
+* Il faut matérialiser le mot sortie
+* Les règles du jeu sont à rappeler quand on veut dans un pop-up
+* Ergonomie du dé, il fait revoie la disposition du button 
+
+* Il faut centrer et non pas coller à gauche le plateau de jeu
+* Il faut qu'on voit en gros le nom du jeu
 
 * En vrac :
   * Le jeu de dé fait l'objet d'une petite animation

@@ -1,8 +1,47 @@
+function givePoints(player)
+{
+	if(!disposition.memory && !disposition.getCurrentPlayer().doubleQuestion && disposition.tourJoueur != virus.joueur)
+	{
+		if(disposition.joueurs[player].spiedOn)
+		{
+			if(player == 0)
+				disposition.joueurs[disposition.nbJoueurs-1].points++;
+			else
+				disposition.joueurs[player-1].points++;
+
+			disposition.joueurs[player].spiedOn = false;
+		}
+		disposition.joueurs[player].points++;
+		plateau.cases[disposition.getCurrentPlayer().position].vert = true;
+		if(disposition.joueurs[player].doublePoints)
+		{
+			disposition.joueurs[player].points++;
+			disposition.joueurs[player].doublePoints = false;
+		}
+	}
+}
+
 function commentSourcePopUp(dialog, question, isOk)
 {
+	if(disposition.getCurrentPlayer().doubleQuestion && isOk)
+	{
+		disposition.getCurrentPlayer().doubleQuestion = false;
+		askQuestion();
+		return;
+	}
+
+	if(virus.joueur == disposition.tourJoueur && !isOk)
+	{
+		if(disposition.getCurrentPlayer().points > 0)
+			disposition.getCurrentPlayer().points--;
+	}
+
+	disposition.getCurrentPlayer().doubleQuestion = false;
+
 	var titre;
 	var texte;
-	
+
+
 
 	if(question.reponses.typeReponse == typeReponseEnum.OKKO)
 	{
@@ -25,9 +64,23 @@ function commentSourcePopUp(dialog, question, isOk)
 			titre = "Mauvaise réponse !"
 			texte = "Dommage, ce n'était pas la bonne réponse.";
 		}
-
 	}
-		
+
+	if(disposition.memory)
+	{
+		if(isOk)
+		{
+			memory();
+			texte = "Vous pouvez relancer le memory !";
+		}
+			
+		else {
+			disposition.memory = false;
+			texte = "Le memory s'arrête là !";
+		}
+			
+	}
+
 
 	$(dialog).dialog(
 	{
@@ -36,12 +89,21 @@ function commentSourcePopUp(dialog, question, isOk)
 		autoOpen: true,
 		minWidth: 500,
 		minHeight: 300,
-		buttons: 
+		buttons:
 		{
 			"Ok" : function()
 			{
 				$(dialog).dialog("close");
-				nextTurn();
+				console.log(virus.joueur +" "+ disposition.tourJoueur);
+
+				if(!disposition.memory && (virus.nbTours == 0 || virus.joueur != disposition.tourJoueur))
+				{
+					if(virus.nbTours == 0)
+						virus.next();
+					nextTurn();
+				} else if(virus.joueur == disposition.tourJoueur)
+					virus.next();
+					
 			}
 		},
 		close: null
@@ -51,6 +113,12 @@ function commentSourcePopUp(dialog, question, isOk)
 	{
 		$("<a href='"+question.source+"' target='_blank'>"+question.source+"</a>").appendTo($(dialog));
 	}
+	if(question.imageExplications != undefined)
+	{
+		$('<img src="'+question.imageExplications+'"/>').appendTo($(dialog));
+	}
+	console.log(question.numId);
+	$('<br/><a href="https://pixees.fr/datagramme/'+question.numId+'" target="_blank">Commenter la question</a>').appendTo($(dialog));
 }
 
 function generateQuestionPopUp(dialog, question)
@@ -69,8 +137,14 @@ function generateQuestionPopUp(dialog, question)
 	{
 		case typeQuestionEnum.DIRECTE:
 		case typeQuestionEnum.CASSE_TETE:
-			titreQuestion = "Question directe ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !";
-			
+			titreQuestion = "Question directe ! "+disposition.getCurrentPlayer().pseudo+" répondez à la question !";
+
+			if(disposition.getCurrentPlayer().chrono)
+			{
+				chronometer.launch();
+				disposition.getCurrentPlayer().chrono = false;
+			}
+
 			dialog.html("<p>"+question.intitule+"</p>");
 
 			if(typeReponse == typeReponseEnum.ENTREE)
@@ -82,45 +156,62 @@ function generateQuestionPopUp(dialog, question)
 
 				closeFc = function()
 				{
+					chronometer.stop();
+					chronometer.reset();
 					var isOk = false;
 					if(tabReponses[0] == true)
 					{
 						isOk = true;
-						disposition.joueurs[disposition.tourJoueur].points++;
-						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+						givePoints(disposition.tourJoueur);
+						commentSourcePopUp(dialog, question, isOk);
+					} else if(disposition.getCurrentPlayer().secondeChance)
+					{
+						disposition.getCurrentPlayer().secondeChance = false;
+						generateQuestionPopUp(dialog, question);
+						alert("Mauvaise réponse !");
+					} else {
+						commentSourcePopUp(dialog, question, isOk);
 					}
-					commentSourcePopUp(dialog, question, isOk);
-				}	
+					
+				}
 
 			} else {
 				closeFc = function()
 				{
+					chronometer.stop();
+					chronometer.reset();
 					var isOk = false;
 					if(tabReponses[0] == question.reponses.bonneReponse)
 					{
 						isOk = true;
-						disposition.joueurs[disposition.tourJoueur].points++;
-						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+						givePoints(disposition.tourJoueur);
+						commentSourcePopUp(dialog, question, isOk);
+					} else if(disposition.getCurrentPlayer().secondeChance)
+					{
+						disposition.getCurrentPlayer().secondeChance = false;
+						generateQuestionPopUp(dialog, question);
+						alert("Mauvaise réponse !");
+					} else {
+						commentSourcePopUp(dialog, question, isOk);
 					}
-					commentSourcePopUp(dialog, question, isOk);
-				}	
+				}
 			}
-			
+
 			validateFc = function()
 			{
 				tabReponses[0] = false;
-				if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+				if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 ||
 					question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1)
 				{
 					tabReponses[0] = true;
 				}
 				$(dialog).dialog("close");
 			}
-			
+
 		break;
 
 		case typeQuestionEnum.ENUMERATION:
-			titreQuestion = "Question énumération ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" énumérez 3...";
+			titreQuestion = "Question énumération ! "+disposition.getCurrentPlayer().pseudo+" énumérez 3...";
 
 			dialog.html("<p>"+question.intitule+"</p>");
 
@@ -144,7 +235,7 @@ function generateQuestionPopUp(dialog, question)
 				{
 					for(var j = 0, c = question.getReponses().length ; j < c ; j++)
 					{
-						if((inputs[i].value.toUpperCase().indexOf(question.getReponses()[j].toUpperCase()) > -1 || 
+						if((inputs[i].value.toUpperCase().indexOf(question.getReponses()[j].toUpperCase()) > -1 ||
 							question.getReponses()[j].toUpperCase().indexOf(inputs[i].value.toUpperCase()) > -1) && inputs[i].value != "" && inputs[i].value != null)
 						{
 							found = true;
@@ -170,18 +261,24 @@ function generateQuestionPopUp(dialog, question)
 				if(tabReponses[0] == true)
 				{
 					isOk = true;
-					disposition.joueurs[disposition.tourJoueur].points++;
-					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					givePoints(disposition.tourJoueur);
+					commentSourcePopUp(dialog, question, isOk);
+				} else if(disposition.getCurrentPlayer().secondeChance)
+				{
+					disposition.getCurrentPlayer().secondeChance = false;
+					generateQuestionPopUp(dialog, question);
+					alert("Mauvaise réponse !");
+				} else {
+					commentSourcePopUp(dialog, question, isOk);
 				}
-				commentSourcePopUp(dialog, question, isOk);
 
 			}
-			
+
 		break;
 
 		case typeQuestionEnum.REBUS:
-			titreQuestion = "Question rébus ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" trouvez le mot !";
-			
+			titreQuestion = "Question rébus ! "+disposition.getCurrentPlayer().pseudo+" trouvez le mot !";
+
 			var input = document.createElement('input');
 			input.type = "text";
 			input.name = "reponse"+i;
@@ -192,16 +289,15 @@ function generateQuestionPopUp(dialog, question)
 				if(tabReponses[0] == true)
 				{
 					isOk = true;
-					disposition.joueurs[disposition.tourJoueur].points++;
-					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					givePoints(disposition.tourJoueur);
 				}
 				commentSourcePopUp(dialog, question, isOk);
-			}	
+			}
 
 			validateFc = function()
 			{
 				tabReponses[0] = false;
-				if((input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+				if((input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 ||
 					question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1) && input.value != "" && input.value != null)
 				{
 					tabReponses[0] = true;
@@ -217,14 +313,14 @@ function generateQuestionPopUp(dialog, question)
 			} else {
 				if(typeof question.urlImage === "string")
 				{
-					$("<p><img src='"+pathImages+"/question/"+question.urlImage+"' /></p>").appendTo(dialog);
+					$("<p><img src='"+pathImages+"/questions/"+question.urlImage+"' /></p>").appendTo(dialog);
 				} else {
 
 					$("<p>").appendTo(dialog);
 
 					for(var i = 0, c = question.urlImage.length ; i < c ; i++)
 					{
-						$("<img src='"+pathImages+"/question/"+question.urlImage[i]+"'/>").appendTo(dialog);
+						$("<img src='"+pathImages+"/questions/"+question.urlImage[i]+"'/>").appendTo(dialog);
 					}
 
 					$("</p>").appendTo(dialog);
@@ -236,19 +332,33 @@ function generateQuestionPopUp(dialog, question)
 		break;
 
 		case typeQuestionEnum.IMAGE:
-			titreQuestion = "Question image ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !";
+			titreQuestion = "Question image ! "+disposition.getCurrentPlayer().pseudo+" répondez à la question !";
+
+			if(disposition.getCurrentPlayer().chrono)
+			{
+				chronometer.launch();
+				disposition.getCurrentPlayer().chrono = false;
+			}
+
 			closeFc = function()
 			{
+				chronometer.stop();
+				chronometer.reset();
 				var isOk = false;
 				if(tabReponses[0] == question.reponses.bonneReponse)
 				{
 					isOk = true;
-					disposition.joueurs[disposition.tourJoueur].points++;
-					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					givePoints(disposition.tourJoueur);
+					commentSourcePopUp(dialog, question, isOk);
+				} else if(disposition.getCurrentPlayer().secondeChance)
+				{
+					disposition.getCurrentPlayer().secondeChance = false;
+					generateQuestionPopUp(dialog, question);
+					alert("Mauvaise réponse !");
+				} else {
+					commentSourcePopUp(dialog, question, isOk);
 				}
 
-				commentSourcePopUp(dialog, question, isOk);
-				
 			}
 			validateFc = function()
 			{
@@ -262,14 +372,14 @@ function generateQuestionPopUp(dialog, question)
 			} else {
 				if(typeof question.urlImage === "string")
 				{
-					$("<p><img src='"+pathImages+"/question/"+question.urlImage+"' /></p>").appendTo(dialog);
+					$("<p><img src='"+pathImages+"/questions/"+question.urlImage+"' /></p>").appendTo(dialog);
 				} else {
 
 					$("<p>").appendTo(dialog);
 
 					for(var i = 0, c = question.urlImage.length ; i < c ; i++)
 					{
-						$("<img src='"+pathImages+"/question/"+question.urlImage[i]+"'/>").appendTo(dialog);
+						$("<img src='"+pathImages+"/questions/"+question.urlImage[i]+"'/>").appendTo(dialog);
 					}
 
 					$("</p>").appendTo(dialog);
@@ -279,28 +389,41 @@ function generateQuestionPopUp(dialog, question)
 
 		case typeQuestionEnum.DUO:
 			if(question.intitule.length == 2)
-				titreQuestion = "Question Duo ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la première question !";
+				titreQuestion = "Question Duo ! "+disposition.getCurrentPlayer().pseudo+" répondez à la première question !";
 			else
-				titreQuestion = "Question Duo ! "+disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la seconde question !";
+				titreQuestion = "Question Duo ! "+disposition.getCurrentPlayer().pseudo+" répondez à la seconde question !";
+
+			if(disposition.getCurrentPlayer().chrono)
+			{
+				chronometer.launch();
+				disposition.getCurrentPlayer().chrono = false;
+			}
+
 			closeFc = function()
 			{
 				if(tabReponses[0] == question.reponses.bonneReponse[0])
 				{
 					if(question.intitule.length == 2)
 					{
+						question = new Question(question.intitule.slice(), question.urlImage, question.typeQuestion, question.difficulte, question.categorie, question.explications, question.imageExplications, question.source, new Reponse(question.reponses.typeReponse, question.reponses.choixReponses.slice(3), question.reponses.bonneReponse.slice()));
+						question.intitule[0] = question.intitule[1];
 						question.intitule.shift();
-						question.reponses.choixReponses.shift();
-						question.reponses.choixReponses.shift();
-						question.reponses.choixReponses.shift();
-						question.reponses.bonneReponse.shift();
-						question.reponses.bonneReponse[0] -= 3;
+						question.reponses.bonneReponse[0] = question.reponses.bonneReponse[1]-3;
 						generateQuestionPopUp(dialog, question);
 					} else {
-						disposition.joueurs[disposition.tourJoueur].points++;
-						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+						chronometer.stop();
+						chronometer.reset();
+						givePoints(disposition.tourJoueur);
 						commentSourcePopUp(dialog, question, true);
 					}
+				} else if(disposition.getCurrentPlayer().secondeChance)
+				{
+					disposition.getCurrentPlayer().secondeChance = false;
+					generateQuestionPopUp(dialog, question);
+					alert("Mauvaise réponse !");
 				} else {
+					chronometer.stop();
+					chronometer.reset();
 					commentSourcePopUp(dialog, question, false);
 				}
 			}
@@ -349,7 +472,7 @@ function generateQuestionPopUp(dialog, question)
 						"Ok" : function()
 						{
 							$(dialog).dialog("close");
-							disposition.joueurs[player].nbPoints++;
+							givePoints(player);
 							disposition.tourJoueur =(player+(disposition.nbJoueurs-1))%disposition.nbJoueurs;
 							nextTurn();
 						}
@@ -384,18 +507,18 @@ function generateQuestionPopUp(dialog, question)
 			closeFc = function()
 			{
 				var player = tabReponses[0]-1;
-				
+
 
 				$(dialog).dialog(
 				{
-					title: "Le joueur le plus proche est : " + disposition.joueurs[player].pseudo,
+					title: "L'équipe avec le plus de bonnes réponses est : " + disposition.joueurs[player].pseudo,
 					modal: true,
 					autoOpen: true,
 					buttons:
 					{
 						"Ok" : function()
 						{
-							disposition.joueurs[player].nbPoints++;
+							givePoints(player);
 							disposition.tourJoueur =(player+(disposition.nbJoueurs-1))%disposition.nbJoueurs;
 							nextTurn();
 							$(dialog).dialog("close");
@@ -412,15 +535,14 @@ function generateQuestionPopUp(dialog, question)
 		break;
 
 		case typeQuestionEnum.MIME:
-			titreQuestion = disposition.joueurs[disposition.tourJoueur].pseudo+" : "+question.intitule;
+			titreQuestion = disposition.getCurrentPlayer().pseudo+" : "+question.intitule;
 			closeFc = function()
 			{
 				var isOk = false;
 				if(tabReponses[0] == true)
 				{
 					isOk = true;
-					disposition.joueurs[disposition.tourJoueur].points++;
-					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					givePoints(disposition.tourJoueur);
 				}
 
 				commentSourcePopUp(dialog, question, isOk);
@@ -442,10 +564,10 @@ function generateQuestionPopUp(dialog, question)
 			$("<p>Passez la souris sur les \"???\" pour révéler le mot à faire deviner</p>").appendTo(dialog);
 
 			var invisible = $(".invisible");
-			
+
 			for(var i = 0, c = invisible.length ; i<c ; i++)
 			{
-				
+
 				$(invisible[i]).mouseenter(function(evt)
 				{
 					var tmp = $(evt.target).html();
@@ -463,15 +585,14 @@ function generateQuestionPopUp(dialog, question)
 		break;
 
 		case typeQuestionEnum.DEBAT:
-			titreQuestion = disposition.joueurs[disposition.tourJoueur].pseudo+", alimentez le débat !";
+			titreQuestion = disposition.getCurrentPlayer().pseudo+", alimentez le débat !";
 			closeFc = function()
 			{
 				var isOk = false;
 				if(tabReponses[0] == true)
 				{
 					isOk = true;
-					disposition.joueurs[disposition.tourJoueur].points++;
-					plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+					givePoints(disposition.tourJoueur);
 				}
 
 				commentSourcePopUp(dialog, question, isOk);
@@ -530,7 +651,7 @@ function generateQuestionPopUp(dialog, question)
 					});
 				}
 			} else {
-				boutonsReponse = 
+				boutonsReponse =
 					{
 						"OK" : function()
 						{
@@ -546,7 +667,7 @@ function generateQuestionPopUp(dialog, question)
 			}
 		break;
 		case typeReponseEnum.VF:
-			boutonsReponse = 
+			boutonsReponse =
 				{
 					"Vrai" : function()
 					{
@@ -598,7 +719,7 @@ function generateQuestionPopUp(dialog, question)
 						"Ok" : function()
 						{
 							$(this).dialog("close");
-							disposition.joueurs[player].nbPoints++;
+							disposition.joueurs[player].points++;
 							disposition.tourJoueur = player-1;
 							nextTurn();
 						}
@@ -618,18 +739,18 @@ function generateQuestionPopUp(dialog, question)
 		case typeReponseEnum.ENTREE:
 		$("#question").dialog(
 			{
-				title: disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !",
+				title: disposition.getCurrentPlayer().pseudo+" répondez à la question !",
 				modal: true,
-				buttons: 
+				buttons:
 				{
 					"Valider" : function()
 					{
-						if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+						if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 ||
 							question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1)
 						{
-							disposition.joueurs[disposition.tourJoueur].points++;
+							disposition.getCurrentPlayer().points++;
 							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+							plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 						}
 						$(this).dialog("close");
 					},
@@ -653,9 +774,11 @@ function pickQuestion(difficulte)
 {
 	var qt;
 	var satisfied = false;
+	var rand;
 	while(!satisfied)
 	{
-		qt = questions[difficulte][Math.floor(Math.random()*questions[difficulte].length)];
+		rand = Math.floor(Math.random()*questions[difficulte].length);
+		qt = questions[difficulte][rand];
 		satisfied = true;
 		if(disposition.nbJoueurs == 1)
 		{
@@ -669,13 +792,17 @@ function pickQuestion(difficulte)
 		}
 	}
 
+	qt.numId = (difficulte+1)+""+rand;
+
+	console.log(qt.numId);
+
 	/*qt = new Question("Écrivez des noms de composants constituant un smartphone",
 		question.SANS_IMAGE,
 		question.type.BACCALAUREAT,
 		question.difficulte.BUG,
 		question.categorie.SOCIETE,
 		"Mémoire vive, mémoire flash, carte mère, processeur, carte vidéo, carte son, écran, puce GPS, caméra, ports USB",
-		question.SANS_SOURCE, 
+		question.SANS_SOURCE,
     		new Reponse(reponse.type.OKKO,
 			reponse.SANS_REPONSE,
 			reponse.SANS_BONNE_REPONSE));
@@ -686,7 +813,7 @@ function pickQuestion(difficulte)
 		question.difficulte.BUG,
 		question.categorie.FONDAMENTAUX,
 		question.SANS_COMMENTAIRE,
-		question.SANS_SOURCE, 
+		question.SANS_SOURCE,
     		new Reponse(reponse.type.ENTREE,
 			reponse.SANS_REPONSE,
 			"Ordinateur"));
@@ -696,7 +823,7 @@ function pickQuestion(difficulte)
 		question.difficulte.BUG,
 		question.categorie.SOCIETE,
 		"Le terme réseaux sociaux a été inventé en 1954. Il ne désigne pas forcément un outil web dédié à connecter les personnes. Le terme est aussi utilisé en sciences sociales par exemple et peut désigner un réseau constitué de personnes reliées par des liens réels, non informatiques.",
-		"http://www.topyweb.com/divertissement/top-sites-reseaux-sociaux.php", 
+		"http://www.topyweb.com/divertissement/top-sites-reseaux-sociaux.php",
     		new Reponse(reponse.type.ENTREE,
 			["Facebook", "twitter", "tumblr", "pinterest", "google+", "viadeo", "linkedin"],
 			reponse.SANS_BONNE_REPONSE));
@@ -713,49 +840,41 @@ function pickQuestion(difficulte)
 			"GPS (Global Positioning System)"));*/
 	/*qt = new Question("Tout devrait-il être gratuit sur Internet ?",
 		question.SANS_IMAGE,
-		question.type.DEBAT, 
-		question.difficulte.DEFAILLANCE, 
-		question.categorie.SOCIETE, 	
+		question.type.DEBAT,
+		question.difficulte.DEFAILLANCE,
+		question.categorie.SOCIETE,
 		"Si tout est gratuit qui paye les infrastructures, les salaires ? Quelqu'un doit payer en bout de chaîne, et donc nécessité d'un modèle économique basé sur des partenariats, de la publicité ou autre. De plus la gratuité ne concerne que les services. On ne peut pas donner les marchandises. D'ailleurs, paradoxalement, les Français veulent un Web entièrement gratuit mais 72 % des internautes français sont des e-acheteurs (produits multimédias, nourriture, vêtements...). Cela pose en fait la question de ce qui a de la valeur, ou non, aux yeux des internautes.",
 		question.SANS_SOURCE,
-		new Reponse(reponse.type.OKKO, 
-			reponse.SANS_REPONSE, 
+		new Reponse(reponse.type.OKKO,
+			reponse.SANS_REPONSE,
 			reponse.SANS_BONNE_REPONSE));*/
 	/*qt = new Question("Quelle quantité de carburant (en grammes) faut-il pour fabriquer une puce électronique, qui pèse elle 2 grammes ?",
 		question.SANS_IMAGE, question.type.JUSTE_PRIX,
 		question.difficulte.BUG,
 		question.categorie.ENVIRONNEMENT,
 		"Une puce électronique a beau être minuscule, pour produire deux grammes d'électronique, on consomme 1,7 kg d'énergie fossile, 1 m3 d'azote, 72 g de produits chimiques et 32 litres d'eau.",
-		"http://www.eurekalert.org/pub_releases/2002-11/acs-ttp110502.php", 
+		"http://www.eurekalert.org/pub_releases/2002-11/acs-ttp110502.php",
     		new Reponse(reponse.type.ENTREE,
 			reponse.SANS_REPONSE,
 			1700));
 	return qt;*/
 	/*qt = new Question("Quel est le nom en français du symbole '@'", null, typeQuestionEnum.DIRECTE, difficulteEnum.BUG, categorieEnum.FONDAMENTAUX,
-		
-		
+
+
 		new(typeReponseEnum.CM, ["At", "Arobase", "Acrobat"], 2), "", null);
 	return qt;*/
 	/*qt = new Question(["Dans la comptine suivante, que remplacent les chiffres 1 et 2 ? \nUn petit chat g2s\nqui 1ngeait du 2z\nsur un tapis g2s\nsa 1m1 lui dit\nce n’est pas poli\nde 1nger du 2z\nsur un tapis g2s.", "Quel intérêt d'écrire la comptine comme cela ?"],
 		question.SANS_IMAGE, question.type.DUO, question.difficulte.BUG,
-		question.categorie.FONDAMENTAUX, "On appelle ça de la compression. Les ordinateurs font cela pour réduire l'espace que prennent les images par exemple. (Exemple, compression JPEG.)\nOn appelle ça de la compression. Les ordinateurs font cela pour réduire l'espace que prennent les images par exemple, comme pour les formats JPEG.", question.SANS_SOURCE, 
-    
-		
+		question.categorie.FONDAMENTAUX, "On appelle ça de la compression. Les ordinateurs font cela pour réduire l'espace que prennent les images par exemple. (Exemple, compression JPEG.)\nOn appelle ça de la compression. Les ordinateurs font cela pour réduire l'espace que prennent les images par exemple, comme pour les formats JPEG.", question.SANS_SOURCE,
+
+
 		new(typeReponseEnum.CM, ["ri et ra","mi et ra","ri et ma","On a fait des économies de taille, car un chiffre remplace deux lettres","C'est pour rendre la comptine illisible","Ça ne sert à rien"], [3, 4]));
 	*/return qt;
-
-	if(disposition.nbJoueurs == 1)
-	{
-		while (qt.typeQuestion == typeQuestionEnum.JUSTE_PRIX || qt.typeQuestion == typeQuestionEnum.DEBAT)
-		{
-			return;
-		}
-	}
 }
 
 function askQuestion()
 {
-	var question = pickQuestion(disposition.joueurs[disposition.tourJoueur].difficulte);
+	var question = pickQuestion(disposition.getCurrentPlayer().difficulte);
 	generateQuestionPopUp($("#question"), question);
 	/*
 	switch(question.reponses.typeReponse)
@@ -765,14 +884,14 @@ function askQuestion()
 			{
 				title: "Convaincus ou pas ? Question Ok-Ko",
 				modal: true,
-				buttons: 
+				buttons:
 				{
 					"Ok" : function()
 					{
 						$(this).dialog("close");
 						alert("Bien joué !");
-						disposition.joueurs[disposition.tourJoueur].points++;
-						plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+						disposition.getCurrentPlayer().points++;
+						plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 					},
 					"Ko" : function()
 					{
@@ -788,18 +907,18 @@ function askQuestion()
 		case typeReponseEnum.ENTREE:
 			$("#question").dialog(
 			{
-				title: disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !",
+				title: disposition.getCurrentPlayer().pseudo+" répondez à la question !",
 				modal: true,
-				buttons: 
+				buttons:
 				{
 					"Valider" : function()
 					{
-						if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 || 
+						if(input.value.toUpperCase().indexOf(question.getBonneReponse().toUpperCase()) > -1 ||
 							question.getBonneReponse().toUpperCase().indexOf(input.value.toUpperCase()) > -1)
 						{
-							disposition.joueurs[disposition.tourJoueur].points++;
+							disposition.getCurrentPlayer().points++;
 							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+							plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 						}
 						$(this).dialog("close");
 					},
@@ -823,7 +942,7 @@ function askQuestion()
 			}
 			$("#question").dialog(
 			{
-				title: disposition.joueurs[disposition.tourJoueur].pseudo+" répondez à la question !",
+				title: disposition.getCurrentPlayer().pseudo+" répondez à la question !",
 				modal: true,
 				buttons: [
 				{
@@ -832,9 +951,9 @@ function askQuestion()
 					{
 						if(question.reponses.bonneReponse == 1)
 						{
-							disposition.joueurs[disposition.tourJoueur].points++;
+							disposition.getCurrentPlayer().points++;
 							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+							plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 						}
 						$(this).dialog("close");
 					}
@@ -845,9 +964,9 @@ function askQuestion()
 					{
 						if(question.reponses.bonneReponse == 2)
 						{
-							disposition.joueurs[disposition.tourJoueur].points++;
+							disposition.getCurrentPlayer().points++;
 							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+							plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 						}
 						$(this).dialog("close");
 					}
@@ -858,9 +977,9 @@ function askQuestion()
 					{
 						if(question.reponses.bonneReponse == 3)
 						{
-							disposition.joueurs[disposition.tourJoueur].points++;
+							disposition.getCurrentPlayer().points++;
 							alert("bonne réponse !");
-							plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+							plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 						}
 						$(this).dialog("close");
 					}
@@ -873,9 +992,9 @@ function askQuestion()
 			}).html("<p>"+question.intitule+"</p>");
 			break;
 	}*/
-	
-	/*disposition.joueurs[disposition.tourJoueur].points++;
+
+	/*disposition.getCurrentPlayer().points++;
 	alert("bonne réponse !");
-	plateau.cases[disposition.joueurs[disposition.tourJoueur].position].vert = true;
+	plateau.cases[disposition.getCurrentPlayer().position].vert = true;
 	nextTurn();*/
 }

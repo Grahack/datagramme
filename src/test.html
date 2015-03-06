@@ -34,7 +34,7 @@
         disposition.nbJoueurs = 1;
         function popupQuestion(k, i) {
           generateQuestionPopUp($("#question"), questions[k][i]);
-          // Upps ; génère l'erreur «TypeError: disposition.joueurs[disposition.tourJoueur] is undefined»
+          // Upps ; génère l'erreur «TypeError: disposition.getCurrentPlayer() is undefined»
         }
         for(var k = 0, n = 0; k < questions.length; k++) {
           var qs = questions[k];

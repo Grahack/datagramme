@@ -2,6 +2,7 @@
 // COULEUR DE FOND 3399B2
 var pathImages = "../ressources/images";
 var pathImagesQuestions = "../ressources/images/activites";
+var pathImagesBonusMalus = "../ressources/images/bonus-malus";
 
 var coefReduc = 3.255;
 var timer;
@@ -147,8 +148,93 @@ var disposition = // Règles de la partie
 	nbCases : 0, // Le nombre que le joueur a effectué aux dés
 	animateur : true,
 	equipes : false,
-	memory : false
+	memory : false,
+
+	movingCube : 0,
+	chosenCase : [0, 0],
+	erreurAcheminement : false,
+	tabMemories : [],
+
+	getCurrentPlayer : function()
+	{
+		return this.joueurs[this.tourJoueur];
+	},
+
+	tooLate : function()
+	{
+		chronometer.stop();
+		chronometer.reset();
+		$("#question").dialog({close: null});
+		$("#question").dialog("close");
+		$("#indication").dialog(
+		{
+			autoOpen: true,
+			modal: true,
+			title: "Trop tard !",
+			close: null,
+			minHeight: 400,
+			buttons:
+			{
+				"Ok" : function()
+				{
+					$(this).dialog("close");
+					nextTurn();
+				}
+			}
+
+		}).html("<p>Vous avez dépassé le temps imparti !</p><br/>");
+	}
 };
+
+var chronometer = 
+{
+	deci : 0,
+	sec : 0,
+	compte : 0,
+
+	launch : function()
+	{
+		$("#chrono").dialog(
+		{
+			autoOpen: true,
+			modal: false,
+			title: "Chrono",
+			close: null,
+			minHeight: 200,
+			buttons: null,
+			position: { my: "left top", at: "left top", of: window }
+
+		}).html("<p>"+chronometer.sec+"."+chronometer.deci+" / 10</p><br/>");
+		this.compte=setInterval(function(){ chronometer.chrono(10, 0, disposition.tooLate); },100);
+	},
+
+	chrono : function(sec, deci, callback)
+	{
+		this.deci++;
+		if(this.deci > 9)
+		{
+			this.deci = 0;
+			this.sec++;
+		}
+
+		$("#chrono").html("<p>"+chronometer.sec+"."+chronometer.deci+" / 10</p><br/>");
+
+		if(this.sec == sec && this.deci == deci)
+			callback();
+	},
+
+	stop : function()
+	{
+		clearInterval(this.compte);
+		$("#chrono").dialog("close");
+	},
+
+	reset : function()
+	{
+		this.deci = 0;
+		this.sec = 0;
+	}
+}
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -176,15 +262,17 @@ function Reponse(typeReponse, choixReponses, bonneReponse) // Objet réponse, d�
 	this.bonneReponse = bonneReponse; // Seulement si non OKKO
 }
 
-function Question(intitule, urlImage, typeQuestion, difficulte, categorie, explications, source, reponses) // Objet question, définissant les propriétés des questions
+function Question(intitule, urlImage, typeQuestion, difficulte, categorie, explications, imageExplications, source, reponses) // Objet question, définissant les propriétés des questions
 {
 	this.intitule = intitule; // Intitulé de la question
+	this.numId = 0;
 	this.urlImage = urlImage; // S'il y a une image, son url, sinon null
 	this.typeQuestion = typeQuestion; // De type typeQuestionEnum
 	this.difficulte = difficulte; // De type difficulteEnum
 	this.categorie = categorie; // De type categorieEnum
 	this.reponses = reponses; // De type Reponse
 	this.explications = explications; // Texte d'explication + image le cas échéant
+	this.imageExplications = imageExplications;
 	this.source = source; // Lien de la source
 
 	this.getReponses = function() {
@@ -193,7 +281,7 @@ function Question(intitule, urlImage, typeQuestion, difficulte, categorie, expli
 
     this.getBonneReponse = function() {
     	if(this.getReponses() != null)
-        	return this.getReponses()[this.reponses.bonneReponse--];
+        	return this.getReponses()[(this.reponses.bonneReponse-1)];
         else
         	return this.reponses.bonneReponse;
     }; 
@@ -207,6 +295,62 @@ function Joueur(pseudo, couleur, difficulte) // Objet joueur, définissant les p
 	this.difficulte = difficulte; // La difficulté qu'il aura choisi
 	this.points = 0; // Le nombre de points marqués par le joueur
 	this.position = 0; // L'index de la case sur laquelle se trouve le joueur
+	this.movingAlt = 0;
+	this.protection = false;
+	this.doublePoints = false;
+	this.secondeChance = false;
+	this.doubleQuestion = false;
+	this.spiedOn = false;
+	this.chrono = false;
+}
+
+var virus =
+{
+	nbTours : 0,
+	joueur : -1,
+	dead : true,
+
+	update : function()
+	{
+		if(!this.checkDead())
+		{
+			askQuestion();
+		}
+		
+	},
+
+	checkDead : function()
+	{
+		if(this.nbTours >= disposition.nbJoueurs || this.dead)
+		{
+			this.dead = true;
+			this.joueur = -1;
+			return true;
+		}
+		return false;
+	},
+
+	next : function()
+	{
+
+		if(!this.checkDead())
+		{
+			this.joueur--;
+			this.nbTours++;
+
+			if(this.joueur < 0)
+				this.joueur = disposition.nbJoueurs-1;
+		}
+
+		console.log(this.joueur + " + " + this.nbTours);
+	},
+
+	revive : function(idJoueur)
+	{
+		this.dead = false;
+		this.nbTours = 0;
+		this.joueur = idJoueur;
+	}
 }
 
 function Case(index, type, voisin, x, y) // Objet case, définissant les propriétés d'une case du plateau de jeu
@@ -220,6 +364,8 @@ function Case(index, type, voisin, x, y) // Objet case, définissant les propri�
 	this.x = x; // Les coordonnées de la case en x
 	this.y = y; // Les coordonnées de la case en y
 	this.voisins = []; // Le tableau des cases accessibles directement depuis celle-ci
+	this.isBroken = false;
+	
 	if(voisin !== null && voisin !== undefined) // On ajoute le voisin si le paramètre voisin n'est pas null
 	{
 		this.voisins.push(voisin);
@@ -235,9 +381,48 @@ function Case(index, type, voisin, x, y) // Objet case, définissant les propri�
 			this.voisins.push(v);
 	}
 
+	this.getNearestMemory = function()
+	{
+		this.getNearestMemoryRecur(-1, 0);
+
+		if(disposition.tabMemories.length == 0)
+			return -1;
+
+		var nearestMemory = disposition.tabMemories[0];
+
+		for(var i = 0 ; i < disposition.tabMemories.length ; i++)
+		{
+			if(nearestMemory.dist > disposition.tabMemories[i].dist)
+				nearestMemory = disposition.tabMemories[i];
+		}
+
+		disposition.tabMemories = [];
+
+		return nearestMemory.mem;
+	}
+
+	this.getNearestMemoryRecur = function(pos, distance)
+	{
+		var memory = -1;
+
+		console.log(this.index);
+		if(this.type == typeCaseEnum.MEMORY && !this.revealed && !this.isBroken)
+			return this.index;
+		for(var i = 0, c = this.voisins.length ; i < c ; i++)
+		{
+			if(this.voisins[i].index != pos)
+			{
+				memory = this.voisins[i].getNearestMemoryRecur(this.index, (distance+1));
+				if(memory != -1)
+					disposition.tabMemories.push({mem:memory, dist:distance});
+			}
+		}
+		return -1;
+	}
+
 	this.light = function(index) // Fonction récursive de calcul de déplacement (index est la distance restante à parcourir)
 	{
-		if(this.type == typeCaseEnum.DEPART && this.index != disposition.joueurs[disposition.tourJoueur].position)
+		if(this.type == typeCaseEnum.DEPART && this.index != disposition.getCurrentPlayer().position)
 			return;
 
 		if(this.lit)
@@ -391,14 +576,32 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		}
 	}
 
+	this.lightAccessible = function(nbCases)
+	{
+		this.cases[disposition.getCurrentPlayer().position].light(nbCases);
+		this.setFlicker();
+	}
+
+	this.lightAll = function()
+	{
+		for(var i = 0 ; i < this.NB_CASES_TOTAL ; i++)
+		{
+			this.cases[i].light(0);
+		}
+		this.setFlicker();
+	}
+
 	this.drawCases = function() // Fonction de dessin des carrés d'état des cases
 	{
 		for(var i = 0 ; i < this.NB_CASES_TOTAL ; i++)
 		{
 			if(this.cases[i].type == typeCaseEnum.MEMORY)
 			{
+				if(this.cases[i].isBroken)
+					context.drawImage(imgSurbrillanceMemory, this.cases[i].x, this.cases[i].y, 210, 210, this.cases[i].x/coefReduc, this.cases[i].y/coefReduc, 210/coefReduc, 210/coefReduc)
+
 				if(this.cases[i].revealed)
-					context.drawImage(imgMemory, 5+(310*(this.cases[i].memory%2)), 5+(310*(Math.floor(this.cases[i].memory/2))), 277, 277, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
+					contextOver2.drawImage(imgMemory, 5+(310*(this.cases[i].memory%2)), 5+(310*(Math.floor(this.cases[i].memory/2))), 277, 277, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
 				/*else
 					context.drawImage(imgMemoryOff, 50+this.cases[i].x/coefReduc, 50+this.cases[i].y/coefReduc, 50, 50);
 				*/if(this.cases[i].lit && this.isLighting)
@@ -636,8 +839,5 @@ function PlateauJeu() // Objet plateau, définissant les propriétés du plateau
 		this.cases.push(new Case(92, typeCaseEnum.BONUS_MALUS, this.cases[90], 385, 2640));
 		this.cases.push(new Case(93, typeCaseEnum.SORTIE, this.cases[92], 150, 2800));
 
-		
-
-		this.drawCases();
 	}
 }
