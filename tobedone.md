@@ -23,20 +23,18 @@ Starring : LG & ED (datagramme canal historique), VP (JE telecomnancy.net), SB (
 * Toutes les réponses aux questions sont considérées comme fausses sous Google Chrome sous Mac OS X 10.9.5 et Safari
   * VP: Pour le problème de mauvaise réponse, c'est sur ma todo, ça vient de Chrome et Safari qui ne veulent pas d'un attribut de jQuery, il faudra que je trouve une alternative.
 
-#### Recette à faire par vthierry
+#### Poinst de discussions
 
-Pour ce qui est de la V2, voici ce que j'ai fait :
+* VP: index.html?joueur=1&solo=true&animateur=false*tours=15 marche correctement, cependant, je demande toujours le nom et la couleur des joueurs, dois-je également passer cette étape et appeler les joueurs "Joueur n" ?
+  * Ouioui de l'automatique !
 
-* Possibilité d'ajouter une image à l'explication des questions ajoutée, un argument "imageExplications" a été ajouté aux questions, il vous suffira de remplacer les "Question.SANS_IMAGE_EXPLICATION" par le lien vers l'image.
-* Lors du clic sur la deuxième image memory, le résultat est annoncé directement (connecté ou non), les images restent retournées un certain temps après.
-* Lorsque l'on se trompe au memory, une question nous est posée pour le relancer, si l'on répond correct, on relance le memory, sinon, c'est au joueur suivant. Les questions ne rapportent pas de point.
-* index.html?joueur=1&solo=true&animateur=false*tours=15 marche correctement, cependant, je demande toujours le nom et la couleur des joueurs, dois-je également passer cette étape et appeler les joueurs "Joueur n" ?
+* VP: En ce qui concerne les questions non gérables de la V1, avais-tu des propositions de transformations, ou est-ce que j'applique celles que j'avais détaillé, et je me débrouille pour les autres ? Ça ne me dérange pas.
+  * TV: à voir ensemble en hangout
 
-Pour la suite, j'avais quelques questions à te poser :
+* VP: Pour le lien vers pixees.fr, je dois seulement indiquer l'id de la question dans l'url ? Le lien de la forme https://pixees.fr/?page_id=3405?fscf_field4_4=3&fscf_field4_2=Blabla%20et%20tralala me trouble un peu.
+  * TV:
 
-* En ce qui concerne les questions non gérables de la V1, avais-tu des propositions de transformations, ou est-ce que j'applique celles que j'avais détaillé, et je me débrouille pour les autres ? Ça ne me dérange pas.
-* Pour le lien vers pixees.fr, je dois seulement indiquer l'id de la question dans l'url ? Le lien de la forme https://pixees.fr/?page_id=3405?fscf_field4_4=3&fscf_field4_2=Blabla%20et%20tralala me trouble un peu.
-* Enfin, dois-je intégrer les bonus-malus ? C'est faisable, j'en aurai le temps, il faudra juste voir ensemble certains d'entre eux qui selon moi ne s'intègrent pas très bien au jeu actuel.
+Autres points (voir ci-dessous) : corrections des questions (plus pour TV que VP), bonus/malus quels choix, questions hors v1 et questions "toujours justes", 
 
 #### Site Inria et lien avec pixees
 
@@ -74,9 +72,9 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 #### Les soucis avec le memory
 
-* Pourrait on avoir droit à trois essais à chaque mémory pour se balader plus votre à travers le jeu ?
-
-* A t'on une meilleure idée pour améliorer l ergonomie ?
+* Pourrait on avoir droit à plusieurs essais à chaque mémory pour se balader plus votre à travers le jeu ?
+  * VP: Lorsque l'on se trompe au memory, une question nous est posée pour le relancer, si l'on répond correct, on relance le memory, sinon, c'est au joueur suivant. Les questions ne rapportent pas de point.
+  * VP: Lors du clic sur la deuxième image memory, le résultat est annoncé directement (connecté ou non), les images restent retournées un certain temps après.
 
 ### Ajout du mécanismes de bonus-malus
 
@@ -94,9 +92,10 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 ### Amélioration des questions
 
 * On ajoute la possibilité d'illustrer la réponsse aux questions avec une image (les images anevrisme.jpg flamands.jpg hopper.jpg INRIA-CDR0053-0081.jpg iter.jpg lovelace.jpg sont prévues pour ça).
-* On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
+  * VP: Possibilité d'ajouter une image à l'explication des questions ajoutée, un argument "imageExplications" a été ajouté aux questions, il vous suffira de remplacer les "Question.SANS_IMAGE_EXPLICATION" par le lien vers l'image.
+  * TV: Ok des que je prends la main j implemente
 
-#### Questions non prises en compte dans la v1
+* On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
 
 * Pour les questions non prises en compte dans la v1 on regarde comment les (i) éliminer (ii) transformer en questions gérables (iii) inventer une astuce
 
