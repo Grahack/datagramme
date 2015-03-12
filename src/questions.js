@@ -143,7 +143,7 @@ var questions =
 		question.SANS_IMAGE_EXPLICATION,
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.CM,
-			["Une puce qu’on pose sur un animal pour découvrir des informations sur son comportement", "Une partie d’un circuit électronique de la taille d’une puce", "Une Protéine Utilisée en Composant Électronique d'où son non de P.U.C.E."],
+			["Une puce qu’on pose sur un animal pour découvrir des informations sur son comportement", "Une partie d’un circuit électronique de la taille d’une puce", "Une `p´rotéine `u´tilisée en `c´omposant `é´lectronique d'où son nom de P.U.C.E."],
 			2)),
 
 	new Question("Que signifie « www » que l’on trouve parfois au début des adresses des sites Web ?",

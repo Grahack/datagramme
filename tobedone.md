@@ -174,7 +174,7 @@ Voici pas encore traité le test de toutes les questions (à traiter par _TV_ avan
 * 1:53#110    De quand datent les premiers algorithmes ? ...
   * comemnt fonctionne les qst en juste prix
 
-* #109    ./rebus-hopper.JPG Elle était informaticienne, vice-amiral de la marine, elle a démocratisé le mot « débugger » en informatique et est co
+* 109    ./rebus-hopper.JPG Elle était informaticienne, vice-amiral de la marine, elle a démocratisé le mot « débugger » en informatique et est co
   ne s affiche pas
 
 * 1:70#127    Quel est le plus grand nombre connu de fourmis habitant une fourmilière ?
