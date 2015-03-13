@@ -103,10 +103,6 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 Voici pas encore traité le test de toutes les questions (à traiter par _TV_ avant retour vers _VP_).
 
-* 6	Réponse : des majuscules aux noms communs pour le choix 3
-
-* 10	"4 cartes sont représentées (dont 1 noire qu'il faut comprendre être la carte à cacher) : pas évident / Réponse 1+2+3 : texte explicatif dupliqué. dommage ce renvoi vers CU sans lien précis vers le binaire, je crains que les gens ne s'arrête à cette page et ne creuse pas (vraiment aucune indication vers ou trouver la réponse)"
-
 * 11	"dommage ce renvoi vers CU sans lien précis vers le binaire, je crains que les gens ne s'arrête à cette page et ne creuse pas (vraiment aucune indication vers ou trouver la réponse)"
 
 * 12	ingéniérie = pas accent sur le 1e "e"
