@@ -23,7 +23,7 @@ Starring : LG & ED (datagramme canal historique), VP (JE telecomnancy.net), SB (
 * Toutes les réponses aux questions sont considérées comme fausses sous Google Chrome sous Mac OS X 10.9.5 et Safari
   * VP: Pour le problème de mauvaise réponse, c'est sur ma todo, ça vient de Chrome et Safari qui ne veulent pas d'un attribut de jQuery, il faudra que je trouve une alternative.
 
-#### Poinst de discussions
+#### Points à discuster
 
 * VP: index.html?joueur=1&solo=true&animateur=false*tours=15 marche correctement, cependant, je demande toujours le nom et la couleur des joueurs, dois-je également passer cette étape et appeler les joueurs "Joueur n" ?
   * Ouioui de l'automatique !
@@ -93,7 +93,17 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 * On ajoute la possibilité d'illustrer la réponsse aux questions avec une image (les images anevrisme.jpg flamands.jpg hopper.jpg INRIA-CDR0053-0081.jpg iter.jpg lovelace.jpg sont prévues pour ça).
   * VP: Possibilité d'ajouter une image à l'explication des questions ajoutée, un argument "imageExplications" a été ajouté aux questions, il vous suffira de remplacer les "Question.SANS_IMAGE_EXPLICATION" par le lien vers l'image.
-  * TV: Ok des que je prends la main j implemente
+  * TV: Ok des que je prends la main j implementeej mets les images
+
+* Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication.
+
+* On ne peut pas tester les questions directes
+
+* Le lien de la source de la question affiche le lien lui même au lieu de «source de la question» ce serait plus joli.
+
+* La question Duo sur l octopus a un bandeau étrange avec Question Duo ! Répondez à la .... il faut revoir la mise en page
+
+* La question 77 sur au clair de la lune bloque
 
 * On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
 
@@ -102,63 +112,6 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 ## Relecture des questions
 
 Voici pas encore traité le test de toutes les questions (à traiter par _TV_ avant retour vers _VP_).
-
-* 11	"dommage ce renvoi vers CU sans lien précis vers le binaire, je crains que les gens ne s'arrête à cette page et ne creuse pas (vraiment aucune indication vers ou trouver la réponse)"
-
-* 12	ingéniérie = pas accent sur le 1e "e"
-
-* 13	on accède pas à l'image via le lien photothèque "Vous n'êtes pas autorisé à visualiser ce document". Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication.
-
-* 14	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication."
-
-* 18	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication."
-
-* 19	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication. Le lien ne fonctionne pas (404 not found)"
-
-* 20	Le lien ne fonctionne pas
-
-* 21	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication. "
-
-* 22	Ce serait bien d'avoir les 8 solutions
-
-* 24	"Il faudrait citer la bonne réponse pour introduite l'explication. "
-
-* 25	"Je ferai plutôt un renvoi vers Pixees ou wikipedia (plus lisible je trouve). Pour les mauvais choix, l'explication de la bonne réponse (sans quelle  soit par ailleurs citée) est mal compréhensible. Il faudrait citer la  bonne réponse pour introduite l'explication. "
-
-* 26	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication. "
-
-* 27	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication. "
-
-* 28	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication surtout que là il n'y a que le lien pour expliquer la bonne réponse. Il faut au moins la citer."
-
-* 29	"Je ne comprends pas bien le lien cité : on s'attend plutôt à avoir un doc sur ce 1er document crypé. Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite le renvoi vers le lien. Je mettrais donc plutôt ce lien : http://fr.wikipedia.org/wiki/Histoire_de_la_cryptologie#Le_plus_vieux_document_chiffr.C3.A9"
-
-* 30	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication"
-
-* 31	Je ne comprends pas bien le contenu du bandeau orange qui est par ailleurs tronqué (enfin je comprends mais les joueurs vont ils comprendre)
-
-* 32	les liens de fonctionnent pas (404...)
-
-* 38	Les trois liens sont faux
-
-* 39	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication"
-
-* 40	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication."
-
-* 41	"Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication"
-
-* 48	pourquoi ne donne t-on pas la bonne réponse quand le choix est mauvais (comme pour les autres questions)
-
-* 55	lien interstices cassé
-
-* 67	peux pas tester question directe
-* 73	peux pas tester question directe
-* 76	peux pas tester question directe
-* 77	question pas reprise et pas de solution cliquable
-* 83	peux pas tester question directe
-* 87	dans la 2ième proposition il y a 2 fois le même bout de phrase "s'entrainer au geste chirurgical" + dans la réponse le lien cliquable comprends 2 liens interstices ; un copié collé qui a gardé le lien des réponses question 86 (à garder https://interstices.info/jcms/i_58396/le-patient-virtuel-au-service-de-la-chirurgie?hlText=chirurgie) 
-
-* 94	question : pour quelles raisons (au pluriel) ? or il n'y a  qu'une solution possible
 
 * 95	toutes les réponses possibles sont fausses :-( ; je vote pour la 1ière proposition !!
 
