@@ -90,9 +90,8 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 ### Amélioration des questions
 
-* On ajoute la possibilité d'illustrer la réponsse aux questions avec une image (les images anevrisme.jpg INRIA-CDR0053-0081.jpg iter.jpg lovelace.jpg sont prévues pour ça).
-  * VP: Possibilité d'ajouter une image à l'explication des questions ajoutée, un argument "imageExplications" a été ajouté aux questions, il vous suffira de remplacer les "Question.SANS_IMAGE_EXPLICATION" par le lien vers l'image.
-  * TV: Ok des que je prends la main j implementeej mets les images
+* On ajoute la possibilité d'illustrer la réponsse aux questions avec une image 
+  * TV: Y a un petit souci de lien
 
 * Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication.
 
