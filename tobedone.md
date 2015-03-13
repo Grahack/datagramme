@@ -105,52 +105,33 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 * La question 77 sur au clair de la lune bloque
 
+* La question 104 sur étoile de mer dit que toutes les réponses sont fausses
+
+* La question 109 sur Grace Hopper ne s'affiche pas dans test.html
+
+* La question 150 sur (16 15) _ (2) _ (13 6) _ (4 16 5 6). Cassez le code et retrouvez sa signification ! ne s'affiche pas dans test.html
+
+* Ce n'est pas un bug : mais on note que le systeme quand il y a une double question garde en memoire le fait d'avoir bien répondu à la 1ère et ne la repose jamais, pas de souci en multi-joueur ?
+
+* Le fonctionnement des question en juste prix est pas claire, exemple question 110 «De quand datent les premiers algorithmes»
+
+* Question 153 Citez des fonctions d'un système d'exploitation on a une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE et il faudrait détecter des mots clés
+
+* Questions avec une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE qui s interprete bizarrement c est le OK (alors que la reponse est plutot NON) qui est validee comment corriger : en fait le OK ne devrait pas s afficher et on devrait toujours gagner
+  * 2:24#157    Pensez-vous possible dans un avenir proche qu~un être humain pourra échanger des messages écrits, sur
+  * 2:23#156    Que pensez-vous de l'influence de Wikipédia, des cours disponibles en ligne et les exercices corrigés
+  * 2:22#155    Les prédictions météo sont-elles fiables ? ...
+  * 2:21#154    Comment les informaticiens peuvent-ils aider à convaincre de l'urgence de la crise climatique ? ...
+  * 1:74#131    Si vous créiez des contenus (vidéos, images, programmes ~), les rendriez-vous Open source ou
+  * 1:72#129    À qui appartiennent nos données Facebook après notre mort ? ...
+
 * On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
 
 * Pour les questions non prises en compte dans la v1 on regarde comment les (i) éliminer (ii) transformer en questions gérables (iii) inventer une astuce
 
-## Relecture des questions
-
-Voici pas encore traité le test de toutes les questions (à traiter par _TV_ avant retour vers _VP_).
-
-* 95	toutes les réponses possibles sont fausses :-( ; je vote pour la 1ière proposition !!
-
-* 104	difficile de répondre !!! Il n'y a pas de question :-)
-
-* 1:47#104    Intitulé de la question ...
-  * y a un bug dans la question
-
-* 1:53#110    De quand datent les premiers algorithmes ? ...
-  * comemnt fonctionne les qst en juste prix
-
-* 109    ./rebus-hopper.JPG Elle était informaticienne, vice-amiral de la marine, elle a démocratisé le mot « débugger » en informatique et est co
-  ne s affiche pas
-
-* 1:70#127    Quel est le plus grand nombre connu de fourmis habitant une fourmilière ?
-  * ce n est pas un bug : mais on note que le systeme qd il y a une double question garde en memoire le fait d avoi rbien repondu a la 1ere et ne la repose jamais
-   
-* 2:24#157    Pensez-vous possible dans un avenir proche qu~un être humain pourra échanger des messages écrits, sur
-* 2:23#156    Que pensez-vous de l'influence de Wikipédia, des cours disponibles en ligne et les exercices corrigés
-* 2:22#155    Les prédictions météo sont-elles fiables ? ...
-* 2:21#154    Comment les informaticiens peuvent-ils aider à convaincre de l'urgence de la crise climatique ? ...
-* 1:74#131    Si vous créiez des contenus (vidéos, images, programmes ~), les rendriez-vous Open source ou
-* 1:72#129    À qui appartiennent nos données Facebook après notre mort ? ...
-  * on a une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE
-qui s interprete bizarrement c est le OK (alors que la reponse est plutot NON) qui est validee comment corriger : en fait le OK ne devrait pas s afficher et on devrait toujours gagner
-
-* 2:20#153    Citez des fonctions d'un système d~exploitation d~ordinateur ou de téléphone ...
-  * on a une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE et il faudraot détecter des mots clés
-
-2:17#150    La phase suivante est codée : (16 15) _ (2) _ (13 6) _ (4 16 5 6). Cassez le code et retrouvez sa signification !
-  * la question en s affiche pas
-
 ---
 
 ## Datagramme version mécanique
-
-### Production de quarante jeux à distribuer dans les centres
-
-* _CL et al, février_ effectuent les envoiset on stocke les vieux plateaux au cas où.
 
 ### Mise en ligne du mode d'emploi pour produire soi-même des jeux
 
