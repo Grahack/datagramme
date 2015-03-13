@@ -26,15 +26,14 @@ Starring : LG & ED (datagramme canal historique), VP (JE telecomnancy.net), SB (
 #### Points à discuster
 
 * VP: index.html?joueur=1&solo=true&animateur=false*tours=15 marche correctement, cependant, je demande toujours le nom et la couleur des joueurs, dois-je également passer cette étape et appeler les joueurs "Joueur n" ?
-  * Ouioui de l'automatique !
+  * TV: Ouioui de l'automatique !
 
 * VP: En ce qui concerne les questions non gérables de la V1, avais-tu des propositions de transformations, ou est-ce que j'applique celles que j'avais détaillé, et je me débrouille pour les autres ? Ça ne me dérange pas.
   * TV: à voir ensemble en hangout
 
-* VP: Pour le lien vers pixees.fr, je dois seulement indiquer l'id de la question dans l'url ? Le lien de la forme https://pixees.fr/?page_id=3405?fscf_field4_4=3&fscf_field4_2=Blabla%20et%20tralala me trouble un peu.
-  * TV:
-
-Autres points (voir ci-dessous) : corrections des questions (plus pour TV que VP), bonus/malus quels choix, questions hors v1 et questions "toujours justes", 
+* VP: Pour le lien vers pixees.fr, je dois seulement indiquer l'id de la question dans l'url ?
+  * TV: il faut aussi le titre de la question s'il te plait
+  * TV: Le lien final est https://pixees.fr/?page_id=4278&fscf_field5_5=id-question&fscf_field5_4=titre-question
 
 #### Site Inria et lien avec pixees
 
@@ -91,7 +90,7 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 ### Amélioration des questions
 
-* On ajoute la possibilité d'illustrer la réponsse aux questions avec une image (les images anevrisme.jpg flamands.jpg hopper.jpg INRIA-CDR0053-0081.jpg iter.jpg lovelace.jpg sont prévues pour ça).
+* On ajoute la possibilité d'illustrer la réponsse aux questions avec une image (les images anevrisme.jpg INRIA-CDR0053-0081.jpg iter.jpg lovelace.jpg sont prévues pour ça).
   * VP: Possibilité d'ajouter une image à l'explication des questions ajoutée, un argument "imageExplications" a été ajouté aux questions, il vous suffira de remplacer les "Question.SANS_IMAGE_EXPLICATION" par le lien vers l'image.
   * TV: Ok des que je prends la main j implementeej mets les images
 
