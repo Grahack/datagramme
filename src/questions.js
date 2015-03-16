@@ -1270,7 +1270,7 @@ var questions =
 		"https://interstices.info/jcms/int_69853/symetries-et-morphogenese",
 		new Reponse(reponse.type.CM, 
 			[5, 8, 10, "Pour comprendre l’origine des différentes symétries dans le vivant (pelages, pattes, branches, couches)", "Pour calculer le risque d’extinction des étoiles de mer", "Pour calculer le nombre de ventouses sur chaque branche de l’étoile de mer"], 
-			2)),
+			[2, 4])),
 
 	new Question("Que représente cette image ?",
 		"./ophtalmo.jpg",

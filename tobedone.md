@@ -90,13 +90,13 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 * Pour les mauvais choix, l'explication de la bonne réponse (sans quelle soit par ailleurs citée) est mal compréhensible. Il faudrait citer la bonne réponse pour introduite l'explication.
 
-* On ne peut pas tester les questions directes
-
 * Le lien de la source de la question affiche le lien lui même au lieu de «source de la question» ce serait plus joli.
 
-* La question Duo sur l octopus a un bandeau étrange avec Question Duo ! Répondez à la .... il faut revoir la mise en page
+* Passer une ligne avant commenter la question.
 
-* La question 77 sur au clair de la lune bloque
+* La consigne doit pas être affichée (ex Question Duo) mais dans le contenu.
+
+* La question 77 sur au clair de la lune bloque : question.getBonneReponse(...)
 
 * La question 104 sur étoile de mer dit que toutes les réponses sont fausses
 
@@ -104,23 +104,10 @@ Vue de l'écran centré avec un titre, la sortie explicitée et la règle du jeu en 
 
 * La question 150 sur (16 15) _ (2) _ (13 6) _ (4 16 5 6). Cassez le code et retrouvez sa signification ! ne s'affiche pas dans test.html
 
-* Ce n'est pas un bug : mais on note que le systeme quand il y a une double question garde en memoire le fait d'avoir bien répondu à la 1ère et ne la repose jamais, pas de souci en multi-joueur ?
+* Questions avec une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE qui s interprete bizarrement c est le OK (alors que la reponse est plutot NON) qui est validee comment corriger
+  * Ajouter «Arbitrage de l'animateur»
 
-* Le fonctionnement des question en juste prix est pas claire, exemple question 110 «De quand datent les premiers algorithmes»
-
-* Question 153 Citez des fonctions d'un système d'exploitation on a une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE et il faudrait détecter des mots clés
-
-* Questions avec une reponse.type.OKKO, reponse.SANS_REPONSE, reponse.SANS_BONNE_REPONSE qui s interprete bizarrement c est le OK (alors que la reponse est plutot NON) qui est validee comment corriger : en fait le OK ne devrait pas s afficher et on devrait toujours gagner
-  * 2:24#157    Pensez-vous possible dans un avenir proche qu~un être humain pourra échanger des messages écrits, sur
-  * 2:23#156    Que pensez-vous de l'influence de Wikipédia, des cours disponibles en ligne et les exercices corrigés
-  * 2:22#155    Les prédictions météo sont-elles fiables ? ...
-  * 2:21#154    Comment les informaticiens peuvent-ils aider à convaincre de l'urgence de la crise climatique ? ...
-  * 1:74#131    Si vous créiez des contenus (vidéos, images, programmes ~), les rendriez-vous Open source ou
-  * 1:72#129    À qui appartiennent nos données Facebook après notre mort ? ...
-
-* On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe
-
-* Pour les questions non prises en compte dans la v1 on regarde comment les (i) éliminer (ii) transformer en questions gérables (iii) inventer une astuce
+* On ajoute un mécanisme de détection du mot clé qui donne la réponse pour les questions de type Directe avec un regex
 
 ---
 
