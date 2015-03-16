@@ -1,7 +1,7 @@
 // Liens vers les ressources graphiques
 // COULEUR DE FOND 3399B2
-var pathImages = "../ressources/images/activites";
-var pathImagesQuestions = "../ressources/images/activites";
+var pathImages = "../ressources/images/questions";
+var pathImagesQuestions = "../ressources/images/questions";
 var pathImagesBonusMalus = "../ressources/images/bonus-malus";
 
 var coefReduc = 3.255;
