@@ -1703,7 +1703,7 @@ var questions =
 		question.SANS_IMAGE_EXPLICATION,
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.CM, 
-			["On ne peut pas savoir sans d'autres informations", "une infinité", "La distance au mur divisée par deux fois la taille du pied"], 
+			["On ne peut pas savoir sans d'autres informations", "Une infinité", "La distance au mur divisée par deux fois la taille du pied"], 
 			2)),
 
 	new Question("Les bits peuvent prendre deux valeurs, 0 ou 1. Dans une séquence de 4 bits, le bit le plus à gauche doit être multiplié par 8, le suivant par 4, le suivant par 2 et le dernier par 1. Quel nombre représente la séquence 1010 ?",
@@ -1742,6 +1742,7 @@ var questions =
 			["30 000 octets", "10 000 octets", "3 000 octets"], 
 			1)),
 
+	// Question !v1 pas un choix multiple, il faudrait reformuler la question e
 	new Question("Quand je joue à pile ou face, lequel de ces deux événements est aléatoire et lequel est prédictible  ?<br/><br/>Événement 1 : Le côté où elle va tomber en fonction du geste de ma main et de la taille, forme et poids de la pièce<br/><br/>Événement 2 : Le nombre de piles et de faces qui vont sortir sur 100 000 lancés..",
 		question.SANS_IMAGE,
 		question.type.DIRECTE, 
@@ -1860,7 +1861,7 @@ var questions =
 		question.SANS_SOURCE,
 		new Reponse(reponse.type.ENTREE, 
 			reponse.SANS_REPONSE, 
-			"Sushi")),
+			"sushis")),
 
 	new Question("Un voleur fou te demande de lui dire une phrase au choix. Il te prévient que si tu dis une vérité, il te prendra ton portefeuille. Et si c’est un mensonge il prendra ton téléphone. Une des phrases ci-dessous te permet de ne rien perdre, laquelle :",
 		question.SANS_IMAGE,
