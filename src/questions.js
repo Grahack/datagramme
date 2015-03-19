@@ -1,7 +1,7 @@
-var questionTest = 	new Question("???", question.SANS_IMAGE, question.type.DIRECTE,
+var questionTest = new Question("???", question.SANS_IMAGE, question.type.DIRECTE,
 		question.difficulte.BUG,
 		question.categorie.SOCIETE,
-				   		new Reponse(reponse.type.CM,
+		new Reponse(reponse.type.CM,
 			["!", "!!", "!!!"],
 			3), "?!");
 /*
